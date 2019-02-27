@@ -11,14 +11,20 @@
 
 ## HTML 基本结构
 
-完整HTML包括 html根、DOCTYPE声明、head(title、mate等标签)、body等内容
+完整HTML包括 DOCTYPE声明、html根、head(title、mate等标签)、body等内容
 
 ### W3C标准和基本规范
 
 w3c是指定html规范标准的机构。
 
+- 确保所有的标签都使用小写字母
+- 确保所有的属性值都放在引号里
+- 确保所有成对标签出现的顺序、不成对的标签都用/>结束, ”/”和”>”之间不要有空格
+-  声明你的编码语言，文档声明
+- 为图片添加 alt 属性
 
-## HTML语法
+
+## HTML基础语法
 ### 常见标签
 
 1. 一级标题(headline) `<h1></h1>` ....`<h6></h6>`
@@ -42,11 +48,19 @@ w3c是指定html规范标准的机构。
 11. 定义列表`<dl><dt></dt><dd></dd></dl>`
 12. 块状元素/行内（内联）元素
 13. 表单
-      1. `input` 常用type类型：`text,password,radio,checkbox(checked="checked"),file,hidden,select>option(selected="selected"),textarea`
-      2. 表单关联表元素`<label for="{id}"></label>`
-      3. 只读：`readony`；禁用：`disabled`
-      4. 提交方式`post`和`get`
-      5. 按钮`button`、(提交)`submit`和(重置)`reset`
+	1. `input` 常用type类型：`text,password,radio,checkbox(checked="checked"),file,hidden,select>option(selected="selected")`，此外还有`textarea`
+	 2. 表单关联表元素`<label for="{id}"></label>`
+	3. 表单元素的只读性：`readony`；禁用：`disabled`，表单的提交地址`action`，提交方式`method`(get|post)
+	4. 按钮`button`、`submit`(提交)和`reset`(重置)
+14. 表格`<table></table>`，**属性**：`align`(*水平位置center|left|right*)，`valign`(*垂直位置top|bottom|middle*)，`bgcolor`(*背景颜色*)，`cellspacing`(*单元格之间距离*)，`cellpadding`(*单元格和内容之间距离*)，`width/height`(*长宽*)，`border`(*边框1|0*)
+	1. 标题：`<cption></caption>`
+	2. 表头：`<thead><tr><th>...</th></tr></thead>`
+	3. 主体：`<tbody><tr><td>...</td></tr></tbody>`
+	4. 页脚：`<tfoot><tr><td>...</td></tr></tfoot>`
+	5. 单元格属性：`colspan`（合并列），`colspan`（合并行）
+15. `<iframe></iframe>`：**基础属性** `src`(目标源)，`width/height`：长宽，`scrolling`(滚动条auto|yes|no)，`frameborder`(边框)
+
+
 ### 特殊字符
 
 1. 空格(non-breaking space) `&nbsp;`
@@ -58,6 +72,8 @@ w3c是指定html规范标准的机构。
 ### 实例
 
 > 实例1-基本标签的使用 qingpingyue.html 
+
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -80,6 +96,8 @@ w3c是指定html规范标准的机构。
 ```
 
 > 实例2-表单样式yonghudendlu.html
+
+
 
 ```html
 <!DOCTYPE html>
