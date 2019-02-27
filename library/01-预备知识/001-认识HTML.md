@@ -11,18 +11,20 @@
 
 ## HTML 基本结构
 
-完整HTML包括 html根、DOCTYPE声明、head(title、mate)、body等内容
+完整HTML包括 html根、DOCTYPE声明、head(title、mate等标签)、body等内容
 
 ### W3C标准和基本规范
+
+w3c是指定html规范标准的机构。
 
 
 ## HTML语法
 ### 常见标签
 
 1. 一级标题(headline) `<h1></h1>` ....`<h6></h6>`
-2. 换行(blank row) `<br/>`
+2. 换行(blank row) `<br/>、<br>`
 3. 段落()`<p></p>`
-4. 水平线(horizontal rule)`<hr/>`
+4. 水平线(horizontal rule)`<hr/>、<hr>`
 5. 斜体 `<i></i>  <em></em>`
 6. 加粗 `<b></b> <strong></strong>`
 7. 图片 `<img/>`
@@ -32,13 +34,24 @@
       2. 绝对路径  
    3. `width`,`height` 图片的宽度，高度
 8. 超链接`<a></a>`
-	1. 属性`href`：
-	2. 属性`target`：
+     1. 属性`href`：超链接指向的地址
+     2. 属性`target`：打开方式，`_blank`新标签页打开，`_self`当前页面打开
+     3. 锚链接：锚链接的标记地址`<a name="yourName"></a>`(也可以用id)，跳转`<a href="#yourName">跳转到yourName</a>`，将 # 符号和锚名称添加到 URL 的末端，可以跨页面跳转。
+9. 无序列表 `<ul><li></li></ul>` 属性` type`
+10. 有序列表`<ol><li></li></ol>` 属性 `type`、`start`
+11. 定义列表`<dl><dt></dt><dd></dd></dl>`
+12. 块状元素/行内（内联）元素
+13. 表单
+      1. `input` 常用type类型：`text,password,radio,checkbox(checked="checked"),file,hidden,select>option(selected="selected"),textarea`
+      2. 表单关联表元素`<label for="{id}"></label>`
+      3. 只读：`readony`；禁用：`disabled`
+      4. 提交方式`post`和`get`
+      5. 按钮`button`、(提交)`submit`和(重置)`reset`
 ### 特殊字符
 
 1. 空格(non-breaking space) `&nbsp;`
 2. 大于(greater than) `&gt;`
-3. 小于(less than) `&lt`
+3. 小于(less than) `&lt;`
 4. 版权(copy right)`&copy;`
 5. 引号(quotation marks)`&quot;`
 
@@ -66,21 +79,34 @@
 </html>
 ```
 
-> 实例2-基本标签的使用 liqingzhao.html
+> 实例2-表单样式yonghudendlu.html
 
 ```html
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
-	<title>李清照</title>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
 </head>
+
 <body>
-	<h1>人物简介</h1>
-	<p><b>李清照</b>（<i>1084年3月13日—约1155年</i>），号易安居士，汉族，山东省济南章丘人。宋代（南北宋之交）女词人，婉约词派代表，有“千古第一才女”之称。所作词，前期多写其悠闲生活，后期多悲叹身世，情调感伤。形式上善用白描手法，自辟途径，语言清丽。论词强调协律，崇尚典雅，提出词“别是一家”之说，反对以作诗文之法作词。能诗，留存不多，部分篇章感时咏史，情辞慷慨，与其词风不同。有《易安居士文集》《易安词》，已散佚。后人有《漱玉词》辑本。今有《李清照集校注》。</p>
-	<hr>
-	&copy;2019&nbsp;北风网版权所有
+    <h1>用户登录</h1>
+    <form action="login.html" method="post">
+        用户名：<input type="text" name="userName" autocomplete="off">
+        <br>
+        密　码：<input type="password" name="password">
+        <br>
+        <input type="radio" name="version" value="jianyueban" checked="checked" id="jianyueban"><label for="jianyueban">简约版</label>
+        <input type="radio" name="version" value="haohuaban" id="haohuaban"><label for="haohuaban">豪华版</label>
+        <br>
+        <input type="checkbox" name="rememberme" id="rememberme"><label for="rememberme">记住密码</label>
+        <input type="checkbox" name="denglu" id="denglu"><label for="denglu">安全登录</label>
+        <br>
+        <input type="submit" value="登录"><input type="reset" value="重置">
+    </form>
 </body>
+
 </html>
 ```
 
