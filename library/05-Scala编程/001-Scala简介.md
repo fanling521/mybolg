@@ -1,4 +1,4 @@
-# 001-Scalla简介
+# Scalla简介
 
 Scala（Scalable Language） 是一门多范式（multi-paradigm）的编程语言，设计初衷是要集成面向对象编程和函数式编程的各种特性。
 
