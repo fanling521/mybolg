@@ -2,34 +2,77 @@
 
 ## 什么是Linux
 
- Linux是一个开源的操作系统。由内核、shell、文件系统和应用程序组成，Linux是指linux内核。
+ Linux是一个开源的操作系统。由内核、shell、文件系统和应用程序组成，Linux是指Linux内核，有很多发行版，常见有Ubantu、CentOS、RedHat等。
 
 ## 虚拟机安装Linux
 
-> 最小化安装CentOS 7 
+### 最小化安装CentOS 7 
 
-1. 下载官方网站最小化的安装源，启动最小化安装，第一台linux 命名为"fanl01"，密码为 fanling
+1. 下载官方网站最小化的安装源，启动最小化安装，将虚拟机的第一台linux 命名为"fanl01"，密码为 fanling
 
-2. 安装和配置网路模式为NAT，目前笔记本电脑的虚拟机网卡网段为`192.168.177.0`
+### 虚拟机网络配置
 
-   | IP地址 IPADDR   | 主机名hostname |
-   | --------------- | -------------- |
-   | 192.168.177.130 | fanl01         |
-   | 192.168.177.131 | fanl02         |
-   | 192.168.177.132 | fanl03         |
-   | 192.168.177.133 | fanl04         |
+安装和配置网路模式为`NAT`，当前的电脑安装虚拟机的虚拟网卡网段为`192.168.157.0`
 
-> 克隆，命名主机，保存快照，设置网络
+### 主机重命名
 
-1. 查看主机名：执行命令 `hostname`
+```bash
+# 查看主机名
+[root@fanl01 ~]$ hostname
+# 修改主机名
+[root@fanl01 ~]$ hostnamectl set-hostname fanl01
+[root@fanl01 ~]$ vi /etc/sysconfig/network
+HOSTNAME=fanl01
+[root@fanl01 ~]$ vi /etc/hosts
+localhost.fanl01
+# 添加映射
+192.168.177.130 fanl01
+```
+### 网络配置
 
-2. 重命名主机名：(1)命令：`hostnamectl set-hostname fanl01`后重启；（2）修改*/etc/sysconfig/network*  配置文件，修改 HOSTNAME=fanl01；（3）修改本机的域名解析文件 */etc/hosts*，将localhost.xx改为localhost.fanl01，并且添加集群内计算机ip和主机名的映射。
+```bash
+# 查看网络地址
+[root@fanl01 ~]$ ip addr
+# 添加静态ip
+[root@fanl01 ~]$ vi /etc/sysconfig/network-scripts/ifcfg-ens33
+# 添加
+IPADDR=192.168.157.131
+NETMASK=255.255.255.0
+GATEWAY=192.168.157.2
+# 修改
+ONBOOT=yes
+BOOTPROTO=static
+# 重启网络
+[root@fanl01 ~]$ service network restart|stop|start
+```
 
-3. 配置网络：`/etc/sysconfig/network-scripts/ifcfg-ens33` 将虚拟机nat地址修改到虚拟机上。添加`IPADDR,NETMASK,GATWAY`以上的数据来源于虚拟的虚拟网卡vmnet8，将dhcp改为static,并且关闭**防火墙 iptables**（查看网络ip的命令为`ip addr`）
+![1551271233048](assets\1551271233048.png)
 
-   完成集群linux 虚拟机器部署。
+### 防火墙配置
 
-   ![1551271233048](assets\1551271233048.png)
+```bash
+# Centos升级到7之后，内置的防火墙已经从iptables变成了firewalld
+# 查看防火墙
+[root@fanl01 ~]$ systemctl status firewalld
+# 开机禁用，启用 enable
+[root@fanl01 ~]$ systemctl disable firewalld
+# 关闭防火墙
+[root@fanl01 ~]$ systemctl stop firewalld
+# 新增规则，这里新增redis端口访问
+[root@fanl01 ~]$ firewall-cmd --zone=public --add-port=6379/tcp --permanent
+```
+
+### 关闭Slinux
+
+```bash
+# 查看状态
+[root@fanl01 ~]$ sestatus
+# 禁用
+[root@fanl01 ~]$ vi /etc/sysconfig/selinux
+SELINUX=disabled|enable
+# 临时关闭
+[root@fanl01 ~]$ setenforce 0
+```
 
 ## Linux管理
 
@@ -39,43 +82,44 @@
 
 每台机器配置本地免密登录，然后将其余每台机器生成的~/.ssh/id_rsa.pub先统一以hostname用scp命令发给Master主机，由Master追加到authorized_keys中，然后再将此文件发给其他Slave主机。
 
+> 简单操作步骤
+
 目前有4台虚拟机，fanl01为Master，fanl02为Slave01，fanl02为Slave02，fanl03为Slave03
 
 1. 进入fanl01，使用命令`ssh-keygen`生成rsa密钥。
 2. 查看生成的密钥，` cd ~/.ssh/`,公钥为`id_rsa.pub`，私钥为`id_rsa`
-3. 进入fanl02-fanl04 生成密钥后传输到fanl01，`scp id_rsa.pub root@fanl01:~/.ssh/fanl02key`。
-4. 方案2：使用命令`ssh_copy_id -i ~/.ssh/id_rsa.pub root@fanl01`
-5. 将文件追加`cat fanl02key >> authorized_keys`，重复操作，最终fanl01上的授权文件包括了所有服务器，然后将其转发给其他服务器，`scp authorized_keys root@fanl02:~/.ssh`
-6. 退出ssh，输入命令： `logout`
-7. 新增服务器，需要重复上面的操作，并且修改`/etc/hosts`
+3. 进入fanl02-fanl04 生成密钥后传输到fanl01，`scp id_rsa.pub root@fanl01:~/.ssh/fanl02key`，或者使用命令`ssh_copy_id -i ~/.ssh/id_rsa.pub root@fanl01`
+4. 将文件追加`cat fanl02key >> authorized_keys`，重复操作，最终fanl01上的授权文件包括了所有服务器，然后将其转发给其他服务器，`scp authorized_keys root@fanl02:~/.ssh`
+5. 退出ssh，输入命令： `logout`
+6. 若新增服务器，需要重复上面的操作，并且修改`/etc/hosts`
 
 ### Linux基本操作命令
 
 ```shell
 #切换目录
-cd ..        #切换到上层目录
-cd /         #切换到系统跟目录
-cd ~         #切换到用户主目录
-cd xx        #切换到xx目录
-cd /xx/yy/zz #切换到xx/yy/zz目录
+[root@fanl01 ~]$ cd ..        #切换到上层目录
+[root@fanl01 ~]$ cd /         #切换到系统跟目录
+[root@fanl01 ~]$ cd ~         #切换到用户主目录
+[root@fanl01 ~]$ cd xx        #切换到xx目录
+[root@fanl01 ~]$ cd /xx/yy/zz #切换到xx/yy/zz目录
 
 #创建和删除文件夹
-mkdir xx     #创建xx目录
-rmdir xx     #删除空目录xx
+[root@fanl01 ~]$ mkdir xx     #创建xx目录
+[root@fanl01 ~]$ rmdir xx     #删除空目录xx
 
 #浏览文件命令
-cat xx       #查看xx文件
+[root@fanl01 ~]$ cat xx       #查看xx文件
 
 #文件操作命令
-rm -rf xx    #删除xx文件或者目录
+[root@fanl01 ~]$ rm -rf xx    #删除xx文件或者目录
 
 #复制命令
-cp a.txt b.txt #将a.txt复制为b.txt
-scp 文件 用户名@IP/hostname:路径 #远程复制
+[root@fanl01 ~]$ cp a.txt b.txt #将a.txt复制为b.txt
+[root@fanl01 ~]$ scp 文件 用户名@IP/hostname:路径 #远程复制
 
 #移动或重命名
-mv a.txt ../xx #将a.txt 移动到上层xx目录中
-mv a.txt b.txt #将a.txt 重命名为b.txt
+[root@fanl01 ~]$ mv a.txt ../xx #将a.txt 移动到上层xx目录中
+[root@fanl01 ~]$ mv a.txt b.txt #将a.txt 重命名为b.txt
 
 #压缩和解压
 
@@ -83,6 +127,31 @@ mv a.txt b.txt #将a.txt 重命名为b.txt
 ```
 
 [linux速查手册](https://jaywcjlove.gitee.io/linux-command)
+
+### Linux特殊设置
+
+> 安装yum（替换yum源）
+
+```bash
+[root@fanl01 ~]$ cd /etc/yum.repos.d/
+[root@fanl01 ~]$ mv CentOS-Base.repo CentOS-Base.repo.bak
+
+[root@fanl01 ~]$ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+```
+
+> 安装wget
+
+```bash
+[root@fanl01 ~]$ yum install wget
+```
+
+> 安装gcc
+
+```bash
+[root@fanl01 ~]$ yum install gcc
+# 检查是否安装
+[root@fanl01 ~]$ gcc -v
+```
 
 ## Linux 文件目录
 

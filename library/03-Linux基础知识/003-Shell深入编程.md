@@ -11,9 +11,9 @@
 ```bash
 #！/bin/bash
 n=12
-str1=fanl,age=${n} str2="is \"good\""   #被转义的引号，可以打印出来
-str3="this_num_is${n}"                  #引号包裹起来可以解析${n}
-str4='num is ${n}'                      #单引号，原样输出，不解析${n}
+str1=fanl,age=${n} str2="is \"good\""   # 被转义的引号，可以打印出来
+str3="this_num_is${n}"                  # 引号包裹起来可以解析${n}
+str4='num is ${n}'                      # 单引号，原样输出，不解析${n}
 echo ${str1}
 echo ${str2}
 echo ${str3}
@@ -56,13 +56,13 @@ echo "str5的长度${#str5}"
 在 Shell 中，用括号`( )`来表示数组，数组元素之间用**空格**来分隔。由此，定义数组的一般形式为
 
 ```bash
-#空格隔开
+# 空格隔开
 array_name=(value1 . . . valuen)
-#也可以按照下面的定义
+# 也可以按照下面的定义
 array_name[0]=value0
-#读取数组
+# 读取数组
 ${array_name[index]}
-#例子
+# 例子
 #! /bin/bash
 array=('A0' 'A1' 'A2' 1 s12d)
 echo ${array[0]}
@@ -70,11 +70,11 @@ echo ${array[1]}
 echo ${array[2]}
 echo ${array[3]}
 echo ${array[4]}
-#使用@或*可以获取数组中的所有元素
+# 使用@或*可以获取数组中的所有元素
 echo ${array[@]}
-#利用@或*，可以将数组扩展成列表，然后使用#来获取数组元素的个数
+# 利用@或*，可以将数组扩展成列表，然后使用#来获取数组元素的个数
 echo ${#array[@]}
-#如果某个元素是字符串，还可以通过指定下标的方式获得该元素的长度
+# 如果某个元素是字符串，还可以通过指定下标的方式获得该元素的长度
 echo ${#array[4]}
 ```
 
@@ -232,12 +232,12 @@ while :
 do
     command
 done
-#或者
+# 或者
 while true
 do
     command
 done
-#或者
+# 或者
 for (( ; ; ))
 ```
 
@@ -269,7 +269,7 @@ case 值 in
     commandN
     ;;
 esac
-#例子
+# 例子
 echo '输入 1 到 4 之间的数字:'
 echo '你输入的数字为:'
 read aNum
