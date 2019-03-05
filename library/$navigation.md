@@ -5,6 +5,7 @@
 - [认识HTML](?file=01-前端基础/001-认识HTML "认识HTML")
 - [CSS基础](?file=01-前端基础/002-CSS基础 "CSS基础")
 - [JavaScript基础](?file=01-前端基础/003-JavaScript基础 "JavaScript基础")
+- [jQuery基础](?file=01-前端基础/004-jQuery基础 "jQuery基础")
 
 ##### Java基础知识
 
@@ -12,6 +13,7 @@
 - [Java编程基础](?file=02-Java基础知识/002-Java编程基础 "Java编程基础")
 - [Java面向对象](?file=02-Java基础知识/003-Java面向对象 "Java面向对象")
 - [Java测试与练习](?file=02-Java基础知识/004-Java测试与练习 "Java测试与练习")
+- [JavaWeb开发](?file=02-Java基础知识/005-JavaWeb开发 "JavaWeb开发")
 
 ##### Linux基础知识
 
