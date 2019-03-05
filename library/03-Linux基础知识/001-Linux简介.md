@@ -93,37 +93,123 @@ SELINUX=disabled|enable
 5. 退出ssh，输入命令： `logout`
 6. 若新增服务器，需要重复上面的操作，并且修改`/etc/hosts`
 
+### Linux 管理命令
+
+```bash
+# 新增用户
+[root@fanl01 ~]$ adduser fanl
+# 新建用户组
+[root@fanl01 ~]$ groupadd hadoop
+# 新建用户同时增加工作组 
+[root@fanl01 ~]$ useradd -g hadoop fanl
+# 给已有的用户增加工作组 
+[root@fanl01 ~]$ usermod -G hadoop fanl	
+# 修改密码
+[root@fanl01 ~]$ passwd fanl
+# 删除用户
+[root@fanl01 ~]$ userdel fanl 
+[root@fanl01 ~]$ groupdel hadoop
+[root@fanl01 ~]$ usermod –G hadoop fanl
+# 显示用户信息
+[root@fanl01 ~]$ id fanl
+[root@fanl01 ~]$ cat /etc/passwd
+# 查看
+[root@fanl01 ~]$ who
+# 查看登录记录
+[root@fanl01 ~]$ last
+# 查看某一个用户
+[root@fanl01 ~]$ W fanl
+# 普通用户赋予root权限
+# 先查看文件权限
+[root@fanl01 ~]$ ls -all /etc/sudoers
+# 赋予写权限
+[root@fanl01 ~]$ chmode 777 /etc/sudoers
+[root@fanl01 ~]$ vi /etc/sudoers
+## Allow root to run any commands anywhere
+root    ALL=(ALL)       ALL
+# 添加一行
+fanl    ALL=(ALL)       ALL
+fanl    ALL=(ALL)    NOPASSWD: ALL  
+# 将权限改为 440
+[root@fanl01 ~]$ chmod 440 /etc/sudoers
+###################################################################
+# 新建文件夹测试
+[fanl@fanl01 opt]$ mkdir soft
+mkdir: 无法创建目录"soft": 权限不够
+[fanl@fanl01 opt]$ sudo mkdir soft
+
+我们信任您已经从系统管理员那里了解了日常注意事项。
+总结起来无外乎这三点：
+
+    #1) 尊重别人的隐私。
+    #2) 输入前要先考虑(后果和风险)。
+    #3) 权力越大，责任越大。
+
+[sudo] fanl 的密码：
+[fanl@fanl01 opt]$ ll
+总用量 0
+drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
+# 前面加sudo
+```
+
+
+
 ### Linux基本操作命令
 
 ```shell
-#切换目录
-[root@fanl01 ~]$ cd ..        #切换到上层目录
-[root@fanl01 ~]$ cd /         #切换到系统跟目录
-[root@fanl01 ~]$ cd ~         #切换到用户主目录
-[root@fanl01 ~]$ cd xx        #切换到xx目录
-[root@fanl01 ~]$ cd /xx/yy/zz #切换到xx/yy/zz目录
+# 切换目录
+[root@fanl01 ~]$ cd ..        # 切换到上层目录
+[root@fanl01 ~]$ cd /         # 切换到系统跟目录
+[root@fanl01 ~]$ cd ~         # 切换到用户主目录
+[root@fanl01 ~]$ cd xx        # 切换到xx目录
+[root@fanl01 ~]$ cd /xx/yy/zz #  切换到xx/yy/zz目录
 
-#创建和删除文件夹
-[root@fanl01 ~]$ mkdir xx     #创建xx目录
-[root@fanl01 ~]$ rmdir xx     #删除空目录xx
+# 创建和删除文件夹
+[root@fanl01 ~]$ mkdir xx     # 创建xx目录
+[root@fanl01 ~]$ rmdir xx     # 删除空目录xx
 
-#浏览文件命令
-[root@fanl01 ~]$ cat xx       #查看xx文件
+# 浏览文件命令
+[root@fanl01 ~]$ cat xx       # 查看xx文件
+[root@fanl01 ~]$ cat >xx       # 新建xx文件
+[root@fanl01 ~]$ cat xx1>>yy       # 将xx1追加到yy中
 
-#文件操作命令
-[root@fanl01 ~]$ rm -rf xx    #删除xx文件或者目录
+# 文件操作命令
+[root@fanl01 ~]$ rm -rf xx    # 删除xx文件或者目录
 
-#复制命令
-[root@fanl01 ~]$ cp a.txt b.txt #将a.txt复制为b.txt
-[root@fanl01 ~]$ scp 文件 用户名@IP/hostname:路径 #远程复制
+# 复制命令
+[root@fanl01 ~]$ cp a.txt b.txt # 将a.txt复制为b.txt
+[root@fanl01 ~]$ scp 文件 用户名@IP/hostname:路径 # 远程复制
 
-#移动或重命名
-[root@fanl01 ~]$ mv a.txt ../xx #将a.txt 移动到上层xx目录中
-[root@fanl01 ~]$ mv a.txt b.txt #将a.txt 重命名为b.txt
+# 移动或重命名
+[root@fanl01 ~]$ mv a.txt ../xx # 将a.txt 移动到上层xx目录中
+[root@fanl01 ~]$ mv a.txt b.txt # 将a.txt 重命名为b.txt
 
-#压缩和解压
-
-
+# 常见的压缩和解压，其他的自查
+# tar
+[root@fanl01 ~]tar -cvf filename.tar dir # 将目录dir中压缩到filename.tar中，保留原文件
+[root@fanl01 ~]tar xvf filename.tar  # 将filename.tar解压到当前文件夹，保留原文件
+# gz
+[root@fanl01 ~]gzip filename # 不保留原文件
+[root@fanl01 ~]gzip -c filename > filename.gz # 保留原文件
+[root@fanl01 ~]gunzip filename.gz # 不保留原文件
+[root@fanl01 ~]gunzip -c filename.gz > filename # 保留原文件 
+# tar.gz / tgz
+[root@fanl01 ~]tar zcvf filename.tgz  dir   # 将dir目录压缩到filename.tgz，dir也可以是文件名
+[root@fanl01 ~]tar -zxvf filename.tar.gz # 解压到当前目录，保留原文件
+[root@fanl01 ~]tar -zxvf filename.tar.gz -C dir # 解压到dir目录，保留原文件
+# 权限修改
+# -rwxrw-r--
+# 第1位    文件类型 d 目录，-普通文件，|链接文件
+# 第2-4位  所属用户权限 u
+# 第5-7位  所属组权限 g
+# 第8-10位 其他用户权限 o
+# r：读取权限，数字代号为“4”
+# w：写入权限，数字代号为“2”
+# x：执行权限，数字代号为“1”
+# -：没有权限，数字代号为“0”
+# chmod ［who］ ［+ | - | =］ ［mode］ 文件名 
+# 数字设定法我们必须首先了解用数字表示的属性的含义：0表示没有权限，1表示可执行权限，2表示可写权限，4表示可读权限，然后将其相加。所以数字属性的格式应为3个从0到7的八进制数，其顺序是（u）（g）（o）。 
+[root@fanl01 ~] chomd 777 test.sh
 ```
 
 [linux速查手册](https://jaywcjlove.gitee.io/linux-command)
