@@ -17,7 +17,7 @@
 
 ##### Linux基础知识
 
-- [Linux简介](?file=03-Linux基础知识/001-Linux简介 "Linux简介")
+- [Linux基础知识](?file=03-Linux基础知识/001-Linux基础知识 "Linux基础知识")
 - [Shell编程基础](?file=03-Linux基础知识/002-Shell编程基础 "Shell编程基础")
 - [Shell深入编程](?file=03-Linux基础知识/003-Shell深入编程 "Shell深入编程")
 - [Shell高级编程](?file=03-Linux基础知识/004-Shell高级编程 "Shell高级编程")

@@ -1,4 +1,4 @@
-# Linux简介
+# Linux基础知识
 
 ## 什么是Linux
 
@@ -150,6 +150,9 @@ mkdir: 无法创建目录"soft": 权限不够
 总用量 0
 drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 # 前面加sudo
+
+# 修改文件拥有者
+[fanl@fanl01 opt]$ chown fanl:fanl /software /module
 ```
 
 
@@ -214,9 +217,9 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 
 [linux速查手册](https://jaywcjlove.gitee.io/linux-command)
 
-### Linux特殊设置
+### Linux软件安装
 
-> 安装yum（替换yum源）
+####  替换yum源
 
 ```bash
 [root@fanl01 ~]$ cd /etc/yum.repos.d/
@@ -225,18 +228,46 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~]$ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
-> 安装wget
+####  安装wget
 
 ```bash
 [root@fanl01 ~]$ yum install wget
 ```
 
-> 安装gcc
+####  安装gcc
 
 ```bash
 [root@fanl01 ~]$ yum install gcc
 # 检查是否安装
 [root@fanl01 ~]$ gcc -v
+```
+
+#### 安装jdk（离线）
+
+第一步：下载压缩包，并且上传到linux中的/opt/software
+
+第二步：解压
+
+```bash
+[fanl@fanl01 software]$ tar -zxvf jdk-8u201-linux-x64.tar_2.gz -C /opt/module/
+# 记住当前路径
+[fanl@fanl01 jdk1.8.0_201]$ pwd
+/opt/module/jdk1.8.0_201
+```
+
+第三步：设置环境变量
+
+```bash
+[fanl@fanl01 jdk1.8.0_201]$ sudo vi /etc/profile
+# shift+g到最后一行
+# 添加以下内容
+export JAVA_HOME=/opt/module/jdk1.8.0_201
+export PATH=$PATH:$JAVA_HOME/bin
+
+# 报存后使其生效
+[fanl@fanl01 jdk1.8.0_201]$ source /etc/profile
+# 检测JAVA环境
+[fanl@fanl01 jdk1.8.0_201]$ java -version
 ```
 
 ## Linux 文件目录

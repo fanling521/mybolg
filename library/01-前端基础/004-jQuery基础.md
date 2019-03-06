@@ -2,6 +2,10 @@
 
 ## 什么是jQuery
 
+jQuery 是一个 JavaScript 库。
+
+jQuery 极大地简化了 JavaScript 编程。
+
 ## jQuery入口函数
 
 ```javascript
@@ -124,4 +128,71 @@ div2.innerHTML="jQuery对象转DOM对象，用下标的方式";
 | :focus        | 选取获取焦点的元素          |
 | :hidden       | 选取所有隐藏的元素          |
 | :visible      | 选取所有可见的元素          |
+
+#### 内容选择器
+
+| 名称            | 用法                            |
+| --------------- | ------------------------------- |
+| :contains('xx') | 选取所有包含xx文本的元素        |
+| :has(seletor)   | 选取所有含有seletor元素的元素   |
+| :empty          | 选取所有不含空文本/空元素的元素 |
+| :parent         | 选取所有包含子元素或文本的元素  |
+
+#### 表单选择器
+
+使用的是`:[type]`，不再说明，如`:text`，更多的时候，`:input`选取的是全部表单元素。
+
+## HTML页面操作
+
+```javascript
+// js innerHTML 获取元素中的html代码
+var html_1=obj.innerHTML;
+// 对应的jQuery方法为
+var html_2=$obj.html();
+// js innerText 获取元素中的文本内容
+var text_1=obj.innerText;
+// 对于的jQuery方法为
+var text_2=$obj.text();
+// 表单中的获取值的方法是
+// js
+var val_1=document.getElementById("#text").value;
+// jQuery
+var val=$("input[type='text']").val();
+```
+
+## 节点操作
+
+```javascript
+// 选取元素div追加内容
+$("#div").append("<p>hello</p>")
+// 移除选取的元素
+$("#div span").remove();
+// 选取相邻之后的元素
+$("#div").next().css("color","red");
+// 选取相邻之前的元素
+$("#div").prev().css("color","blue");
+// 选取父元素
+$("#div").parent().css("color","blue");
+// 选取指定的父元素
+$("#div").parents("tr").css("color","blue");
+// 选取元素前后所有同辈元素
+$("#div").siblings().css("color","blue");
+```
+
+## 事件委托
+
+事件委托是利用事件冒泡，只指定一个事件处理程序来管理某一类型的所有事件。
+
+在JavaScript中添加到页面上的事件处理程序的个数直接关系到页面的整体运行性能。为什么呢？因为，每个事件处理函数都是对象，对象会占用内存，内存中的对象越多，性能就越差。此外，必须事先指定所有的事件处理程序而导致的DOM访问次数，会延迟整个页面的交互就绪时间。
+
+等待加载完毕后，再添加事件。
+
+```javascript
+// 渲染完毕后新增的元素需要添加点击事件
+// jQuery
+$("table").on("click", ".del",  function() {
+	$(this).parents("tr").remove();
+});
+// js 是 addEventListener
+```
 
