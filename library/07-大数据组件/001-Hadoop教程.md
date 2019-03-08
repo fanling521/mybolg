@@ -83,7 +83,7 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
 ## Hadoop的环境搭建
 
-## 环境准备
+### 环境准备
 
 - 修改网络为静态ip
 - 修改主机名
@@ -92,7 +92,7 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 - 在/opt创建文件/module和/software，并且修改文件拥有者，并且安装了jdk
 - 克隆多态虚拟机
 
-## 解压和配置环境变量
+### 解压和配置环境变量
 
 ```bash
 $ sudo vi /etc/profile
@@ -122,9 +122,13 @@ Hadoop 集群可以运行的 3 个模式有：
 - 伪分布模式
 - 全分布模式
 
-## 官方案例
+### 单机模式
 
-> grep
+默认情况下，Hadoop被配置成以非分布式模式运行的一个独立Java进程。这对调试非常有帮助。
+
+不会存在守护进程，所有东西都运行在一个 JVM 上，这里同样没有 HDFS，使用的是本地文件系统。
+
+> 官方案例 grep
 
 ```bash
 # 在文件安装路径下新建input
@@ -134,13 +138,201 @@ $ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar grep inp
 # output 不可以提前创建
 ```
 
-> word count
+> 官方案例 word count
 
-### 单机模式
+```bash
+$ mkdir wcinput
+$ vi wc.input
+# 输入一些字母
+# 执行
+$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcount wcinput/ wcoutput
+```
 
-默认情况下，Hadoop被配置成以非分布式模式运行的一个独立Java进程。这对调试非常有帮助。
+### 伪分布模式
 
-不会存在守护进程，所有东西都运行在一个 JVM 上，这里同样没有 HDFS，使用的是本地文件系统。
+#### Hadoop配置
 
+**修改hadoop-env.sh**
 
+```bash
+# 修改JAVA_HOME 地址
+export JAVA_HOME=/opt/module/jdk1.8.0_201
+```
 
+**配置 core-site.xml**
+
+```xml
+<configuration>
+    <!--修改Hadoop的NameNode的地址-->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+    <!--指定Hadoop运行时候的产生文件的临时存储目录-->
+      <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/opt/module/hadoop-2.9.2/data/tmp</value>
+    </property>
+</configuration>
+```
+
+**配置hdfs-site.xml**
+
+```xml
+<configuration>
+    <!--指定hdfs副本的数量，默认值3，保存数据的副本，防止数据丢失-->
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+</configuration>
+```
+
+#### 启动HDFS
+
+第一次启动需要格式化，以后不需要再格式化，需要关闭服务，删除data和log文件夹再次格式化。
+
+**原因**：格式化namenode 会产生新的集群id，导致和datanode不一致。
+
+```bash
+# 格式化namenode	
+$ bin/hdfs namenode -format
+# 启动namenode
+$ sbin/hadoop-daemon.sh start namenode
+# 启动datanode
+$ sbin/hadoop-daemon.sh start datanode
+# 查看是否启动
+$ jps
+# 结果
+7634 NameNode
+7690 DataNode
+7770 Jps
+```
+
+查看控制面板，端口号为50070
+
+![面板](assets/20190308194111.png)
+
+若打不开，请查看防火墙
+
+```bash
+systemctl start firewalld.service     # 启动firewall
+systemctl stop firewalld.service      # 停止firewall
+systemctl disable firewalld.service   # 禁止firewall开机启动
+```
+
+##### HDFS的操作
+
+**创建文件夹**
+
+```bash
+# 创建文件夹
+$ bin/hdfs dfs -mkdir -p /user/fanl/input
+# 创建完查看目录，已经存在路径，和linux命令是一致的 其中，bin/hdfs dfs 是固定的写法
+```
+
+![控制板](assets/20190308195627.png)
+
+**复制本地文件到HDFS**
+
+```bash
+$ bin/hdfs dfs -put input/fanl.txt /user/fanl/input
+```
+
+**执行wordcount**
+
+```bash
+$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcount /user/fanl/input/ /user/fanl/output
+# 查看结果
+$ bin/hdfs dfs -cat /user/fanl/output/*
+```
+
+#### 启动YARN
+
+yarn-env.sh配置
+
+```bash
+# 修改JAVA_HOME地址
+export JAVA_HOME=/opt/module/jdk1.8.0_201
+```
+
+yarn-site.xml配置
+
+```xml
+<configuration>
+    <!--MapReduce获取数据的方式-->
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+    <!--YARN的resourcemanager的地址-->
+     <property>
+        <name>yarn.resourcemanager.hoastname</name>
+        <value>fanl01</value>
+    </property>
+</configuration>
+```
+
+mapred-env.sh的修改
+
+```bash
+# 修改JAVA_HOME地址
+export JAVA_HOME=/opt/module/jdk1.8.0_201
+```
+
+mapred-site.xml的修改
+
+```xml
+<configuration>
+    <!--指定MR运行在YARN上-->
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+```
+
+启动yarn
+
+```bash
+$ sbin/yarn-daemon.sh start resourcemanager
+$ sbin/yarn-daemon.sh start nodemanager
+# 查看启动
+8272 ResourceManager
+7634 NameNode
+8322 NodeManager
+7690 DataNode
+8397 Jps
+```
+
+查看控制面板，端口号为 8088
+
+```bash
+$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcount /user/fanl/input/ /user/fanl/output
+# 并且查看控制面板
+```
+
+##### 配置历史服务器
+
+修改mapred-site.xml
+
+```xml
+<configuration>
+    <!--历史服务器地址-->
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>fanl01:10020</value>
+    </property>
+    <!--历史服务器地址WEB地址-->
+     <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>fanl01:19888</value>
+    </property>
+</configuration>
+```
+
+启动历史服务器
+
+```bash
+$  sbin/mr-jobhistory-daemon.sh start historyserver
+```
