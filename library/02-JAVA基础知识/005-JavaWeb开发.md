@@ -141,7 +141,124 @@ request对象是javax.servlet.http.HttpServletRequest类的实例。每当客户
 
 ## 过滤器
 
+web.xml
+
+```xml
+<!--乱码过滤器-->
+<filter>
+	<filter-name>charsetFilter</filter-name>
+	<filter-class>com.fanling.user.filter.CharsetFilter</filter-class>
+</filter>
+<filter-mapping>
+	<filter-name>charsetFilter</filter-name>
+	<url-pattern>*</url-pattern>
+</filter-mapping>
+```
+
+实现类，实现`Filter`类，重写`doFilter`方法。
+
+```java
+public class CharsetFilter implements Filter {
+
+    private final String CHARSET = "utf-8";
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("初始化字符过滤器");
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        servletRequest.setCharacterEncoding(CHARSET);
+        servletResponse.setCharacterEncoding(CHARSET);
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+}
+```
+
 ## 监听器
 
-## 文件上传和下载
+web.xml
+
+```xml
+<listener>
+        <listener-class>xx.x.x1</listener-class>
+</listener>
+```
+
+## 文件上传common-fileupload
+
+```java
+public class UploadServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        DiskFileItemFactory dfif = new DiskFileItemFactory();
+        ServletFileUpload sfu = new ServletFileUpload(dfif);
+        //判断是否符合规范
+        if (ServletFileUpload.isMultipartContent(req)) {
+            System.out.println("符合规范");
+            try {
+                List<FileItem> fileItems = sfu.parseRequest(req);
+
+                for (FileItem item : fileItems) {
+                    String key = item.getFieldName();
+                    if (item.isFormField()) {
+                        req.setAttribute(key, item.getString("utf-8"));
+                        if ("userName".equals(key)) {
+                            req.getSession().setAttribute("userName", item.getString("utf-8"));
+                        }
+                    } else {
+                        //获取文件名
+                        String fileName = item.getName();
+                        //扩展名
+                        String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+                        //文件名称
+                        String name = fileName.substring(0, fileName.lastIndexOf(".") - 1);
+                        //防止带路径
+                        name = name.substring(name.lastIndexOf("\\") + 1);
+                        //防止重名
+                        fileName = name + new Date().getTime() + "." + fileExt;
+                        req.setAttribute(key, fileName);
+                        req.getSession().setAttribute(key, fileName);
+                        String path = req.getServletContext().getRealPath("upload");
+                        //判断文件是否存在
+                        File file = new File(path);
+                        if (!file.exists()) {
+                            file.mkdirs();
+                        }
+                        //存文件
+                        InputStream in = item.getInputStream();
+                        OutputStream os = new FileOutputStream(path + "\\" + fileName);
+                        int len;
+                        byte[] bs = new byte[1024];
+                        while (-1 != (len = in.read(bs))) {
+                            os.write(bs, 0, len);
+                        }
+                        in.close();
+                        os.close();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //跳转到页面
+            System.out.println(req.getAttribute("userName"));
+            System.out.println(req.getAttribute("touxiang"));
+            resp.sendRedirect("download.jsp");
+        } else {
+            System.out.println("不符合规范");
+        }
+    }
+}
+```
 

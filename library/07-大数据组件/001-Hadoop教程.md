@@ -83,7 +83,7 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
 ## Hadoop的环境搭建
 
-## 虚拟机环境准备
+## 环境准备
 
 - 修改网络为静态ip
 - 修改主机名
@@ -92,7 +92,29 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 - 在/opt创建文件/module和/software，并且修改文件拥有者，并且安装了jdk
 - 克隆多态虚拟机
 
-## Hadoop集群启动模式
+## 解压和配置环境变量
+
+```bash
+$ sudo vi /etc/profile
+
+# HADOOP_HOME
+$ export HADOOP_HOME=/opt/module/hadoop-2.9.2
+$ export PATH=$PATH:$HADOOP_HOME/bin
+$ export PATH=$PATH:$HADOOP_HOME/sbin
+
+$ source /etc/profile
+# 检测
+$ hadoop
+```
+
+## Hadoop 目录结构
+
+- /bin：存放命令
+- /etc/hadoop：配置文件信息
+- /sbin：启动关闭集群等命令
+- /share：手册
+
+## Hadoop启动模式
 
 Hadoop 集群可以运行的 3 个模式有：
 
@@ -100,9 +122,25 @@ Hadoop 集群可以运行的 3 个模式有：
 - 伪分布模式
 - 全分布模式
 
+## 官方案例
+
+> grep
+
+```bash
+# 在文件安装路径下新建input
+$ cp etc/hadoop/*.xml input/
+# 执行命令
+$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar grep input/ output 'dfs[a-z.]+'
+# output 不可以提前创建
+```
+
+> word count
+
 ### 单机模式
 
 默认情况下，Hadoop被配置成以非分布式模式运行的一个独立Java进程。这对调试非常有帮助。
 
 不会存在守护进程，所有东西都运行在一个 JVM 上，这里同样没有 HDFS，使用的是本地文件系统。
+
+
 

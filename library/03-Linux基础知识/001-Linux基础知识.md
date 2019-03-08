@@ -196,7 +196,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~]gzip -c filename > filename.gz # 保留原文件
 [root@fanl01 ~]gunzip filename.gz # 不保留原文件
 [root@fanl01 ~]gunzip -c filename.gz > filename # 保留原文件 
-# tar.gz / tgz
+# 常用的tar.gz / tgz
 [root@fanl01 ~]tar zcvf filename.tgz  dir   # 将dir目录压缩到filename.tgz，dir也可以是文件名
 [root@fanl01 ~]tar -zxvf filename.tar.gz # 解压到当前目录，保留原文件
 [root@fanl01 ~]tar -zxvf filename.tar.gz -C dir # 解压到dir目录，保留原文件
@@ -269,6 +269,12 @@ export PATH=$PATH:$JAVA_HOME/bin
 # 检测JAVA环境
 [fanl@fanl01 jdk1.8.0_201]$ java -version
 ```
+
+### Linux 常用的快捷键
+
+- Ctrl+L : 清屏
+- Shift +G：查看文件末尾
+- Tab：命令补齐
 
 ## Linux 文件目录
 

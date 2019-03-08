@@ -196,3 +196,78 @@ $("table").on("click", ".del",  function() {
 // js 是 addEventListener
 ```
 
+## jQuery特效
+
+### 鼠标悬停事件hover
+
+```javascript
+$(function(){
+	$("a").hover(function(){
+		$(this).css("text-decoration","underline");
+	},function(){
+		$(this).css("text-decoration","none");
+	});
+});
+```
+
+### 连续鼠标点击事件toggle
+```javascript
+$(function() {
+	$("button").toggle(function() {
+		$("h3").html("腾讯");
+	}, function() {
+		$("h3").html("百度");
+	}, function() {
+		$("h3").html("新浪");
+	});
+});
+// toggle() 方法切换元素的可见状态。
+$("p").toggle();
+```
+
+### 隐藏显示事件
+
+```javascript
+// 隐藏
+$("li:lt(9):gt(4)").hide();//可以加时间
+// 显示
+$("li:lt(9):gt(4)").show();
+// 显示和隐藏，连续单击
+$("li:lt(9):gt(4)").toggle(600);
+// 淡入
+$("li:lt(9):gt(4)").fadeIn(500);
+// 淡出
+$("li:lt(9):gt(4)").fadeOut(500);
+// 逐步扩展到显示
+$("li:lt(9):gt(4)").slideDown();
+// 逐步缩短到隐藏
+$("li:lt(9):gt(4)").slideUp();
+```
+
+### 自定义动画
+
+```javascript
+setInterval(function() {
+	$("div").animate({ "width": "-=50px", "margin-left": "+=30px" }, 500, function() {
+		$("div").animate({ "width": "+=50px", "margin-left": "+=30px" }, 500);
+	});
+}, 1000);
+```
+
+## AJAX技术
+
+AJAX最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。
+
+### JSON
+
+JSON 是一种轻量级数据交互格式
+
+> JSON对象和字符串的互相转化
+
+```javascript
+// 将JSON字符串转化为JS对象
+JSON.parse()
+// 将JS对象转化为JSON字符串
+JSON.stringify();
+```
+
