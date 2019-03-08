@@ -14,6 +14,7 @@
 - [Java面向对象](?file=02-Java基础知识/003-Java面向对象 "Java面向对象")
 - [Java测试与练习](?file=02-Java基础知识/004-Java测试与练习 "Java测试与练习")
 - [JavaWeb开发](?file=02-Java基础知识/005-JavaWeb开发 "JavaWeb开发")
+- [MyBatis教程](?file=02-Java基础知识/006-MyBatis教程 "MyBatis教程")
 
 ##### Linux基础知识
 
@@ -25,7 +26,7 @@
 ##### 数据库教程
 - [数据库理论基础](?file=04-数据库教程/001-数据库理论基础 "数据库理论基础")
 - [MySQL数据库](?file=04-数据库教程/002-MySQL数据库 "MySQL数据库")
-- [SQL Server数据库](?file=04-数据库教程/003-SQL Server数据库 "SQL Server数据库")
+- [SQL Server数据库](?file=04-数据库教程/003-SQL_Server数据库 "SQL Server数据库")
 - [Oracle数据库](?file=04-数据库教程/004-Oracle数据库 "004-Oracle数据库")
 - [Redis教程](?file=04-数据库教程/005-Redis教程 "Redis教程")
 
