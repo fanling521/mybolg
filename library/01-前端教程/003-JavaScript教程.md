@@ -1,4 +1,4 @@
-# JavaScript基础
+# JavaScript教程
 
 ## 什么是JavaScript
 

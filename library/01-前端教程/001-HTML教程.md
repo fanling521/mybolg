@@ -1,6 +1,6 @@
-# 认识 HTML
+# HTML教程
 
-##  基本认识
+##  HTML简介
 
 ### 什么是HTML
 
@@ -25,7 +25,7 @@ w3c是指定html规范标准的机构。
 
 
 ## HTML基础语法
-### 常见标签
+### HTML标签
 
 1. 一级标题(headline) `<h1></h1>` ....`<h6></h6>`
 2. 换行(blank row) `<br/>、<br>`
@@ -61,15 +61,16 @@ w3c是指定html规范标准的机构。
 15. `<iframe></iframe>`：**基础属性** `src`(目标源)，`width/height`：长宽，`scrolling`(滚动条auto|yes|no)，`frameborder`(边框)
 
 
-### 特殊字符
+### 特殊字符的转义
 
 1. 空格(non-breaking space) `&nbsp;`
 2. 大于(greater than) `&gt;`
 3. 小于(less than) `&lt;`
 4. 版权(copy right)`&copy;`
 5. 引号(quotation marks)`&quot;`
+6. & `&amp;`
 
-### 实例
+### HTML例子
 
 > 实例1-基本标签的使用 qingpingyue.html 
 

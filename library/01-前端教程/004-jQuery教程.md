@@ -1,4 +1,4 @@
-# jQuery 基础
+# jQuery 教程
 
 ## 什么是jQuery
 
@@ -24,7 +24,7 @@ $(function(){
 
 ## jQuery实例
 
-### 设置样式
+### 设置样式的方法
 
 **CSS代码**
 
@@ -270,4 +270,6 @@ JSON.parse()
 // 将JS对象转化为JSON字符串
 JSON.stringify();
 ```
+
+### AJAX请求
 

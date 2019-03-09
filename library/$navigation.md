@@ -1,34 +1,35 @@
 #### [首页](?file=home-首页)
 
-##### 基础理论
+##### 前端教程
 
-- [认识HTML](?file=01-前端基础/001-认识HTML "认识HTML")
-- [CSS基础](?file=01-前端基础/002-CSS基础 "CSS基础")
-- [JavaScript基础](?file=01-前端基础/003-JavaScript基础 "JavaScript基础")
-- [jQuery基础](?file=01-前端基础/004-jQuery基础 "jQuery基础")
+- [HTML教程](?file=01-前端教程/001-HTML教程 "HTML教程")
+- [CSS教程](?file=01-前端教程/002-CSS教程 "CSS教程")
+- [JavaScript教程](?file=01-前端教程/003-JavaScript教程 "JavaScript教程")
+- [jQuery教程](?file=01-前端教程/004-jQuery教程 "jQuery教程")
 
-##### Java基础知识
+##### Java教程
 
-- [Java基本简介](?file=02-Java基础知识/001-Java基本简介 "Java基本简介")
-- [Java编程基础](?file=02-Java基础知识/002-Java编程基础 "Java编程基础")
-- [Java面向对象](?file=02-Java基础知识/003-Java面向对象 "Java面向对象")
-- [Java测试与练习](?file=02-Java基础知识/004-Java测试与练习 "Java测试与练习")
-- [JavaWeb开发](?file=02-Java基础知识/005-JavaWeb开发 "JavaWeb开发")
-- [MyBatis教程](?file=02-Java基础知识/006-MyBatis教程 "MyBatis教程")
+- **Java基础**
+	- [Java基础教程](?file=02-Java教程/01-Java基础/001-Java基础教程 "Java基础教程")
+	- [Java深入编程](?file=02-Java教程/01-Java基础/002-Java深入编程 "Java深入编程")
+- **Java面向对象**
+	- [Java面向对象](?file=02-Java教程/02-Java面向对象/001-Java面向对象 "Java面向对象")
+- **JavaWeb开发**
+	- [Servlet教程](?file=02-Java教程/03-JavaWeb开发/001-Servlet教程 "Servlet教程")
+	- [MyBatis教程](?file=02-Java教程/03-JavaWeb开发/002-MyBatis教程 "MyBatis教程")
+- [Java练习](?file=02-Java教程/04-Java练习 "Java练习")
 
-##### Linux基础知识
+##### Linux教程
 
-- [Linux基础知识](?file=03-Linux基础知识/001-Linux基础知识 "Linux基础知识")
-- [Shell编程基础](?file=03-Linux基础知识/002-Shell编程基础 "Shell编程基础")
-- [Shell深入编程](?file=03-Linux基础知识/003-Shell深入编程 "Shell深入编程")
-- [Shell高级编程](?file=03-Linux基础知识/004-Shell高级编程 "Shell高级编程")
+- [Linux基础](?file=03-Linux教程/01-Linux基础 "Linux基础")
+- **Shell编程**
+	- [Shell编程基础](?file=03-Linux教程/02-Shell编程/001-Shell编程基础 "Shell编程基础")
+	- [Shell深入编程](?file=03-Linux教程/02-Shell编程/002-Shell深入编程 "Shell深入编程")
 
 ##### 数据库教程
 - [数据库理论基础](?file=04-数据库教程/001-数据库理论基础 "数据库理论基础")
-- [MySQL数据库](?file=04-数据库教程/002-MySQL数据库 "MySQL数据库")
-- [SQL Server数据库](?file=04-数据库教程/003-SQL_Server数据库 "SQL Server数据库")
-- [Oracle数据库](?file=04-数据库教程/004-Oracle数据库 "004-Oracle数据库")
-- [Redis教程](?file=04-数据库教程/005-Redis教程 "Redis教程")
+- [常见的数据库](?file=04-数据库教程/002-常见的数据库 "常见的数据库")
+- [Redis教程](?file=04-数据库教程/003-Redis教程 "Redis教程")
 
 ##### Scala教程
 - [Scala简介](?file=05-Scala教程/001-Scala简介 "Scala简介")
@@ -37,6 +38,10 @@
 ##### Python3教程
 
 ##### 大数据组件
+- **Hadoop教程**
+	- [Hadoop简介](?file=07-大数据组件/01-Hadoop教程/001-Hadoop简介 "Hadoop简介")
+	- [集群配置方式](?file=07-大数据组件/01-Hadoop教程/002-集群配置方式 "集群配置方式")
+	- [MapRedue教程](?file=07-大数据组件/01-Hadoop教程/003-MapRedue教程 "MapRedue教程")
 
 ##### 编程工具
 - [Maven教程](?file=08-编程工具/001-Maven教程 "Maven教程")

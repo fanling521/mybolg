@@ -1,6 +1,6 @@
-# JavaWeb开发
+# Servlet教程
 
-## 安装Tomcat(Windows)
+## Tomcat
 
 Tomcat 是轻量级应用服务器，开源、稳定、资源占用小。
 
@@ -24,7 +24,7 @@ Tomcat 是轻量级应用服务器，开源、稳定、资源占用小。
                redirectPort="8443" />
 ```
 
-修改`bin/setclasspath.bat`添加jdk路径
+修改`bin/setclasspath.bat`添加jdk路径。
 
 ```bash
 rem ---------------------------------------------------------------------------
@@ -48,7 +48,7 @@ bin\shutdown.bat
 
 ![1551698702448](assets\1551698702448.png)
 
-部署war包直接放在`webapps`目录下，重启服务即可，注意：运行状态不可删除*.war。
+部署war包直接放在`webapps`目录下，重启服务即可，**注意：**运行状态不可删除*.war。
 
 ## JSP
 
@@ -56,9 +56,17 @@ bin\shutdown.bat
 
 JSP中默认使用的字符编码方式：iso-8859-1
 
-## JSP处理过程
+### JSP处理过程
 
-浏览器发送一个 HTTP 请求给服务器，Web 服务器识别出这是一个对 JSP 网页的请求，并且将该请求传递给 JSP 引擎，通过使用 URL或者 .jsp 文件来完成。JSP 引擎从磁盘中载入 JSP 文件，然后将它们转化为 Servlet。这种转化只是简单地将所有模板文本改用 println() 语句，并且将所有的 JSP 元素转化成 Java 代码。JSP 引擎将 Servlet 编译成可执行类，并且将原始请求传递给 Servlet 引擎。Web 服务器的某组件将会调用 Servlet 引擎，然后载入并执行 Servlet 类。在执行过程中，Servlet 产生 HTML 格式的输出并将其内嵌于 HTTP response 中上交给 Web 服务器。Web 服务器以静态 HTML 网页的形式将 HTTP response 返回到浏览器中。最终，Web 浏览器处理 HTTP response 中动态产生的HTML网页，就好像在处理静态网页一样。
+浏览器发送一个 HTTP 请求给服务器，Web 服务器识别出这是一个对 JSP 网页的请求，并且将该请求传递给 JSP 引擎，通过使用 URL或者 .jsp 文件来完成。
+
+JSP 引擎从磁盘中载入 JSP 文件，然后将它们转化为 Servlet。这种转化只是简单地将所有模板文本改用 println() 语句，并且将所有的 JSP 元素转化成 Java 代码。
+
+JSP 引擎将 Servlet 编译成可执行类，并且将原始请求传递给 Servlet 引擎。Web 服务器的某组件将会调用 Servlet 引擎，然后载入并执行 Servlet 类。
+
+在执行过程中，Servlet 产生 HTML 格式的输出并将其内嵌于 HTTP response 中上交给 Web 服务器。Web 服务器以静态 HTML 网页的形式将 HTTP response 返回到浏览器中。
+
+最终，Web 浏览器处理 HTTP response 中动态产生的HTML网页，就好像在处理静态网页一样。
 
 可以形象说明：请求-->index.jsp=>index_jsp.java=>index_jsp.class
 
@@ -79,7 +87,7 @@ JSP中默认使用的字符编码方式：iso-8859-1
 
 容器载入JSP文件后，它会在为请求提供任何服务前调用jspInit()方法。如果您需要执行自定义的JSP初始化任务，复写jspInit()方法就行了。
 
-## JSP语法
+### JSP语法
 
 ```jsp
 <%= (new java.util.Date()).toLocaleString()%>
@@ -191,7 +199,9 @@ web.xml
 </listener>
 ```
 
-## 文件上传common-fileupload
+## 文件上传
+
+使用jar包：common-fileupload-xxx.jar
 
 ```java
 public class UploadServlet extends HttpServlet {

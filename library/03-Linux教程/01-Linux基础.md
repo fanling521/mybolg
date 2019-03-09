@@ -4,17 +4,19 @@
 
  Linux是一个开源的操作系统。由内核、shell、文件系统和应用程序组成，Linux是指Linux内核，有很多发行版，常见有Ubantu、CentOS、RedHat等。
 
+后续文章中默认将服务器称作为一个节点。
+
 ## 虚拟机安装Linux
 
 ### 最小化安装CentOS 7 
 
 下载官方网站最小化的安装源，启动最小化安装，将虚拟机的第一台linux 命名为"fanl01"，密码为 fanling
 
-### 虚拟机网络配置
+### 虚拟机网络查看和配置
 
-安装和配置网路模式为`NAT`，当前的电脑安装虚拟机的虚拟网卡网段为`192.168.157.0`
+安装和配置网路模式为`NAT`，当前的电脑安装虚拟机的虚拟网卡网段为`192.168.157.0`，查看虚拟机的网络设置，查看NAT网卡的网段和网关。
 
-### 主机重命名
+### 节点名修改
 
 ```bash
 # 查看主机名
@@ -28,7 +30,7 @@ localhost.fanl01
 # 添加映射
 192.168.177.130 fanl01
 ```
-### 网络配置
+### 节点网络配置
 
 ```bash
 # 查看网络地址
@@ -48,10 +50,12 @@ BOOTPROTO=static
 
 ![1551271233048](assets\1551271233048.png)
 
-### 防火墙配置
+### 节点防火墙配置
+
+Centos升级到7之后，内置的防火墙已经从`iptables`变成了`firewalld`
 
 ```bash
-# Centos升级到7之后，内置的防火墙已经从iptables变成了firewalld
+# 非生产环境可以直接关闭防火墙
 # 查看防火墙
 [root@fanl01 ~]$ systemctl status firewalld
 # 开机禁用，启用 enable
@@ -62,7 +66,7 @@ BOOTPROTO=static
 [root@fanl01 ~]$ firewall-cmd --zone=public --add-port=6379/tcp --permanent
 ```
 
-### 关闭Slinux
+### 关闭节点的Slinux
 
 ```bash
 # 查看状态
@@ -76,7 +80,7 @@ SELINUX=disabled|enable
 
 ## Linux管理
 
-### Linux ssh 免密登录
+### 节点SSH免密登录
 
 通过RSA加密算生成了密钥，包括私钥和公钥，我们把公钥追加到用来认证授权的key中去。
 
@@ -93,7 +97,7 @@ SELINUX=disabled|enable
 5. 退出ssh，输入命令： `logout`
 6. 若新增服务器，需要重复上面的操作，并且修改`/etc/hosts`
 
-### Linux 管理命令
+### Linux管理命令
 
 ```bash
 # 新增用户
@@ -157,7 +161,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 
 
 
-### Linux基本操作命令
+### Linux操作命令
 
 ```shell
 # 切换目录
@@ -284,7 +288,7 @@ Linux上的文件系统一般来说就是EXT2或EXT3。
 
 标准的Linux文件系统Ext2是使用「基于inode的文件系统」。
 
-###  Linux中的文件类型
+###  Linux的文件类型
 
 1. 普通文件
 2. 目录文件
@@ -295,7 +299,7 @@ Linux上的文件系统一般来说就是EXT2或EXT3。
 
 Linux 的文件是没有所谓的扩展名的，一个 Linux文件能不能被执行与它是否可执行的属性有关，只要你的权限中有 x ，比如[ -rwx-r-xr-x ] 就代表这个文件可以被执行。但是能不能执行成功，当然就得要看该文件的内容了。所以Linux 系统上的文件名真的只是让你了解该文件可能的用途而已。
 
-### Linux目录树
+### Linux的目录树
 
 对Linux系统和用户来说，所有可操作的计算机资源都存在于目录树这个逻辑结构中，对计算机资源的访问都可以认为是目录树的访问。
 
@@ -307,7 +311,7 @@ Linux把对不同文件系统的访问交给了VFS（虚拟文件系统）
 
 [Linux磁盘与文件系统管理](https://blog.csdn.net/shuiyihang0981/article/details/87922207)
 
-### Linux根
+### Linux的根
 
 - / - 根目录：每一个文件和目录都从这里开始
 - /bin - 用户二进制文件，系统的所有用户使用的命令都设在这里，例如：ps，ls，ping，grep，cp等
