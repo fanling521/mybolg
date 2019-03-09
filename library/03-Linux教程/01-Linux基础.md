@@ -6,11 +6,11 @@
 
 后续文章中默认将服务器称作为一个节点。
 
-## 虚拟机安装Linux
+## 虚拟机安装Linux节点
 
-### 最小化安装CentOS 7 
+### 最小化安装
 
-下载官方网站最小化的安装源，启动最小化安装，将虚拟机的第一台linux 命名为"fanl01"，密码为 fanling
+下载CentOS7的官方网站最小化的安装源，启动最小化安装，过程不再说明。
 
 ### 虚拟机网络查看和配置
 
@@ -22,13 +22,14 @@
 # 查看主机名
 [root@fanl01 ~]$ hostname
 # 修改主机名
-[root@fanl01 ~]$ hostnamectl set-hostname fanl01
-[root@fanl01 ~]$ vi /etc/sysconfig/network
-HOSTNAME=fanl01
-[root@fanl01 ~]$ vi /etc/hosts
-localhost.fanl01
+[root@fanl01 ~]$ hostnamectl set-hostname yourname
+# 安装的过程也可以指定主机名
 # 添加映射
+[root@fanl01 ~]$ vi /etc/hosts
 192.168.177.130 fanl01
+192.168.177.151 hadoop1
+192.168.177.152 hadoop2
+192.168.177.153 hadoop3
 ```
 ### 节点网络配置
 
@@ -41,6 +42,7 @@ localhost.fanl01
 IPADDR=192.168.157.131
 NETMASK=255.255.255.0
 GATEWAY=192.168.157.2
+DNS1=192.168.157.2
 # 修改
 ONBOOT=yes
 BOOTPROTO=static
@@ -73,7 +75,7 @@ Centos升级到7之后，内置的防火墙已经从`iptables`变成了`firewall
 [root@fanl01 ~]$ sestatus
 # 禁用
 [root@fanl01 ~]$ vi /etc/sysconfig/selinux
-SELINUX=disabled|enable
+SELINUX=disabled
 # 临时关闭
 [root@fanl01 ~]$ setenforce 0
 ```
@@ -88,16 +90,62 @@ SELINUX=disabled|enable
 
 > 简单操作步骤
 
-目前有4台虚拟机，fanl01为Master，fanl02为Slave01，fanl02为Slave02，fanl03为Slave03
+目前有3台服务器，**hadoop1**为主服务器，使用**非root账号**的操作步骤
 
-1. 进入fanl01，使用命令`ssh-keygen`生成rsa密钥。
-2. 查看生成的密钥，` cd ~/.ssh/`,公钥为`id_rsa.pub`，私钥为`id_rsa`
-3. 进入fanl02-fanl04 生成密钥后传输到fanl01，`scp id_rsa.pub root@fanl01:~/.ssh/fanl02key`，或者使用命令`ssh_copy_id -i ~/.ssh/id_rsa.pub root@fanl01`
-4. 将文件追加`cat fanl02key >> authorized_keys`，重复操作，最终fanl01上的授权文件包括了所有服务器，然后将其转发给其他服务器，`scp authorized_keys root@fanl02:~/.ssh`
-5. 退出ssh，输入命令： `logout`
-6. 若新增服务器，需要重复上面的操作，并且修改`/etc/hosts`
+确保以下配置文件已经修改 `/etc/ssh/sshd_conf`
+
+```bash
+AuthorizedKeysFile      .ssh/authorized_keys
+PubkeyAuthentication yes
+```
+
+第一步：
+
+进入**hadoop1**，使用命令`ssh-keygen`生成rsa密钥。
+
+第二步：
+
+进入**hadoop2**，**hadoop3** 生成密钥后传输到**hadoop1**，使用命令：
+
+```bash
+# hadoop2
+$ scp .ssh/id_rsa.pub fanl@hadoop1:/home/fanl/.ssh/hadoop2key
+# hadoop3
+$ scp .ssh/id_rsa.pub fanl@hadoop1:/home/fanl/.ssh/hadoop3key
+```
+
+第三步：在**hadoop1**中将授权信息追加到`authorized_keys`
+
+```bash
+# 组合到authorized_keys中
+[fanl@hadoop1 .ssh]$ cd /home/fanl/.ssh
+[fanl@hadoop1 .ssh]$ touch authorized_keys
+[fanl@hadoop1 .ssh]$ cat id_rsa.pub >> authorized_keys # 添加自身
+[fanl@hadoop1 .ssh]$ cat hadoop2key >> authorized_keys
+[fanl@hadoop1 .ssh]$ cat hadoop3key >> authorized_keys
+```
+
+第四步：在hadoop1中执行，将授权文件传输到其他服务器
+
+```bash
+[fanl@hadoop1 .ssh]$ scp authorized_keys fanl@hadoop2:/home/fanl/.ssh/
+[fanl@hadoop1 .ssh]$ scp authorized_keys fanl@hadoop3:/home/fanl/.ssh/
+```
+
+如果是root账号，完成上面的步骤即可完成免密登录
+
+```bash
+[fanl@hadoop1 ~]$ chmod 700  ~/.ssh
+[fanl@hadoop1 ~]$ chmod 600  ~/.ssh/authorized_keys
+```
+
+
+
+连接服务器的命令是：`ssh hadoop2`，退出ssh的命令： `logout`
 
 ### Linux管理命令
+
+#### 用户管理
 
 ```bash
 # 新增用户
@@ -123,7 +171,11 @@ SELINUX=disabled|enable
 [root@fanl01 ~]$ last
 # 查看某一个用户
 [root@fanl01 ~]$ W fanl
-# 普通用户赋予root权限
+```
+
+#### 普通用户赋予root权限
+
+```bash
 # 先查看文件权限
 [root@fanl01 ~]$ ls -all /etc/sudoers
 # 赋予写权限
@@ -154,35 +206,54 @@ mkdir: 无法创建目录"soft": 权限不够
 总用量 0
 drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 # 前面加sudo
+```
 
+#### 文件拥有者
+
+```bash
 # 修改文件拥有者
 [fanl@fanl01 opt]$ chown fanl:fanl /software /module
 ```
 
+### Linux文件命令
 
+#### 切换目录
 
-### Linux操作命令
-
-```shell
+```bash
 # 切换目录
 [root@fanl01 ~]$ cd ..        # 切换到上层目录
 [root@fanl01 ~]$ cd /         # 切换到系统跟目录
 [root@fanl01 ~]$ cd ~         # 切换到用户主目录
 [root@fanl01 ~]$ cd xx        # 切换到xx目录
 [root@fanl01 ~]$ cd /xx/yy/zz #  切换到xx/yy/zz目录
+```
 
+#### 创建删除目录
+
+```bash
 # 创建和删除文件夹
 [root@fanl01 ~]$ mkdir xx     # 创建xx目录
 [root@fanl01 ~]$ rmdir xx     # 删除空目录xx
+```
 
+#### 创建和查看文件
+
+```bash
 # 浏览文件命令
 [root@fanl01 ~]$ cat xx       # 查看xx文件
 [root@fanl01 ~]$ cat >xx       # 新建xx文件
 [root@fanl01 ~]$ cat xx1>>yy       # 将xx1追加到yy中
 
+# 创建文件
+[root@fanl01 ~]$ touch fanl.txt
+
 # 文件操作命令
 [root@fanl01 ~]$ rm -rf xx    # 删除xx文件或者目录
+```
 
+#### 文件复制和移动
+
+```bash
 # 复制命令
 [root@fanl01 ~]$ cp a.txt b.txt # 将a.txt复制为b.txt
 [root@fanl01 ~]$ scp 文件 用户名@IP/hostname:路径 # 远程复制
@@ -190,7 +261,11 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 # 移动或重命名
 [root@fanl01 ~]$ mv a.txt ../xx # 将a.txt 移动到上层xx目录中
 [root@fanl01 ~]$ mv a.txt b.txt # 将a.txt 重命名为b.txt
+```
 
+#### 文件的解压和压缩
+
+```shell
 # 常见的压缩和解压，其他的自查
 # tar
 [root@fanl01 ~]tar -cvf filename.tar dir # 将目录dir中压缩到filename.tar中，保留原文件
@@ -204,6 +279,11 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~]tar zcvf filename.tgz  dir   # 将dir目录压缩到filename.tgz，dir也可以是文件名
 [root@fanl01 ~]tar -zxvf filename.tar.gz # 解压到当前目录，保留原文件
 [root@fanl01 ~]tar -zxvf filename.tar.gz -C dir # 解压到dir目录，保留原文件
+```
+
+#### 目录和文件的权限修改
+
+```bash
 # 权限修改
 # -rwxrw-r--
 # 第1位    文件类型 d 目录，-普通文件，|链接文件
@@ -223,7 +303,12 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 
 ### Linux软件安装
 
-####  替换yum源
+**安装wget**
+
+```bash
+[root@fanl01 ~]$ yum install wget
+```
+**替换yum源**
 
 ```bash
 [root@fanl01 ~]$ cd /etc/yum.repos.d/
@@ -231,14 +316,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 
 [root@fanl01 ~]$ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
-
-####  安装wget
-
-```bash
-[root@fanl01 ~]$ yum install wget
-```
-
-####  安装gcc
+**安装gcc**
 
 ```bash
 [root@fanl01 ~]$ yum install gcc
@@ -246,11 +324,11 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~]$ gcc -v
 ```
 
-#### 安装jdk（离线）
+#### 离线安装JDK
 
-第一步：下载压缩包，并且上传到linux中的/opt/software
+**第一步**：下载压缩包，并且上传到linux中的/opt/software
 
-第二步：解压
+**第二步**：解压
 
 ```bash
 [fanl@fanl01 software]$ tar -zxvf jdk-8u201-linux-x64.tar_2.gz -C /opt/module/
@@ -259,7 +337,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 /opt/module/jdk1.8.0_201
 ```
 
-第三步：设置环境变量
+**第三步**：设置环境变量
 
 ```bash
 [fanl@fanl01 jdk1.8.0_201]$ sudo vi /etc/profile
@@ -267,7 +345,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 # 添加以下内容
 export JAVA_HOME=/opt/module/jdk1.8.0_201
 export PATH=$PATH:$JAVA_HOME/bin
-
+##############################################
 # 报存后使其生效
 [fanl@fanl01 jdk1.8.0_201]$ source /etc/profile
 # 检测JAVA环境
@@ -278,6 +356,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 - Ctrl+L : 清屏
 - Shift +G：查看文件末尾
+- dd：vi 中删除文字
 - Tab：命令补齐
 
 ## Linux 文件目录
