@@ -183,9 +183,17 @@ fi
 
 ### 条件语句
 
+  **[ 和 [[ 的区别**
+
+**区别一**：在[中使用逻辑运算符，需要使用-a（and）或者-o（or）。在[[中使用逻辑运算符，需要使用&&或者||。
+
+**区别二**：[是shell命令，在它包围的表达式是它的命令行参数，所以串比较符>和<需要转义，否则就变成io重定向了。[[是shell关键字，不会做命令行扩展，所以<和>不需要进行转义。但是语法相对严格，如在[中可以用引号括起操作付，[[则不行。如if [ "-z" "ab" ]。
+
+**区别三**：[[可以做算术扩展，[则不行。如if [[ 11+1 -eq 100 ]]，而if [ 11+1 -eq 100 ]则会报错。
+
 ```bash
 # if else
-if condition
+if [ condition ]
 then
     command1
     ...
@@ -193,7 +201,7 @@ fi
 # 写成一行
 if [ $(ps -ef | grep -c "ssh") -gt 1 ]; then echo "true"; fi
 # if else-if else
-if condition1
+if [ condition1 ]
 then
     command1
 elif condition2 
@@ -216,8 +224,8 @@ done
 for var in item1 item2 ... itemN; do command1; command2… done;
 # 其他形式
 for((i=1;i<=5;i++));do
-    echo "这是第 $i 次调用";
-done;
+    echo "这是第 $i 次调用"
+done
 ```
 
 ### while 语句
@@ -305,5 +313,33 @@ demoFun(){
 echo "-----函数开始执行-----"
 demoFun
 echo "-----函数执行完毕-----"
+```
+
+## Shell编程实例
+
+1. if else的语句的写法，空格
+2. 变量的写法
+3. for循环的写法
+
+```bash
+#!/bin/bash
+# 获取输入的参数，没有参数，直接退出
+param_count=$#
+if [ ${param_count} == 0 ];then
+   echo "请输路径参数"
+else
+   # 获取文件名
+   filename=`basename $1`
+   echo "文件名为："${filename}
+   # 取得绝对路径
+   real_path=`cd -P $(dirname $1);pwd`
+   echo "真实路径为"${real_path}
+   # 获取当前登录用户
+   user=`whoami`
+   # 循环传输文件
+   for((i=152;i<=153;i++));do
+      echo "=======Hadoop-HOST${i}============"
+   done
+fi
 ```
 
