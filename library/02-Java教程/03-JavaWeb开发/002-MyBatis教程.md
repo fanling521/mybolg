@@ -2,15 +2,15 @@
 
 ## 什么是MyBatis
 
-MyBatis 是支持普通 SQL 查询，存储过程和高级映射的优秀持久层框架，消除 了几乎所有的 JDBC 代码和参数，使用简单的 XML 或注解用于配置和原始映射,将接口和普通的 Java 对象映射成数据库中的记录。
+MyBatis是支持普通`SQL`查询，存储过程和高级映射的优秀持久层框架，消除了几乎所有的`JDBC`代码和参数，使用简单的`XML`或注解用于配置和原始映射，可将接口和普通的`Java`对象映射成数据库中的记录。
 
-## 操作说明
+## MyBatis操作说明
 
-### 单独使用，不整合框架
+### 基本使用步骤
 
-####  第一步：新增配置文件，名称可自定义
+####  第一步：新增全局配置文件
 
-**mybatis-conf.xml**
+**mybatis-conf.xml**中配置环境，包含事务管理和数据源。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -52,10 +52,13 @@ public class SysUser {
 }
 ```
 
-####  第三步 新增接口
+####  第三步 增删查改的接口
 
 ```java
 public interface UserMapper {
+    /**
+    * 根据id查询用户信息
+    */
     SysUser selectSysUserById(long id);
 }
 ```
@@ -67,8 +70,13 @@ public interface UserMapper {
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!--namespace是Mapper接口的路径-->
 <mapper namespace="com.fanling.demo.dao.UserMapper">
+    <!--
+	id            实现方法的方法名
+	parameterType 实现方法参数的类型
+	resultType    实现方法返回类型
+	-->
     <select id="selectSysUserById" parameterType="long" resultType="com.fanling.demo.entity.SysUser">
         select * from sysuser where 1=1 and id=#{id}
     </select>
@@ -77,13 +85,13 @@ public interface UserMapper {
 
 ####  第五步 使用测试
 
-实例化`SqlSessionFactory`对象，需要通过`SqlSessionFactoryBuilder`来创建，再实例化`SqlSession`对象，调用对象的`getMapper`泛型方法，然后直接使用dao类即可。
+实例化`SqlSessionFactory`对象，需要通过`SqlSessionFactoryBuilder`来创建，再实例化`SqlSession`对象，调用对象的`getMapper`泛型方法，然后直接使用**dao**类即可。
 
 ```java
 public class App {
     public static void main(String[] args) {
         try {
-            //引入配置文件
+            // 引入全局配置文件
             InputStream inputStream= 
                 Resources.getResourceAsStream("mybatis-conf.xml");
             // 创建SqlSessionFactory
@@ -91,9 +99,11 @@ public class App {
                 new SqlSessionFactoryBuilder().build(inputStream);
             // 创建SqlSession
             SqlSession sqlSession=sqlSessionFactory.openSession();
-            //创建Dao
+            // 创建Dao
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             System.out.println(mapper.selectSysUserById(3));
+            // 关闭SqlSession
+            sqlSession.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,9 +111,9 @@ public class App {
 }
 ```
 
-### 配置信息额外说明
+### 其他特殊配置说明
 
-#### 使用外部文件
+#### 外部数据源配置文件
 
 ```xml
 <properties resource="jdbc.propertise"/>
@@ -121,31 +131,27 @@ public class App {
 
 ```
 
-#### 配置使用别名
+#### 配置使用实体类的别名
 
-MyBatis 首先为一些内置的数据类型做了别名映射。
+MyBatis首先为一些内置的数据类型做了别名映射，如写`int`或者`Integer`都可以。
 
-一个别名映射，在**mybatis-conf.xml**中
+一个别名映射，在全局配置文件**mybatis-conf.xml**中
 
 ```xml
 <typeAliases>
 	<typeAlias type="com.fanling.demo.entity.SysUser" alias="SysUser"/>
 </typeAliases>
-```
-
-多个别名映射[**推荐**]
-
-```xml
+<!--多个别名映射[推荐]-->
 <typeAliases>
 	<package name="com.fanling.demo.entity"/>
 </typeAliases>
 ```
 
-## 动态SQL
+## MyBatis的动态SQL
 
 除了使用的中的**select**、**insert**、**update**、**delete**外，还有一些常见的标签格式。
 
-### 特殊标签
+### 常见的特殊标签
 
 > where 标签
 
@@ -184,7 +190,8 @@ MyBatis 首先为一些内置的数据类型做了别名映射。
 <!--
 	collection属性     array/map/list
 	open属性           开始的字符
-	close              结束的字符
+	close             结束的字符
+	separator         分隔符
 -->
 <select id="selectMulStudentByIds" parameterType="list">
 	select * from student where 
@@ -194,7 +201,7 @@ MyBatis 首先为一些内置的数据类型做了别名映射。
 </select>
 ```
 
-> resultMap，映射实体类的别名
+> resultMap，映射实体类和数据库字段
 
 ```xml
 <resultMap id="" type="">
@@ -207,11 +214,14 @@ MyBatis 首先为一些内置的数据类型做了别名映射。
     <!--其他普通字段-->
     <result property="{实体类属性名}" column="{数据库列名}"/>
 </resultMap>
+<!--
+还可以实现映射关系
+-->
 ```
 
 ### 映射关系
 
-实际使用中，表的关系很复杂。
+场景：实际使用中，表的关系很复杂，多表查询等。
 
 #### 一对一
 
@@ -220,8 +230,8 @@ MyBatis 首先为一些内置的数据类型做了别名映射。
 ```xml
 <association property="" javaType="">
     <!--
-	property：T 的属性名
-	javaType：T 的泛型类名
+	property：映射的属性名
+	javaType：映射属性所属的泛型类名
 	-->
 </association>
 ```
@@ -258,11 +268,45 @@ MyBatis 首先为一些内置的数据类型做了别名映射。
 </collection>
 ```
 
-## 缓存
+## MyBatis缓存
 
+### 一级缓存
 
+一级缓存是`SqlSession`级别的缓存。在操作数据库时需要构造`sqlSession`对象，在对象中有一个数据结构（HashMap）用于存储缓存数据。不同的`sqlSession`之间的缓存数据区域（HashMap）是互相不影响的。
 
-## 注意事项
+执行commit操作会更新缓存。
 
-1. MyBatis配置文件要按一定的顺序。
+具体的执行过程：
 
+- 第一次发起查询，先去找缓存中查询，如果没有，从数据库查询信息，将信息存储到一级缓存中。
+- 如果期间`sqlSession`去执行了**commit**操作，则会清空`SqlSession`中的一级缓存，这样做的目的为了让缓存中存储的是最新的信息，避免**脏读**。
+- 第二次发起相同的查询先去找缓存中，缓存中有，直接从缓存中获取信息。
+
+### 二级缓存
+
+二级缓存是**mapper**级别的缓存，多个`SqlSession`去操作同一个**Mapper**的sql语句，多个`SqlSession`可以共用二级缓存，二级缓存是跨`SqlSession`的。
+
+二级缓存是基于mapper文件的`namespace`的，也就是说多个`sqlSession`可以共享一个mapper中的二级缓存区域。
+
+**开启二级缓存**
+
+首先在全局配置文件 **mybatis-conf.xml** 文件中加入如下代码：
+
+```xml
+<!--开启二级缓存  -->
+<settings>
+    <setting name="cacheEnabled" value="true"/>
+</settings>
+```
+其次在 ***Mapper.xml** 文件中开启缓存，同时实体类需要实现序列化接口。
+```xml
+<!-- 开启二级缓存 -->
+<cache />
+```
+
+对于访问多的查询请求且用户对查询结果实时性要求不高，可以使用二级缓存，因为是单服务器的缓存，通常会整合第三方框架，如`ehcache`。
+
+## MyBatis的注意事项
+
+1. MyBatis配置文件要按一定的顺序。如以下顺序：properties，settings， typeAliases，environments，databaseIdProvider，mappers，具体约束看`mybatis-3-config.dtd`
+2. `${}`和`#{}`的区别，`${}`是sql中的连接符，存在sql注入隐患，`#{}=?`是表示一个占位符
