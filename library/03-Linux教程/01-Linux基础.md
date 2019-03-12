@@ -139,7 +139,11 @@ $ scp .ssh/id_rsa.pub fanl@hadoop1:/home/fanl/.ssh/hadoop3key
 [fanl@hadoop1 ~]$ chmod 600  ~/.ssh/authorized_keys
 ```
 
+使用其他命令
 
+```bash
+ssh-copy-id hostname
+```
 
 连接服务器的命令是：`ssh hadoop2`，退出ssh的命令： `logout`
 
@@ -350,6 +354,22 @@ export PATH=$PATH:$JAVA_HOME/bin
 [fanl@fanl01 jdk1.8.0_201]$ source /etc/profile
 # 检测JAVA环境
 [fanl@fanl01 jdk1.8.0_201]$ java -version
+```
+
+### 安装远程同步工具rsync
+
+```bash
+[fanl@hadoop2 module]$ sudo yum -y install rsync
+# 安装完毕后配置文件
+[fanl@hadoop2 module]$ sudo vi /etc/rsyncd.conf
+uid = nobody
+gid = nobody
+use chroot = no
+max connections = 200
+pid file = /var/run/rsyncd.pid
+lock file = /var/run/rsync.lock
+log file = /var/log/rsyncd.log
+# 常见错误-权限不足，查看对应的目录是否用用户的权限或者所属
 ```
 
 ### Linux 常用的快捷键
