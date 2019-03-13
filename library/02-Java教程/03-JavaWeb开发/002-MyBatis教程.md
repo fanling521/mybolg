@@ -2,7 +2,7 @@
 
 ## 什么是MyBatis
 
-MyBatis是支持普通`SQL`查询，存储过程和高级映射的优秀持久层框架，消除了几乎所有的`JDBC`代码和参数，使用简单的`XML`或注解用于配置和原始映射，可将接口和普通的`Java`对象映射成数据库中的记录。
+MyBatis是支持普通的`SQL`查询，存储过程和高级映射的优秀持久层框架，消除了几乎所有的`JDBC`代码和参数，使用简单的`XML`或注解用于配置和原始映射，可将普通的`Java`对象映射成数据库中的记录。
 
 ## MyBatis操作说明
 
@@ -10,7 +10,7 @@ MyBatis是支持普通`SQL`查询，存储过程和高级映射的优秀持久�
 
 ####  第一步：新增全局配置文件
 
-**mybatis-conf.xml**中配置环境，包含事务管理和数据源。
+**mybatis-conf.xml**中配置环境，包含了事务管理和数据源。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -41,6 +41,8 @@ MyBatis是支持普通`SQL`查询，存储过程和高级映射的优秀持久�
 
 ####  第二步  新增实体类
 
+新增相关的属性字段和get set方法。
+
 ```java
 public class SysUser {
     private long id;
@@ -53,6 +55,8 @@ public class SysUser {
 ```
 
 ####  第三步 增删查改的接口
+
+新增一个接口，提供增删查改的方法。
 
 ```java
 public interface UserMapper {
@@ -85,7 +89,7 @@ public interface UserMapper {
 
 ####  第五步 使用测试
 
-实例化`SqlSessionFactory`对象，需要通过`SqlSessionFactoryBuilder`来创建，再实例化`SqlSession`对象，调用对象的`getMapper`泛型方法，然后直接使用**dao**类即可。
+实例化`SqlSessionFactory`对象，需要通过`SqlSessionFactoryBuilder`来创建，再实例化`SqlSession`对象，调用对象的`getMapper`泛型方法。
 
 ```java
 public class App {
@@ -99,8 +103,9 @@ public class App {
                 new SqlSessionFactoryBuilder().build(inputStream);
             // 创建SqlSession
             SqlSession sqlSession=sqlSessionFactory.openSession();
-            // 创建Dao
+            // 实例化mapper对象
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            // 使用
             System.out.println(mapper.selectSysUserById(3));
             // 关闭SqlSession
             sqlSession.close();
@@ -114,6 +119,8 @@ public class App {
 ### 其他特殊配置说明
 
 #### 外部数据源配置文件
+
+若需要引入外部的配置文件，在全局配置文件中新增`<properties />`节点。
 
 ```xml
 <properties resource="jdbc.propertise"/>
@@ -133,13 +140,13 @@ public class App {
 
 #### 配置使用实体类的别名
 
-MyBatis首先为一些内置的数据类型做了别名映射，如写`int`或者`Integer`都可以。
+MyBatis为一些内置的数据类型做了别名映射，如写`int`或者`Integer`都可以。
 
-一个别名映射，在全局配置文件**mybatis-conf.xml**中
+一个实体类别名映射，在全局配置文件**mybatis-conf.xml**中新增`<typeAliases></typeAliases>`节点。
 
 ```xml
 <typeAliases>
-	<typeAlias type="com.fanling.demo.entity.SysUser" alias="SysUser"/>
+	<typeAlias type="com.fanling.demo.entity.SysUser" alias="sysUser"/>
 </typeAliases>
 <!--多个别名映射[推荐]-->
 <typeAliases>
@@ -155,6 +162,8 @@ MyBatis首先为一些内置的数据类型做了别名映射，如写`int`或�
 
 > where 标签
 
+简化sql语句中where条件判断的。
+
 ```xml
 <!--不用写where-->
 <where>
@@ -167,13 +176,15 @@ MyBatis首先为一些内置的数据类型做了别名映射，如写`int`或�
 > if 标签
 
 ```xml
-<!--时间格式不可比较-->
+<!--时间格式不可当作字符串比较-->
 <if test="name!=null and name!=''">
     and name=#{name}
 </if>
 ```
 
-> set 标签，用于update 标签
+> set 标签
+
+简化sql语句中set条件。
 
 ```xml
 <!--update 语句中不用写set，存在不合适的逗号也会自动删除-->
@@ -188,10 +199,11 @@ MyBatis首先为一些内置的数据类型做了别名映射，如写`int`或�
 
 ```xml
 <!--
-	collection属性     array/map/list
-	open属性           开始的字符
-	close             结束的字符
-	separator         分隔符
+	collection     array/map/list
+    item           集合项
+	open           开始的字符
+	close          结束的字符
+	separator      分隔符
 -->
 <select id="selectMulStudentByIds" parameterType="list">
 	select * from student where 
@@ -274,7 +286,7 @@ MyBatis首先为一些内置的数据类型做了别名映射，如写`int`或�
 
 一级缓存是`SqlSession`级别的缓存。在操作数据库时需要构造`sqlSession`对象，在对象中有一个数据结构（HashMap）用于存储缓存数据。不同的`sqlSession`之间的缓存数据区域（HashMap）是互相不影响的。
 
-执行commit操作会更新缓存。
+执行`commit`操作会更新缓存。
 
 具体的执行过程：
 
@@ -298,7 +310,7 @@ MyBatis首先为一些内置的数据类型做了别名映射，如写`int`或�
     <setting name="cacheEnabled" value="true"/>
 </settings>
 ```
-其次在 ***Mapper.xml** 文件中开启缓存，同时实体类需要实现序列化接口。
+然后需要在 ***Mapper.xml** 文件中开启缓存，同时实体类需要实现序列化。
 ```xml
 <!-- 开启二级缓存 -->
 <cache />

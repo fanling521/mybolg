@@ -2,9 +2,15 @@
 
 Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
-主要解决海量数据存储和海量数据分析计算问题。
+**主要解决**海量数据的采集，存储和海量数据分析计算问题。
 
-由Doug Cutting 设计开发，参考了谷歌的3篇论文，（1）The Google File System；（2）MapReduce: Simpliﬁed Data Processing on Large Clusters；（3）Bigtable: A Distributed Storage System for Structured Data
+由*Doug Cutting* 设计开发，参考了谷歌的3篇论文，
+
+（1）The Google File System
+
+（2）MapReduce: Simpliﬁed Data Processing on Large Clusters
+
+（3）Bigtable: A Distributed Storage System for Structured Data
 
 ## Haddop的发行版本
 

@@ -244,9 +244,10 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 
 ```bash
 # 浏览文件命令
-[root@fanl01 ~]$ cat xx       # 查看xx文件
-[root@fanl01 ~]$ cat >xx       # 新建xx文件
-[root@fanl01 ~]$ cat xx1>>yy       # 将xx1追加到yy中
+[root@fanl01 ~]$ cat xx              # 查看xx文件
+[root@fanl01 ~]$ cat >xx             # 新建xx文件
+[root@fanl01 ~]$ cat xx1 >> yy       # 将xx1追加到yy中
+[root@fanl01 ~]$ tail logfile        # 动态查看文件内容 -f 
 
 # 创建文件
 [root@fanl01 ~]$ touch fanl.txt
@@ -305,7 +306,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 
 [linux速查手册](https://jaywcjlove.gitee.io/linux-command)
 
-### Linux软件安装
+### Linux软件和工具
 
 **安装wget**
 
@@ -356,7 +357,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 [fanl@fanl01 jdk1.8.0_201]$ java -version
 ```
 
-### 安装远程同步工具rsync
+#### 安装远程同步工具rsync
 
 ```bash
 [fanl@hadoop2 module]$ sudo yum -y install rsync
@@ -371,6 +372,52 @@ lock file = /var/run/rsync.lock
 log file = /var/log/rsyncd.log
 # 常见错误-权限不足，查看对应的目录是否用用户的权限或者所属
 ```
+#### crontab定时任务
+
+- crontab -e 编辑定时任务
+- crontab -r 删除定时任务
+- crontab -l 列出定时任务
+- 服务名称：crond
+- 分钟 小时 天 月 星期。第几，用,分隔；每隔用*/10表示
+
+``` bash
+[fanl@hadoop2 module]$ crontab -e
+*/1 * * * * /bin/echo "txt" >> /opt/module/fanl.txt
+```
+
+##### 安装NTP服务
+
+```bash
+[root@hadoop1 ~]# yum -y install ntp
+# 编辑配置文件
+[root@hadoop1 ~]# vi /etc/ntp.conf
+# 修改授权网段
+restrict 192.168.157.0 mask 255.255.255.0 nomodify notrap
+# 修改不使用互联网
+# server 0.centos.pool.ntp.org iburst
+# server 1.centos.pool.ntp.org iburst
+# server 2.centos.pool.ntp.org iburst
+# server 3.centos.pool.ntp.org iburst
+# 添加允许使用本地时间
+server 127.127.1.0
+fudge 127.127.1.0 stratum 10
+#########################################
+# 再修改 /etc/sysconfig/htpd
+# 添加
+SYNC_HWCLOCK=yes
+#=====================================#
+[root@hadoop1 ~]#service ntpd status/start/stop
+[root@hadoop1 ~]#chkconfig ntpd on # 开机启动
+#########################################
+# 其他服务器编写定时任务脚本
+# 先安装
+[root@hadoop2 ~]# yum -y install ntpdate
+# 再编写crontab
+*/1 * * * * /usr/sbin/ntpdate hadoop1
+```
+
+
+
 
 ### Linux 常用的快捷键
 
