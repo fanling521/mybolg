@@ -67,7 +67,7 @@ Hello World
 
 ```scala
 object HelloWorld{
-	def main(args:Array[String]){
+	def main(args:Array[String]):Unit={
 		println("HelloWorld");
 	}
 }
@@ -76,12 +76,20 @@ object HelloWorld{
 接下来我们使用 scalac 命令编译它：
 
 ```shell
-scalac HelloWorld.scala
+> scalac HelloWorld.scala
 
-scala HelloWorld
+> scala HelloWorld
 ```
 
+通过编译后会生成HelloWorld.class 和 HelloWorld$.class
 
+说明：
+
+- def 表示这是一个方法
+- main 是程序的入口
+- args:Array[String] 是形参，将变量写在前面，类型写在后面
+- Array[String] 是字符数组类型
+- :Unit= 表示没有返回值，相当于Java的void
 
 ## Scala 基本语法注意点
 
