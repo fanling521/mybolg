@@ -180,5 +180,94 @@ controller层的新增
 {"id":1,"userName":"fanling","password":"123456","email":"998@qq.com"}
 ```
 
+### 处理局部异常
+
+在controller中新增@ExceptionHandler
+
+```java
+@RequestMapping("/null")
+public String t1(){
+    String string=null;
+    string.length();
+    return "ok";
+}
+
+@ExceptionHandler(NullPointerException.class)
+public ModelAndView nullexp(Exception e){
+    ModelAndView mv=new ModelAndView();
+    mv.addObject("error",e.toString());
+    mv.setViewName("nullexp");
+    return mv;
+}
+```
+
+说明：@ExceptionHandler 方法的入参中不能传入Map.若希望把异常信息传到页面上，需要使用ModelAndView作为返回值
+
+### 处理全局异常
+
+springMVC提供了简单的异常处理器
+
+在全局配置文件中，新增如下的配置
+
+```xml
+<!--全局异常处理器-->
+<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <!--默认异常处理页面-->
+    <property name="defaultErrorView" value="/view/error.jsp"></property>
+    <!--自定义异常处理的变量名，默认excption-->
+    <property name="exceptionAttribute" value="ex"></property>
+    <!--自定义处理的异常-->
+    <property name="exceptionMappings">
+        <props>
+            <prop key="java.lang.NullPointerException"></prop>
+        </props>
+    </property>
+</bean>
+```
+
+或者在`web.xml`
+
+```xml
+<!--全局处理异常页面-->
+<error-page>
+    <error-code>400</error-code>
+    <location>/view/400.jsp</location>
+</error-page>
+```
+
+### 文件上传解析器
+
+在全局配置文件中配置文件上传解析器
+
+```xml
+<bean id="multipartResolver" 
+      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxInMemorySize" value="1048576"></property>
+    <property name="defaultEncoding" value="utf-8"></property>
+    <property name="resolveLazily" value="true"></property>
+</bean>
+```
+
+```java
+	@RequestMapping(value = "/fileupload")
+    public void upload(MultipartFile myfile, HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("name="+req.getParameter("name"));
+        //设置路径
+        String path=req.getSession().getServletContext().getRealPath("static/upload");
+        File file=new File(path);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        //上传文件
+        try {
+            String filename=myfile.getOriginalFilename();
+            myfile.transferTo(new File(file,filename));
+            resp.getWriter().write("ok");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+```
+
 
 
