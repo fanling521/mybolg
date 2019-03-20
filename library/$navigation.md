@@ -36,6 +36,7 @@
 ##### Scala教程
 - [Scala简介](?file=05-Scala教程/001-Scala简介 "Scala简介")
 - [Scala数据类型](?file=05-Scala教程/002-Scala数据类型 "Scala数据类型")
+- [[Scala语句](?file=05-Scala教程/003-Scala语句 "Scala语句")
 
 ##### Python3教程
 

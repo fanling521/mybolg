@@ -41,20 +41,14 @@ Scala的设计秉承一项事实，即在实践中，某个领域特定的应用
 - 任何方法可用作前缀或后缀操作符
 - 可以根据预期类型自动构造闭包。
 
-## Scala 基础语法
-
-Scala 与 Java 的最大区别是：Scala 语句末尾的分号 ; 是可选的。
-
-我们可以认为 Scala 程序是对象的集合，通过调用彼此的方法来实现消息传递。接下来我们来理解下，类，对象，方法，实例变量的概念：
-
-- **对象 -** 对象有属性和行为。例如：一只狗的状属性有：颜色，名字，行为有：叫、跑、吃等。对象是一个类的实例。
-- **类 -** 类是对象的抽象，而对象是类的具体实例。
-- **方法 -** 方法描述的基本的行为，一个类可以包含多个方法。
-- **字段 -** 每个对象都有它唯一的实例变量集合，即字段。对象的属性通过给字段赋值来创建。
-
-
-
 ## 第一个 Scala 程序
+
+### 环境变量
+
+- SCALA_HOME=目录
+- Path=%SCALA_HOME%\bin
+
+### 执行方式
 
 > 命令行形式
 
@@ -77,7 +71,6 @@ object HelloWorld{
 
 ```shell
 > scalac HelloWorld.scala
-
 > scala HelloWorld
 ```
 
@@ -91,63 +84,54 @@ object HelloWorld{
 - Array[String] 是字符数组类型
 - :Unit= 表示没有返回值，相当于Java的void
 
-## Scala 基本语法注意点
+## Scala的注意点
 
 - **区分大小写** 
 - **类名** - 对于所有的类名的第一个字母要大写
 - **方法名称** - 所有的方法名称的第一个字母用小写
 - **程序文件名** - 程序文件的名称应该与对象名称完全匹配(新版本不需要了，但建议保留这种习惯)。
-- **def main(args: Array[String])** - Scala程序从main()方法开始处理，这是每一个Scala程序的强制程序入口部分
+- **def main(args: Array[String])** - Scala程序从main()方法开始处理，这是每一个Scala程序的强制程序入口部分，但是不是最终的入口，**是被包装的入口**
 - Scala是面向行的语言，语句可以用分号（;）结束或换行符,如果一行里写多个语句那么分号是需要的
+- 可以直接运行*.scala
 
-## Scala 关键字
+## Scala的字符串输出方式
 
-scala多出了几个关键字，如：def、lazy、forSome等
+### 类似Java的写法
 
-## Scala 包
-
-> 定义
-
-Scala 使用 package 关键字定义包，在Scala将代码定义到某个包中有两种方式：
-
-第一种方法和 Java 一样，在文件的头定义包名，这种方法就后续所有代码都放在该包中。 比如：
-
-```java
-package com.xxx
-class HelloWorld
-```
-
-第二种方法有些类似 C#，如:
-
-```java
-package com.xxx {
-  class HelloWorld 
+```scala
+def main(args: Array[String]): Unit = {
+  var str1: String = "i"
+  var str2: String = "am"
+  println(str1+str2)
 }
 ```
 
-第二种方法，可以在一个文件中定义多个包。
-
->  引用
-
-Scala 使用 import 关键字引用包。
+### 类似C语言的格式化输出
 
 ```scala
-import java.awt.Color  // 引入Color
-import java.awt._  // 引入包内所有成员
-def handler(evt: event.ActionEvent) { // java.awt.event.ActionEvent
-  ...  // 因为引入了java.awt，所以可以省去前面的部分
-}
+var name:String ="fanl"
+var age:Int=12
+var sal:Float=11.21f
+var height:Double=180.21
+printf("姓名%s，年龄%d，薪水：%.2f，身高%.3f",name,age,sal,height)
 ```
 
-import语句可以出现在任何地方，而不是只能在文件顶部。import的效果从开始延伸到语句块的结束。这可以大幅减少名称冲突的可能性。
-
-如果想要引入包中的几个成员，可以使用selector（选取器）：
+### 类似PHP的$取值
 
 ```scala
-import java.awt.{Color, Font}
-// 重命名成员
-import java.util.{HashMap => JavaHashMap}
-// 隐藏成员
-import java.util.{HashMap => _, _} // 引入了util包的所有成员，但是HashMap被隐藏了
+var str3:String ="hello"
+var str4:String="world"
+println(s"第一个字段$str3，第二个字段$str4")
+println(s"2年后的年龄是${age+2}")
 ```
+
+## Scala注释和官方指南
+
+### Scala注释和导出文档
+
+和Java类似
+
+### Scala源码和官方指南
+
+下载源码包和指南包即可
 
