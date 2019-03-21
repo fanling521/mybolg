@@ -23,7 +23,8 @@
 [root@fanl01 ~]$ hostname
 # 修改主机名
 [root@fanl01 ~]$ hostnamectl set-hostname yourname
-# 安装的过程也可以指定主机名
+# 配置文件中的名称
+[root@fanl01 ~]$ cat /etc/hostname
 # 添加映射
 [root@fanl01 ~]$ vi /etc/hosts
 192.168.177.130 fanl01
@@ -237,7 +238,12 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 ```bash
 # 创建和删除文件夹
 [root@fanl01 ~]$ mkdir xx     # 创建xx目录
+# 多级目录
+[root@fanl01 ~]$ mkdir -p /opt/xx1/xx2/xx3
 [root@fanl01 ~]$ rmdir xx     # 删除空目录xx
+[root@fanl01 ~]$ rm -f xx/ # 删除多级目录
+# 创建多个目录
+[root@fanl01 ~]$ mkdir xx1 xx2
 ```
 
 #### 创建和查看文件
@@ -247,13 +253,15 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~]$ cat xx              # 查看xx文件
 [root@fanl01 ~]$ cat >xx             # 新建xx文件
 [root@fanl01 ~]$ cat xx1 >> yy       # 将xx1追加到yy中
-[root@fanl01 ~]$ tail logfile        # 动态查看文件内容 -f 
-
+[root@fanl01 ~]$ tail -n logfile     # 查看文件最后10行内容，可自定义n
+[root@fanl01 ~]$ tail -f logfile     # 查看文件内容 
+[root@fanl01 ~]$ more xx             # 分页查看，回车：一行一行，空格：往下翻页，b：往上翻页
+[root@fanl01 ~]$ less xx             # 支持上下键和翻页键
+[root@fanl01 ~]$ head -n xx          # 默认前10行，可自定义n
 # 创建文件
 [root@fanl01 ~]$ touch fanl.txt
-
 # 文件操作命令
-[root@fanl01 ~]$ rm -rf xx    # 删除xx文件或者目录
+[root@fanl01 ~]$ rm -rf xx    # 强制删除xx文件或者目录
 ```
 
 #### 文件复制和移动
@@ -261,8 +269,8 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 ```bash
 # 复制命令
 [root@fanl01 ~]$ cp a.txt b.txt # 将a.txt复制为b.txt
+[root@fanl01 ~]$ cp -r /opt/xx1 /opt/xx2/ # 拷贝目录
 [root@fanl01 ~]$ scp 文件 用户名@IP/hostname:路径 # 远程复制
-
 # 移动或重命名
 [root@fanl01 ~]$ mv a.txt ../xx # 将a.txt 移动到上层xx目录中
 [root@fanl01 ~]$ mv a.txt b.txt # 将a.txt 重命名为b.txt
