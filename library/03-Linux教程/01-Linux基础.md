@@ -6,19 +6,20 @@
 
 后续文章中默认将服务器称作为一个节点。
 
-## 虚拟机安装Linux节点
+## 虚拟机安装
 
 ### 最小化安装
 
 下载CentOS7的官方网站最小化的安装源，启动最小化安装，过程不再说明。
 
-### 虚拟机网络查看和配置
+### 虚拟机的网络模式
 
 安装和配置网路模式为`NAT`，当前的电脑安装虚拟机的虚拟网卡网段为`192.168.157.0`，查看虚拟机的网络设置，查看NAT网卡的网段和网关。
 
-### 节点名修改
+### 主机名修改
 
 ```bash
+# CentOS 7
 # 查看主机名
 [root@fanl01 ~]$ hostname
 # 修改主机名
@@ -69,7 +70,7 @@ Centos升级到7之后，内置的防火墙已经从`iptables`变成了`firewall
 [root@fanl01 ~]$ firewall-cmd --zone=public --add-port=6379/tcp --permanent
 ```
 
-### 关闭节点的Slinux
+### 关闭Slinux
 
 ```bash
 # 查看状态
@@ -81,9 +82,9 @@ SELINUX=disabled
 [root@fanl01 ~]$ setenforce 0
 ```
 
-## Linux管理
+## Linux运维管理
 
-### 节点SSH免密登录
+### Linux免密登录
 
 通过RSA加密算生成了密钥，包括私钥和公钥，我们把公钥追加到用来认证授权的key中去。
 
@@ -133,7 +134,7 @@ $ scp .ssh/id_rsa.pub fanl@hadoop1:/home/fanl/.ssh/hadoop3key
 [fanl@hadoop1 .ssh]$ scp authorized_keys fanl@hadoop3:/home/fanl/.ssh/
 ```
 
-如果是root账号，完成上面的步骤即可完成免密登录
+**如果是root账号，完成上面的步骤即可完成免密登录**
 
 ```bash
 [fanl@hadoop1 ~]$ chmod 700  ~/.ssh
@@ -150,17 +151,42 @@ ssh-copy-id hostname
 
 ### Linux管理命令
 
-#### 用户管理
+#### Linux用户分类
+
+用户信息存放在 /etc/passwd
+
+##### 超级用户
+
+UID为0的用户都是超级用户，只要把/etc/passwd相应的用户的UID改为0，该用户就变成超级用户了。
+
+##### 普通用户
+
+uid 500-60000
+
+##### 伪（系统）用户
+
+伪用户与系统和程序服务相关，因为并不是真实的使用者，所以叫伪用户，如bin、daemon、shutdown、halt等，任何Linux系统都默认有这些伪用户；mail、ftp、sshd等，与Linux系统的进程相关。
+
+#### 用户和组管理
 
 ```bash
 # 新增用户
+# cat /etc/group
+# cat /etc/passwd
 [root@fanl01 ~]$ adduser fanl
-# 新建用户组
-[root@fanl01 ~]$ groupadd hadoop
 # 新建用户同时增加工作组 
 [root@fanl01 ~]$ useradd -g hadoop fanl
 # 给已有的用户增加工作组 
 [root@fanl01 ~]$ usermod -G hadoop fanl	
+[root@fanl01 ~]$ gpasswd -a fanl hadoop
+# 新建用户组
+[root@fanl01 ~]$ groupadd hadoop
+# 查看组员
+[root@fanl01 ~]$ cat /etc/group | grep hadoop
+# 删除组员
+[root@fanl01 ~]$ gpasswd -d hadoop fanl
+# 查看用户属于哪个组
+[root@fanl01 ~]$ groups fanl
 # 修改密码
 [root@fanl01 ~]$ passwd fanl
 # 删除用户
@@ -176,9 +202,10 @@ ssh-copy-id hostname
 [root@fanl01 ~]$ last
 # 查看某一个用户
 [root@fanl01 ~]$ W fanl
+[root@fanl01 ~]su 用户 # 切换用户
 ```
 
-#### 普通用户赋予root权限
+#### 赋予超级权限
 
 ```bash
 # 先查看文件权限
@@ -213,7 +240,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 # 前面加sudo
 ```
 
-#### 文件拥有者
+#### 修改文件拥有者
 
 ```bash
 # 修改文件拥有者
@@ -276,6 +303,34 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~]$ mv a.txt b.txt # 将a.txt 重命名为b.txt
 ```
 
+#### 文件搜索和统计
+
+```shell
+# 查找 find [范围] [-参数]
+[root@fanl01 ~]$ find /etc -name init # 模糊查询建议加引号
+[root@fanl01 ~]$ find /etc -size +2M # +大于2M，-小于2M，不写表示等于
+[root@fanl01 ~]$ find /etc -type f   #f 文件，d 目录
+# 以上命令可以组合使用
+# 统计 wc
+[root@fanl01 ~]$ wc -c /-m 
+```
+
+#### 特殊符号
+
+```bash
+# 管道
+[root@fanl01 ~]$ cat /etc/profile | grep xx
+# 追加 >>
+[root@fanl01 ~]$ echo "22" >> a.txt
+# 覆盖 >
+[root@fanl01 ~]$ echo "22" > b.txt
+# 命令换行 \
+[root@fanl01 ~]$ cat \
+> /etc/profile
+```
+
+
+
 #### 文件的解压和压缩
 
 ```shell
@@ -312,9 +367,13 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~] chomd 777 test.sh
 ```
 
+### Linux系统命令
+
+
+
 [linux速查手册](https://jaywcjlove.gitee.io/linux-command)
 
-### Linux软件和工具
+### Linux安装软件
 
 **安装wget**
 
@@ -337,7 +396,7 @@ drwxr-xr-x. 2 root root 6 3月   5 19:32 soft
 [root@fanl01 ~]$ gcc -v
 ```
 
-#### 离线安装JDK
+#### 例子：离线安装JDK
 
 **第一步**：下载压缩包，并且上传到linux中的/opt/software
 
@@ -365,7 +424,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 [fanl@fanl01 jdk1.8.0_201]$ java -version
 ```
 
-#### 安装远程同步工具rsync
+#### 例子：在线安装rsync
 
 ```bash
 [fanl@hadoop2 module]$ sudo yum -y install rsync
@@ -380,7 +439,9 @@ lock file = /var/run/rsync.lock
 log file = /var/log/rsyncd.log
 # 常见错误-权限不足，查看对应的目录是否用用户的权限或者所属
 ```
-#### crontab定时任务
+#### Linux 工具使用
+
+##### crontab定时任务
 
 - crontab -e 编辑定时任务
 - crontab -r 删除定时任务
@@ -423,16 +484,6 @@ SYNC_HWCLOCK=yes
 # 再编写crontab
 */1 * * * * /usr/sbin/ntpdate hadoop1
 ```
-
-
-
-
-### Linux 常用的快捷键
-
-- Ctrl+L : 清屏
-- Shift +G：查看文件末尾
-- dd：vi 中删除文字
-- Tab：命令补齐
 
 ## Linux 文件目录
 
