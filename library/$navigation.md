@@ -21,12 +21,15 @@
 	- [SpringMVC教程](?file=02-Java教程/03-JavaWeb开发/004-SpringMVC教程 "SpringMVC教程")
 - [Java练习](?file=02-Java教程/04-Java练习 "Java练习")
 
-##### Linux教程
+##### Linux系统
 
-- [Linux基础](?file=03-Linux教程/01-Linux基础 "Linux基础")
+- **Linux教程**
+	- [Linux配置](?file=03-Linux系统/01-Linux教程/001-Linux配置 "Linux配置")
+	- [Linux管理](?file=03-Linux系统/01-Linux教程/002-Linux管理 "Linux管理")
+	- [Linux核心](?file=03-Linux系统/01-Linux教程/003-Linux核心 "Linux核心")
 - **Shell编程**
-	- [Shell编程基础](?file=03-Linux教程/02-Shell编程/001-Shell编程基础 "Shell编程基础")
-	- [Shell深入编程](?file=03-Linux教程/02-Shell编程/002-Shell深入编程 "Shell深入编程")
+	- [Shell编程基础](?file=03-Linux系统/02-Shell编程/001-Shell编程基础 "Shell编程基础")
+	- [Shell深入编程](?file=03-Linux系统/02-Shell编程/002-Shell深入编程 "Shell深入编程")
 
 ##### 数据库教程
 - [数据库理论基础](?file=04-数据库教程/001-数据库理论基础 "数据库理论基础")
@@ -36,7 +39,7 @@
 ##### Scala教程
 - [Scala简介](?file=05-Scala教程/001-Scala简介 "Scala简介")
 - [Scala数据类型](?file=05-Scala教程/002-Scala数据类型 "Scala数据类型")
-- [[Scala语句](?file=05-Scala教程/003-Scala语句 "Scala语句")
+- [Scala语句](?file=05-Scala教程/003-Scala语句 "Scala语句")
 
 ##### Python3教程
 
