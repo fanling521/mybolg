@@ -164,13 +164,9 @@ fanl    ALL=(ALL)    NOPASSWD: ALL
 # =====普通用户执行root的命令的时候需要输入密码========
 ```
 
-### SSH免密码登录
+### SSH无密码登录
 
 通过RSA加密算生成了密钥，包括私钥和公钥，我们把公钥追加到用来认证授权的key中去。
-
-### 方法1
-
-非root用户免密码登录
 
 确保以下配置文件已经修改 `/etc/ssh/sshd_conf`
 
@@ -180,11 +176,14 @@ PubkeyAuthentication yes
 ```
 
 1. 使用命令`ssh-keygen`生成rsa密钥
-2. `ssh-copy-id hostname`
+2. `ssh-copy-id hostname`，先统一追加到主机上，然后再分发。
+3. 进入.ssh目录`scp authorized_keys username@hostname:/home/username/.ssh/`
 
-**如果是root账号，完成上面的步骤即可完成免密登录**
+**非root用户发现无效，检查权限问题**
 
 ```bash
 [fanl@hadoop1 ~]$ chmod 700  ~/.ssh
 [fanl@hadoop1 ~]$ chmod 600  ~/.ssh/authorized_keys
 ```
+
+其他用户也按照以上方法配置。

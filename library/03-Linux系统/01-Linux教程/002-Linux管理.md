@@ -144,14 +144,21 @@
 若提示缺少`ifconfig`、`netstat`，需要安装`yum install net-tools`
 
 ```bash
-[hadoop@centos01 ~]$ top           # 系统信息，资源管理器，3秒刷新，按q退出
-[hadoop@centos01 ~]$ free          # 查看内存，-m 按M显示，-g按G显示
-[hadoop@centos01 ~]$ df -l         # 查看硬盘分区和使用量
-[hadoop@centos01 ~]$ ps-ef         # 查看系统进程
-[hadoop@centos01 ~]$ kill -9 pid号 # 杀死进程，-9表示强制杀死
-[hadoop@centos01 ~]$ ip addr       # 查看网络信息
-[hadoop@centos01 ~]$ ifconfig      # 查看网络信息
-[hadoop@centos01 ~]$ ping 主机名/ip地址 #检查网络联通
+# =====系统信息，资源管理器，3秒刷新，按q退出========
+[hadoop@centos01 ~]$ top
+# =====查看内存，-m 按M显示，-g按G显示========
+[hadoop@centos01 ~]$ free
+# =====查看硬盘分区和使用量========
+[hadoop@centos01 ~]$ df -l
+# =====查看系统进程========
+[hadoop@centos01 ~]$ ps-ef
+# =====杀死进程，-9表示强制杀死========
+[hadoop@centos01 ~]$ kill -9 pid号
+# =====查看网络信息========
+[hadoop@centos01 ~]$ ip addr
+[hadoop@centos01 ~]$ ifconfig
+# =====检查网络联通========
+[hadoop@centos01 ~]$ ping 主机名/ip地址
 [hadoop@centos01 ~]$ netstat # 查看端口号
 							 # -t 监控TCP协议的进程
 							 # -l 查看端口是否被监听
@@ -160,8 +167,10 @@
 [root@centos01 ~]$ netstat -antp # 查看进程信息
 [root@centos01 ~]$ netstat -antp | grep 80    # 查看80端口
 [root@centos01 ~]$ netstat -antp | grep hbase # 查看hbase端口信息
-[root@centos01 ~]$ vmstat 2 5                 # 每2秒采集5次系统信息
-[root@centos01 ~]$ chkconfig --list           # 查看某些服务的开机自启动状态
+# =====每2秒采集5次系统信息========
+[root@centos01 ~]$ vmstat 2 5
+# =====查看某些服务的开机自启动状态========
+[root@centos01 ~]$ chkconfig --list
 ```
 
 ## Linux安装软件
@@ -169,7 +178,6 @@
 ### yum/wget在线安装
 
 ```bash
-[root@centos01 ~]$ yum list   # 查看yum源仓库中可安装的软件
 [root@centos01 ~]$ yum list   # 查看yum源仓库中可安装的软件
 [root@centos01 ~]$ yum list installed   # 查看系统中已经安装好的rpm包 rpm -qa 
 [root@centos01 ~]$ yum list  installed  | grep tree  
@@ -223,4 +231,48 @@ export PATH=$PATH:$JAVA_HOME/bin
 [fanl@centos01 jdk1.8.0_201]$ source /etc/profile
 # 检测JAVA环境
 [fanl@centos01 jdk1.8.0_201]$ java -version
+```
+
+### vi编辑器
+
+Linux内置文本编辑器。
+
+> 命令模式
+
+刚进入文件的时候的状态，或者是在插入模式按Esc后进入的模式。
+
+- nyy     复制包括光标在内的下面的n行内容
+- p	 将复制的内容粘贴到光标行的下面
+- ndd     删除包括光标在内的下面的n行内容  
+- u 	 撤销操作	
+- ZZ	 保存并退出 
+
+> 插入模式
+
+在命令行模式下按i或a或o进入插入模式开始编辑文件内容
+
+- i 	向当前光标处插入
+- a        向当前光标处的后面插入
+- o	向当前行的下一行插入
+
+> 最后行模式
+
+在命令模式下输入冒号 ：可进入到最后行模式。
+
+- :wq! 保存并退出
+
+- :w!  强制保存
+- :q!  强制退出
+
+永久性显示行号：修改`/etc/virc`，添加一句`set number`
+
+### 安装rsync
+
+rsync是远程文件同步工具。
+
+```bash
+[fanl@hadoop2 module]$ sudo yum -y install rsync
+# 常见错误-权限不足，查看对应的目录是否用用户的权限或者所属
+# 使用
+ rsync -rvl test fanl@192.168.157.152:/home/fanl/
 ```

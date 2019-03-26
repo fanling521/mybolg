@@ -1,8 +1,20 @@
 # Hadoop简介
 
-Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
+## 什么是大数据
 
-**主要解决**海量数据的采集，存储和海量数据分析计算问题。
+大数据（big data），指无法在一定时间范围内用常规软件工具进行捕捉、管理和处理的数据集合，是需要新处理模式才能具有更强的决策力、洞察发现力和流程优化能力的海量、高增长率和多样化的信息资产。
+
+### 大数据的特征
+
+- **Volume**：数据量大
+- **Variety**：种类和来源多样化
+- **Value**：数据价值密度相对较低
+- **Velocity**：数据增长速度快
+- **Veracity**：数据的可靠性
+
+## 什么是Hadoop
+
+Hadoop是一个由Apache基金会所开发的分布式系统基础架构，主要解决海量数据的采集，存储和海量数据分析计算问题。
 
 由*Doug Cutting* 设计开发，参考了谷歌的3篇论文，
 
@@ -12,7 +24,7 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
 （3）Bigtable: A Distributed Storage System for Structured Data
 
-## Haddop的发行版本
+## Hadoop的发行版本
 
 - Apache 版本，原始版本
 - Cloudera Hadoop版本，企业用的多
@@ -33,7 +45,7 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
 由以下组件组成：
 
-- Common 辅助工具
+- Hadoop Common 辅助工具
 - HDFS 数据存储
 - MapReduce 计算并且资源调度
 
@@ -41,7 +53,7 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
 由以下组件组成：
 
-- Common 辅助工具
+- Hadoop Common 辅助工具
 - HDFS 数据存储
 - Yarn 资源调度
 - MapReduce 计算
@@ -50,11 +62,15 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
 ## Hadoop 组成
 
+### Hadoop Common
+
+Hadoop基础设施和辅助工具
+
 ### HDFS架构概述
 
 > NameNode(nn)
 
-存储文件的元数据，如文件名，文件的目录结构，文件属性等，以及每个文件的块列表和块所在的DataNode等
+**存储文件的元数据**，如文件名，文件的目录结构，文件属性等，以及每个文件的块列表和块所在的DataNode等
 
 > DataNode(dn)
 
@@ -68,7 +84,7 @@ Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
 
 > ResourceManager
 
-处理客户端的请求，监控NodeManager，启动和监控Application Master(任务job)，负责资源的分配和调度
+处理客户端的请求，监控NodeManager，启动和监控Application Master(任务)，负责资源的分配和调度
 
 > NodeManager
 
