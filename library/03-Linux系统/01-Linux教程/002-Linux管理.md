@@ -1,6 +1,6 @@
 # Linux管理
 
-整理常见的，常用的命令以及其用法
+整理常见的，常用的命令以及其用法。
 
 ## Linux文件命令
 
@@ -199,9 +199,12 @@
 ### 离线安装rpm
 
 ```bash
-[root@centos01 ~]$ rpm -qa   #所有的
-[root@centos01 ~]$ rpm -e --nodeps xx # --nodeps 表示不检查依赖关系，强制卸载
-[root@centos01 ~]$ rpm -ivh xx.rpm #-vh 表示显示安装过程，-i  表示忽略大小写
+# =====所有的========
+[root@centos01 ~]$ rpm -qa
+# =====--nodeps 表示不检查依赖关系，强制卸载========
+[root@centos01 ~]$ rpm -e --nodeps xx
+# =====-vh 表示显示安装过程，-i  表示忽略大小写========
+[root@centos01 ~]$ rpm -ivh xx.rpm
 ```
 
 ### 压缩包离线安装JDK
@@ -214,7 +217,6 @@
 [fanl@centos01 software]$ tar -zxvf jdk-8u201-linux-x64.tar_2.gz -C /opt/module/
 # 记住当前路径
 [fanl@centos01 jdk1.8.0_201]$ pwd
-
 /opt/module/jdk1.8.0_201
 ```
 
@@ -222,14 +224,12 @@
 
 ```bash
 [fanl@centos01 jdk1.8.0_201]$ sudo vi /etc/profile
-# shift+g到最后一行
 # 添加以下内容
 export JAVA_HOME=/opt/module/jdk1.8.0_201
 export PATH=$PATH:$JAVA_HOME/bin
-##############################################
-# 报存后使其生效
+# =====生效========
 [fanl@centos01 jdk1.8.0_201]$ source /etc/profile
-# 检测JAVA环境
+# =====检查Java环境========
 [fanl@centos01 jdk1.8.0_201]$ java -version
 ```
 
@@ -264,7 +264,15 @@ Linux内置文本编辑器。
 - :w!  强制保存
 - :q!  强制退出
 
-永久性显示行号：修改`/etc/virc`，添加一句`set number`
+**永久性显示行号：**
+
+修改`/etc/virc`，添加一句`set number`
+
+**常见的替换字符：**
+
+:s#vivian/#sky/# 替换当前行第一个 vivian/ 为 sky/ 
+
+:%s#vivian/#sky/# 替换所有行第一个 vivian/ 为 sky/ 
 
 ### 安装rsync
 
@@ -273,6 +281,6 @@ rsync是远程文件同步工具。
 ```bash
 [fanl@hadoop2 module]$ sudo yum -y install rsync
 # 常见错误-权限不足，查看对应的目录是否用用户的权限或者所属
-# 使用
+# =====使用方法========
  rsync -rvl test fanl@192.168.157.152:/home/fanl/
 ```
