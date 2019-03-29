@@ -46,9 +46,12 @@
 ##### 大数据组件
 - **Hadoop教程**
 	- [Hadoop简介](?file=07-大数据组件/01-Hadoop教程/001-Hadoop简介 "Hadoop简介")
-	- [集群配置方式](?file=07-大数据组件/01-Hadoop教程/002-集群配置方式 "集群配置方式")
-	- [MapRedue教程](?file=07-大数据组件/01-Hadoop教程/003-MapRedue教程 "MapRedue教程")
-- **HDFS教程**
+	- [伪分布部署](?file=07-大数据组件/01-Hadoop教程/002-002-伪分布部署 "伪分布部署")
+	- [完全集群部署](?file=07-大数据组件/01-Hadoop教程/003-完全集群部署 "完全集群部署")
+	- [HDFS教程](?file=07-大数据组件/01-Hadoop教程/004-HDFS教程 "HDFS教程")
+	- [MapRedue教程](?file=07-大数据组件/01-Hadoop教程/005-MapRedue教程 "MapRedue教程")
+	- [YARN教程](?file=07-大数据组件/01-Hadoop教程/006-YARN教程 "YARN教程")
+- **Hive教程**
 
 ##### 编程工具
 - [Maven教程](?file=08-编程工具/001-Maven教程 "Maven教程")

@@ -67,7 +67,9 @@
 # =====拷贝目录========
 [root@centos01 ~]$ cp -r /opt/xx1 /opt/xx2/
 # =====远程复制========
-[root@centos01 ~]$ scp 文件 用户名@IP/hostname:路径
+[root@centos01 ~]$ scp 文件 用户名@IP/hostname:路径 # 发送 
+[root@centos01 ~]$ scp 用户名1@IP/hostname:路径 用户名@IP/hostname:路径 # 拉取
+[root@centos01 ~]$ scp -r 文件 用户名@IP/hostname:路径 # 发送 递归
 # =====将a.txt 移动到上层xx目录中========
 [root@centos01 ~]$ mv a.txt ../xx
 # =====将a.txt 重命名为b.txt========
