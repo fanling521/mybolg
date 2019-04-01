@@ -167,3 +167,4 @@ $ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcoun
 等待漫长时间出现错误，再次执行命令。
 
 编译成功的位置`hadoop-dist/target`
+

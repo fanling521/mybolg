@@ -42,6 +42,7 @@
 - [Scala语句](?file=05-Scala教程/003-Scala语句 "Scala语句")
 
 ##### Python3教程
+- [Python简介](?file=06-Python3教程/001-Python简介.md "Python简介")
 
 ##### 大数据组件
 - **Hadoop教程**

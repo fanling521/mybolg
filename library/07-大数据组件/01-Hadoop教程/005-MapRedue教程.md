@@ -74,13 +74,72 @@ MapReduce是一个分布式运算程序的编程框架。它的核心功能是�
 
 （1）必须实现`Writable`接口
 
-（2）反序列化时，需要反射调用空的构造函数，所以必须有空的构造函数
+（2）反序列化时，需要反射调用空的构造函数，**所以必须有空的构造函数**
 
 （3）重写序列化方法`write`和反序列方法`readFields`，顺序完全一致
 
-（4）自定义的Bean若在key中使用，需要实现`Comparable`接口，Shuffle过程要求对key必须能排序
+（4）自定义的Bean若在key中使用，需要实现`Comparable`接口，`Shuffle`过程要求对key必须能排序
 
 [手机流量统计的例子](https://github.com/fanling521/hadoop_demo)
 
 ## MapReduce框架原理
+
+###  InputFormat数据输入
+
+#### 切片与MapTask并行度决定机制
+
+MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整个Job的处理速度。
+
+**数据**块：Block是HDFS物理上把数据分成一块一块。
+**数据切片**：数据切片只是在逻辑上对输入进行分片，并不会在磁盘上将其切分成片进行存储。
+
+- 一个Job的Map阶段的并行数是由其在提交Job时候的切片数决定的
+- 每一个Split切片分配一个MapTask并行实例处理
+- 默认情况下，切片大小=块大小
+- 切片不考虑数据集整体，而是针对单位单独切片
+
+![assets/20190401161710.png]()
+
+#### Job提交流程源码和切片源码
+
+### MapReduce工作原理
+
+### Shuffle机制
+
+Map方法之后，Reduce方法之前的数据处理过程称之为Shuffle。
+
+#### Shuffle机制概述
+
+#### Partition分区
+
+> 默认分区
+
+![](assets/20190401161711.png)
+
+numReducerTasks可以在Job种设置，用户无法控制分区
+
+> 自定义分区
+
+（1）自定义类继承`Partitioner`，重写`getPartition()`方法
+
+（2）在Job中设置自定义类`job.setPartitionerClass()`
+
+（3）需要根据逻辑设置ReduceTask`job.setNumReducerTasks()`
+
+> 注意点
+
+- 分区号是从0开始逐一递增
+- ReducerTask数量和getPartition()不匹配都会出现问题或异常
+
+#### WritableComparable排序
+
+MapTask和ReduceTask都会对数据按照key排序，属于默认行为，默认按照字典顺序排序，且排序方式是快速排序
+
+对于MapTask，它会将处理的结果暂时放到环形缓冲区中，当环形缓冲区使用率达到一定阈值后，再对缓冲区中的数据进行一次快速排序，并将这些有序数据溢写到磁盘上，而当数据处理完毕后，它会对磁盘上所有文件进行归并排序。
+
+对于ReduceTask，它从每个MapTask上远程拷贝相应的数据文件，如果文件大小超过一定阈值，则溢写磁盘上，否则存储在内存中。如果磁盘上文件数目达到一定阈值，则进行一次归并排序以生成一个更大文件；如果内存中文件大小或者数目超过一定阈值，则进行一次合并后将数据溢写到磁盘上。当所有数据拷贝完毕后，ReduceTask统一对内存和磁盘上的所有数据进行一次归并排序。
+
+（1）原理解析
+
+bean对象做为key传输，需要实现WritableComparable接口重写compareTo方法，就可以实现排序。
 

@@ -272,3 +272,6 @@ public class UploadServlet extends HttpServlet {
 }
 ```
 
+forward：内部分发，地址栏不会发生变化
+
+redirect：重定向，地址栏发生变化
