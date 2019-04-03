@@ -1,4 +1,4 @@
-# 伪分布部署
+# Hadoop伪分布部署
 
 在一个节点上启动不同的进程，模拟多节点
 
@@ -77,7 +77,7 @@ $ hdfs dfs -mkdir -p /user/fanl/input
 # 创建完查看目录，已经存在路径，和linux命令是一致的 其中，bin/hdfs dfs 是固定的写法
 ```
 
-![控制板](E:/MyProject/fanl-earth/library/07-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%84%E4%BB%B6/01-Hadoop%E6%95%99%E7%A8%8B/assets/20190308195627.png)
+![控制板](assets/20190308195627.png)
 
 **例2：复制本地文件到HDFS**
 

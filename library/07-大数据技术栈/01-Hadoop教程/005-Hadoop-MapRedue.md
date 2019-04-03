@@ -1,4 +1,4 @@
-# MapRedue教程
+# Hadoop-MapRedue
 
 ## 什么是MapReduce
 

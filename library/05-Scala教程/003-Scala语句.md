@@ -20,7 +20,7 @@ def main(args: Array[String]): Unit = {
 
 ### 顺序控制
 
-和Java一样
+顺序控制结构的语法和Java是一样，不再说明了。
 
 ### 分支控制
 

@@ -1,4 +1,4 @@
-# IDEA教程
+# Intellij IDEA
 
 ## 设置
 

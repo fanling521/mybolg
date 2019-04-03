@@ -2,11 +2,28 @@
 
 ## 什么是SpringMVC
 
-## SpringMVC的原理
+SpringMvc是spring的一个模块，基于MVC的一个框架，无需中间整合层来整合。
 
-## SpringMVC的流程
+## SpringMVC的工作原理
 
+1. 发起请求到前端控制器（DispatcherServlet ）
+2. 前端控制器请求HandlerMapping查找Handler（可以根据xml、注解进行查找）
+3. 处理器映射器HandlerMapping向前端控制器DispatcherServlet 返回Handler
+4. 前端控制器DispatcherServlet 调用处理器适配器HandlerAdapter 执行Handler
+5. 处理器适配器HandlerAdapter 执行Handler
+6. Handler执行完给处理器适配器返回ModelAndView
+7. 处理器适配器向前端控制器返回ModelAndView 
+8. 前端控制器请求视图解析器去解析视图（JSP）
+9. 前端控制器进行视图渲染
+10. 前端控制器向用户响应结果
 
+相关组件
+
+- 前端控制器 DispatcherServlet
+- 处理器映射器HandlerMapping
+- 处理器适配器HandlerAdapter
+- 处理器Handler
+- 视图解析器 View Resolver
 
 ## SpringMVC简单用法
 
@@ -272,6 +289,8 @@ springMVC提供了简单的异常处理器
         }
     }
 ```
+
+## 相关面试题
 
 
 

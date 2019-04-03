@@ -2,115 +2,21 @@
 
 ## 项目简介
 
-本项目是一款基于 `Javascript` 脚本语言、使用 `Markdown` 标记语法的轻量级文库系统，框架使用了`amWiKi`。
+本项目是一款基于 `Javascript` 脚本语言、使用 `Markdown` 标记语法的轻量级文库系统，框架使用了`amWiki`。
 
-## Markdown基本语法
+## 如何使用
 
-Markdown是一种纯文本格式的标记语言。通过简单的标记语法，它可以使普通文本内容具有一定的格式。
+### 在线地址
 
-### 标题
+你可以直接访问[gitHubPages](http://www.fanling.xyz) 内容仅供参考
 
-```markdown
-# 这是一级标题
-## 这是二级标题
-### 这是三级标题
-#### 这是四级标题
-##### 这是五级标题
-###### 这是六级标题
-```
+### 自行安装
 
-### 字体
+1. 克隆项目到本地`git clone https://github.com/fanling521/fanl-earth.git`
+2. 本地需要有一个web服务器，可以使用`Nginx`
+3. 配置映射目录，浏览器访问
 
-```markdown
-**这是加粗的文字**
-*这是倾斜的文字*`
-***这是斜体加粗的文字***
-~~这是加删除线的文字~~
-```
+### 开发
 
-### 引用
-
-```markdown
->这是引用的内容
->>这是引用的内容
->>>>>>>>>>这是引用的内容
-```
-
-### 图片
-
-```markdown
-![图片alt](图片地址 ''图片title'')
-```
-
-### 超链接
-
-```markdown
-[百度](http://baidu.com)
-```
-
-### 列表
-
-```markdown
-- 列表内容
-+ 列表内容
-* 列表内容
-```
-
-### 表格
-
-```markdown
-表头|表头|表头
----|:--:|---:
-内容|内容|内容
-内容|内容|内容
-```
-
-### 代码
-
-~~~markdown
-`代码内容`
-```java 
-java代码
-```
-~~~
-
-## 目录
-
-- 前端教程
-  - HTML教程
-  - CSS教程
-  - JavaScript教程
-  - jQuery教程
-
-- Java教程
-  - Java基础
-  - Java面向对象
-  - JavaWeb开发
-  - Java练习
-
-- Linux教程
-  - Linux基础
-  - Shell编程
-
-- 数据库教程
-  - 数据库理论基础
-  - 常见的数据库
-  - Redis教程
-
-- Scala教程
-  - Scala简介
-  - Scala数据类型
-
-- Python3教程
-
-- 大数据组件
-
-  - Hadoop教程
-
-- 编程工具
-  - Maven
-  - Git
-
-  ---
-
-  
+本项目基于`amWiki` 仅仅需要关注`library`目录下的`.md`文件即可，`$navigation.md`文件是必需的。
+开发前，你需要了解`markdown`语法
