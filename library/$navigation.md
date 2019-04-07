@@ -43,7 +43,7 @@
 
 ##### Python3教程
 - [Python简介](?file=06-Python3教程/001-Python简介 "Python简介")
-- [Python面向对象](?file=06-Python3教程/002-Python面向对象 "Python面向对象")
+- [Python基础](?file=06-Python3教程/002-Python基础 "Python基础")
 
 ##### 大数据技术栈
 - **Hadoop教程**
@@ -57,7 +57,10 @@
 - **ZooKeeper教程**
 	- [Zookeeper概述](?file=07-大数据技术栈/02-ZooKeeper教程/001-Zookeeper概述 "Zookeeper概述")
 	- [Zookeeper开发](?file=07-大数据技术栈/02-ZooKeeper教程/002-Zookeeper开发 "Zookeeper开发")
-
+- **Hive教程**
+	- [Hive简介](?file=07-大数据技术栈/03-Hive教程/001-Hive简介 "Hive简介")
+	- [Hive安装与使用](?file=07-大数据技术栈/03-Hive教程/002-Hive安装与使用 "Hive安装与使用")		
+	
 ##### 编程工具
 - [Apache Maven](?file=08-编程工具/001-Apache Maven "Apache Maven")
 - [Intellij IDEA](?file=08-编程工具/002-Intellij IDEA "Intellij IDEA")

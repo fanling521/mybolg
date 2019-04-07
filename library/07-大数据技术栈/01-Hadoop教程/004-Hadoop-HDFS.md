@@ -294,6 +294,11 @@ VERSION
 
 #### NN启动过程
 
+NameNode启动后，会进入30秒的等待时间，此时处于安全模式，所谓的安全模式就是只能执行相关读取操作。此时，开始完成两件事
+
+1. 接受DataNode的心跳和块状态报告，心跳为每3秒发送一次，用来标记是否存活，而块的状态报告主要是用来发送NameNode节点下各个块的状态，默认每一小时发送一次，之后NameNode就会根据自身的元数据来比对DataNode发送的所有块报告的数据是否匹配来判断各个DataNode是否正常
+
+
 1. 第一次启动`NameNode`格式化后，创建`fsimage`和`edits`文件，如果不是第一次启动，先滚动`edits`并生成一个空的`edits.inprogress`，然后加载`fsimage`和`edits`到内存，也会合并`fsimage`和`edits`。
 2. 客户端发起对元数据进行**增删改**的请求（*查询元数据的操作不会被记录在`edits`中，因为查询操作不会更改元数据信息*）
 3. `NameNode`编辑日志先记录操作日志，更新滚动日志
@@ -406,11 +411,11 @@ NameNode不会立即把出现问题的节点判定为死亡，要经过一段时
 
 在黑名单上面的主机都会被强制退出
 
-（1）etc/hadoop目录下创建dfs.hosts.exclude文件，添加黑名单主机名
+（1）`etc/hadoop`目录下创建`dfs.hosts.exclude`文件，添加黑名单主机名
 
-（2）hdfs-site.xml配置文件中增加dfs.hosts.exclude属性
+（2）`hdfs-site.xml`配置文件中增加`dfs.hosts.exclude`属性
 
-（3）刷新NameNode、刷新ResourceManager
+（3）刷新`NameNode`、刷新`ResourceManager`
 
 （4）等待数据复制完毕后，该主机上关闭进程
 
@@ -435,4 +440,16 @@ DataNode也可以配置成多个目录，每个目录存储的数据不一样。
 ```bash
 hadoop distcp hdfs://haoop102:9000/user/hello.txt hdfs://hadoop103:9000/user/hello.txt
 ```
+
+## 相关问题
+
+（1）怎么用命令查看、删除、移动、拷贝HDFS上的文件？
+
+（2）简述NameNode启动过程
+
+（3）如何实现HDFS文件下载到服务器磁盘？
+
+（4）HDFS的DataNode保存哪些数据，进行简单描述
+
+（5）HDFS的存储机制是什么及如何保证数据安全性？
 

@@ -143,3 +143,8 @@ MapTask和ReduceTask都会对数据按照key排序，属于默认行为，默认
 
 bean对象做为key传输，需要实现WritableComparable接口重写compareTo方法，就可以实现排序。
 
+## 相关问题
+
+（1）简述MapReduce Join的实现
+
+（2）谈谈MapRedcue的运行流程
