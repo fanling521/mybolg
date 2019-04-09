@@ -60,6 +60,9 @@
 - **Hive教程**
 	- [Hive简介](?file=07-大数据技术栈/03-Hive教程/001-Hive简介 "Hive简介")
 	- [Hive安装与使用](?file=07-大数据技术栈/03-Hive教程/002-Hive安装与使用 "Hive安装与使用")		
+	- [Hive数据操作](?file=07-大数据技术栈/03-Hive教程/003-Hive数据操作 "Hive数据操作")
+- **大数据协作框架**
+	- [Sqoop教程](?file=07-大数据技术栈/05-大数据协作框架/001-Sqoop教程 "Sqoop教程")
 	
 ##### 编程工具
 - [Apache Maven](?file=08-编程工具/001-Apache Maven "Apache Maven")
