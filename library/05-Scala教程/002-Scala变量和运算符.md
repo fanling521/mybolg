@@ -6,16 +6,17 @@
 
 ### 变量的使用
 
-#### 声明方式
-
+```scala
 var|val 变量名:变量类型=初始值
+```
 
-var 修饰的变量是可以修改的，而val修饰的变量是不可修改的。
+var 修饰的变量是可以修改的，而val修饰的变量是不可修改的，相当于Java中的final修饰符。
 
-说明：
+### 变量的注意事项
 
-- 变量类型可不写，编译器自行推导，即类型推导，IDEA编辑器也可提示，或者**isInstanceOf[Int]**
-- 类型确定就不能修改，Scala是强数据型语言
+变量类型可不写，编译器自行推导，即类型推导，IDEA编辑器也可提示，或者**isInstanceOf[Int]**，类型确定就不能修改，Scala是强数据型语言。
+
+### 数据类型
 
 Scala 与 Java有着相同的数据类型，但是Scala的数据类型**都是对象**，数据类型分为两大类：**AnyVal**和**AnyRef**
 
@@ -32,13 +33,17 @@ Scala 与 Java有着相同的数据类型，但是Scala的数据类型**都是�
 | Nothing      | 它是任何其他类型的子类型                 | Any      | 其他类的超类       |
 | AnyRef       | Scala里所有引用类(reference class)的基类 |          |                    |
 
-- 在Scala中，Any是一切类的夫类
+![数据类型](assets/20190402192632.png)
+
+- 在Scala中，Any是一切类的父类
 - 在Scala中，Nothing是一切类的子类
 - 在Scala中，Null是null，只有一个值null，是AnyRef的子类
 
-## 类型说明
+### 类型说明
 
-### Char
+其他的类型和Java是一样的，这里就不再说明了。
+
+#### Char说明
 
 char赋值整型数字，输出对应的unicode编码，包含了ASCII码。
 
@@ -60,7 +65,7 @@ def main(args: Array[String]): Unit = {
   }
 ```
 
-### 自动类型转换
+#### 自动类型转换
 
 Scala进行运算和赋值时候，精度小的类型自动转换成精度大的类型。
 
@@ -68,13 +73,13 @@ Scala进行运算和赋值时候，精度小的类型自动转换成精度大的
 
 ![](assets/20190320192444.png)
 
-### 强制类型转换
+#### 强制类型转换
 
 将精度高的转为精度小的类型，使用强制转换函数，**但是会造成精度降低和溢出**。
 
-### 值类型和String的转换
+#### 值类型和String的转换
 
-#### 基本类型转String
+##### 基本类型转String
 
 基本类型+“”即可完成转换
 
@@ -83,7 +88,7 @@ var i:Int=1
 println(i+"")
 ```
 
-#### String转基本类型
+##### String转基本类型
 
 通过String.toXX即可，但是要确保字符串是数字且能预期转成对应的类型。
 
@@ -95,7 +100,7 @@ str2.toInt  //error
 str2.toDouble //ok
 ```
 
-## 标识符
+### 标识符
 
 ```scala
 var ++ :String='hello' //ok
@@ -117,7 +122,7 @@ var Int:Int=12
 
 _不能单独使用
 
-## 运算符
+## Scala的运算符
 
 ### 算数运算符
 

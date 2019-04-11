@@ -319,3 +319,43 @@ hive> desc function extended upper;
 
 根据用户自定义函数类别分为以下三种：UDF（一进一出）、UDAF（多进一出）、UDTF（一进多出）
 
+实现步骤：
+
+（1）继承`org.apache.hadoop.hive.ql.UDF`
+
+（2）需要实现evaluate函数；evaluate函数支持重载
+
+```java
+    public Text evaluate(Text field) {
+        if (field == null) {
+            return null;
+        } else {
+            return new Text(field.toString().toLowerCase());
+        }
+    }
+```
+
+（3）在hive的命令行窗口创建函数，添加jar
+
+```bash
+hive(default)> add jar /home/fanl/lib/hivedemo-1.0.0.jar;
+```
+
+（4）创建临时函数
+
+```bash
+hive(default)> create [temporary] function mylowwer as 'com.fanling.hivedemo.MyUDF';
+hive(default)> select mylowwer(ename) from emp;
+hive(default)>
+```
+
+## Hive 压缩和存储
+
+### 开启Map输出阶段压缩
+
+### 开启Reduce输出阶段压缩
+
+### 文件存储格式
+
+Hive支持的存储数的格式主要有：`Textfile`、`Sequencefile`、`Orc`、`Parquet`
+

@@ -25,7 +25,7 @@ Hive由Facebook开源用于解决海量结构化日志的数据统计，是基�
 
 ### 架构原理
 
-1. 用户接口：Client CLI（hive shell）、JDBC/ODBC(java访问hive)、WEBUI（浏览器访问hive）
+1. 用户接口：Client CLI（hive shell）、JDBC/ODBC(java访问hive)、HWI（浏览器访问hive）
 2. 元数据：Metastore元数据包括：表名、表所属的数据库（默认是default）、表的拥有者、列/分区字段、表的类型（是否是外部表）、表的数据所在目录等，默认存储在自带的derby数据库中，推荐使用MySQL存储Metastore
 3. 使用HDFS进行存储，使用MapReduce进行计算。
 4. 驱动器：Driver
@@ -46,3 +46,5 @@ Hive为数据仓库而设计，不是数据库。
 ## 面试题
 
 （1）Hive的主要作用是什么？
+
+（2）Hive的体系结构是什么？

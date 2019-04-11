@@ -1,81 +1,57 @@
 # Scalla简介
 
-Scala（Scalable Language） 是一门**多范式**（multi-paradigm）的编程语言，设计初衷是要集成*面向对象编程*和*函数式编程*的各种特性。
+Scala是一门以JVM为运行环境并将面向对象和函数式编程的结合一起的静态型编程语言。
 
-Scala 运行在Java虚拟机上，并兼容现有的Java程序。
+## Scala和Java以及JVM的关系
 
-Scala 源代码被编译成Java字节码，所以它可以运行于JVM之上，并可以调用现有的Java类库。
+1. Java使用JDK大量类库完成开发，通过Java编译器编译成字节码，运行在JVM上
+2. Scala也使用ScalaSDK完成开发，ScalaSDK封装了对Java类库的支持，通过Scala编译器编译成字节码，运行在虚拟机上
 
-## Scala 特性
+## 开始编写Scala程序
 
-> 面向对象特性
+### Scala的Hello编写、编译、运行
 
-Scala是一种纯面向对象的语言，每个值都是对象。对象的数据类型以及行为由类和特质描述。
-
-类抽象机制的扩展有两种途径：一种途径是子类继承，另一种途径是灵活的混入机制。这两种途径能避免多重继承的种种问题。
-
-> 函数式编程
-
-Scala也是一种函数式语言，其函数也能当成值来使用。Scala提供了轻量级的语法用以定义匿名函数，支持高阶函数，允许嵌套多层函数，并支持柯里化。Scala的case class及其内置的模式匹配相当于函数式编程语言中常用的代数类型。
-
-更进一步，程序员可以利用Scala的模式匹配，编写类似正则表达式的代码处理XML数据。
-
->  静态类型
-
-Scala具备类型系统，通过编译时检查，保证代码的安全性和一致性。类型系统具体支持以下特性：
-
-- 泛型类
-- 协变和逆变
-- 标注
-- 类型参数的上下限约束
-- 把类别和抽象类型作为对象成员
-- 复合类型
-- 引用自己时显式指定类型
-- 视图
-- 多态方法
-
-> 扩展性
-
-Scala的设计秉承一项事实，即在实践中，某个领域特定的应用程序开发往往需要特定于该领域的语言扩展。Scala提供了许多独特的语言机制，可以以库的形式轻易无缝添加新的语言结构：
-
-- 任何方法可用作前缀或后缀操作符
-- 可以根据预期类型自动构造闭包。
-
-## 第一个 Scala 程序
-
-### 环境变量
-
-- SCALA_HOME=目录
-- Path=%SCALA_HOME%\bin
-
-### 执行方式
-
-> 命令行形式
-
-```shell
-scala> println("Hello World")
-Hello World
-```
-
-> 脚本形式
+在Hello.scala中编写
 
 ```scala
-object HelloWorld{
+object Hello{
 	def main(args:Array[String]):Unit={
-		println("HelloWorld");
+		println("Hello");
 	}
 }
 ```
 
-接下来我们使用 scalac 命令编译它：
+接下来我们使用 Scalac 命令编译它：
 
 ```shell
-> scalac HelloWorld.scala
-> scala HelloWorld
+> scalac Hello.scala
+> scala Hello
 ```
 
-通过编译后会生成HelloWorld.class 和 HelloWorld$.class
+通过编译后会生成Hello.class 和 Hello$.class
 
+它实际的运行方式模拟如下：
+
+```java
+public class Hello {
+    public static void main(String[] args) {
+        Hello$.MODULES$.main(args);
+    }
+}
+
+public class Hello$ {
+    public static Hello$ MODULES$;
+
+    static {
+        MODULES$=new Hello$();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("hello");
+    }
+}
+
+```
 说明：
 
 - def 表示这是一个方法
@@ -84,19 +60,23 @@ object HelloWorld{
 - Array[String] 是字符数组类型
 - :Unit= 表示没有返回值，相当于Java的void
 
-## Scala的注意点
+### Scala的编程注意点
 
-- **区分大小写** 
+- Scala语言严格**区分大小写** 
 - **类名** - 对于所有的类名的第一个字母要大写
 - **方法名称** - 所有的方法名称的第一个字母用小写
-- **程序文件名** - 程序文件的名称应该与对象名称完全匹配(新版本不需要了，但建议保留这种习惯)。
+- **程序文件名** - 程序文件的名称应该与对象名称完全匹配（新版本不需要了，但建议保留这种习惯）。
 - **def main(args: Array[String])** - Scala程序从main()方法开始处理，这是每一个Scala程序的强制程序入口部分，但是不是最终的入口，**是被包装的入口**
 - Scala是面向行的语言，语句可以用分号（;）结束或换行符,如果一行里写多个语句那么分号是需要的
-- 可以直接运行*.scala
+- 支持直接运行`*.scala`文件
 
-## Scala的字符串输出方式
+### Scala的转义符
 
-### 类似Java的写法
+和Java一样，不再说明。
+
+### Scala的字符串输出
+
+（1）类似Java的写法，通过+号连接
 
 ```scala
 def main(args: Array[String]): Unit = {
@@ -106,7 +86,7 @@ def main(args: Array[String]): Unit = {
 }
 ```
 
-### 类似C语言的格式化输出
+（2）printf格式化输出
 
 ```scala
 var name:String ="fanl"
@@ -116,7 +96,7 @@ var height:Double=180.21
 printf("姓名%s，年龄%d，薪水：%.2f，身高%.3f",name,age,sal,height)
 ```
 
-### 类似PHP的$取值
+（3）通过$取值
 
 ```scala
 var str3:String ="hello"
@@ -125,13 +105,7 @@ println(s"第一个字段$str3，第二个字段$str4")
 println(s"2年后的年龄是${age+2}")
 ```
 
-## Scala注释和官方指南
+### Scala的注释
 
-### Scala注释和导出文档
-
-和Java类似
-
-### Scala源码和官方指南
-
-下载源码包和指南包即可
+和Java类似，不再说明。
 
