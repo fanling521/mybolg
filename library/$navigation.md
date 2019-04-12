@@ -38,8 +38,8 @@
 
 ##### Scala教程
 - [Scala简介](?file=05-Scala教程/001-Scala简介 "Scala简介")
-- [Scala数据类型](?file=05-Scala教程/002-Scala数据类型 "Scala数据类型")
-- [Scala语句](?file=05-Scala教程/003-Scala语句 "Scala语句")
+- [Scala变量和运算符](?file=05-Scala教程/002-Scala变量和运算符 "Scala变量和运算符")
+- [Scala流程控制](?file=05-Scala教程/003-Scala流程控制 "Scala流程控制")
 
 ##### Python3教程
 - [Python简介](?file=06-Python3教程/001-Python简介 "Python简介")
@@ -54,15 +54,21 @@
 	- [Hadoop-MapRedue](?file=07-大数据技术栈/01-Hadoop教程/005-Hadoop-MapRedue "Hadoop-MapRedue")
 	- [Hadoop-YARN](?file=07-大数据技术栈/01-Hadoop教程/006-Hadoop-YARN "Hadoop-YARN")
 	- [系统优化和总结](?file=07-大数据技术栈/01-Hadoop教程/007-系统优化和总结 "系统优化和总结")
-- **ZooKeeper教程**
-	- [Zookeeper概述](?file=07-大数据技术栈/02-ZooKeeper教程/001-Zookeeper概述 "Zookeeper概述")
-	- [Zookeeper开发](?file=07-大数据技术栈/02-ZooKeeper教程/002-Zookeeper开发 "Zookeeper开发")
 - **Hive教程**
-	- [Hive简介](?file=07-大数据技术栈/03-Hive教程/001-Hive简介 "Hive简介")
-	- [Hive安装与使用](?file=07-大数据技术栈/03-Hive教程/002-Hive安装与使用 "Hive安装与使用")		
-	- [Hive数据操作](?file=07-大数据技术栈/03-Hive教程/003-Hive数据操作 "Hive数据操作")
-- **大数据协作框架**
-	- [Sqoop教程](?file=07-大数据技术栈/05-大数据协作框架/001-Sqoop教程 "Sqoop教程")
+	- [Hive简介](?file=07-大数据技术栈/02-Hive教程/001-Hive简介 "Hive简介")
+	- [Hive安装与使用](?file=07-大数据技术栈/02-Hive教程/002-Hive安装与使用 "Hive安装与使用")		
+	- [Hive数据操作](?file=07-大数据技术栈/02-Hive教程/003-Hive数据操作 "Hive数据操作")
+	- [Hive优化](?file=07-大数据技术栈/02-Hive教程/004-Hive优化 "Hive优化")
+- **Hbase教程**
+	- [HBase简介](?file=07-大数据技术栈/03-HBase教程/001-HBase简介 "HBase简介")
+	- [HBase安装](?file=07-大数据技术栈/03-HBase教程/002-HBase安装 "HBase安装")
+	- [HBase数据结构](?file=07-大数据技术栈/03-HBase教程/003-HBase数据结构 "HBase数据结构")
+	- [HBase原理](?file=07-大数据技术栈/03-HBase教程/004-HBase原理 "HBase原理")
+	- [HBaseAPI操作](?file=07-大数据技术栈/03-HBase教程/005-HBaseAPI操作 "HBaseAPI操作")
+	- [HBase优化](?file=07-大数据技术栈/03-HBase教程/006-HBase优化 "HBase优化")
+- **大数据生态协助框架**
+	- [Sqoop教程](?file=07-大数据技术栈/04-大数据生态协助框架/001-Sqoop教程 "Sqoop教程")
+	- [Zookeeper教程](?file=07-大数据技术栈/04-大数据生态协助框架/002-Zookeeper教程 "Zookeeper教程")
 	
 ##### 编程工具
 - [Apache Maven](?file=08-编程工具/001-Apache Maven "Apache Maven")

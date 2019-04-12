@@ -143,6 +143,14 @@ MapTask和ReduceTask都会对数据按照key排序，属于默认行为，默认
 
 bean对象做为key传输，需要实现WritableComparable接口重写compareTo方法，就可以实现排序。
 
+## Hadoop压缩
+
+压缩的基本原则：
+
+（1）运算密集型的少用压缩
+
+（2）IO密集型的多用压缩
+
 ## 相关问题
 
 （1）简述MapReduce Join的实现

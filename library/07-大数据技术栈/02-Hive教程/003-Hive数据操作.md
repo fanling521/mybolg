@@ -16,7 +16,26 @@
 
 ### 集合数据类型
 
-//TODO
+Hive有三种复杂数据类型ARRAY、MAP 和 STRUCT。ARRAY和MAP与Java中的Array和Map类似，而STRUCT与C语言中的Struct类似，它封装了一个命名字段集合，复杂数据类型允许任意层次的嵌套。
+
+```sql
+create table test(
+name string,
+friends array<string>,
+children map<string, int>,
+address struct<street:string, city:string>
+)
+row format delimited fields terminated by ','
+collection items terminated by '_'
+map keys terminated by ':'
+lines terminated by '\n';
+```
+
+**字段解释**：
+`row format delimited fields terminated by ','`  -- 列分隔符
+`collection items terminated by '_'`  	               --MAP STRUCT 和 ARRAY 的分隔符(数据分割符号)
+`map keys terminated by ':'`				          -- MAP中的key与value的分隔符
+`lines terminated by '\n';`					    -- 行分隔符
 
 ## DDL数据定义
 
@@ -301,7 +320,39 @@ hive (default)> insert overwrite local directory '/home/fanl/emp' select * from 
 
 ### 分桶和抽样查询
 
-TODO
+#### 分桶
+
+分区针对的是数据的存储路径；分桶针对的是数据文件。
+
+创建分桶表时，数据通过子查询的方式导入
+
+```sql
+create table stu_buck(id int, name string)
+clustered by(id) 
+into 4 buckets
+row format delimited fields terminated by '\t';
+```
+
+```bash
+hive (default)> set hive.enforce.bucketing=true;
+hive (default)> set mapreduce.job.reduces=-1;
+hive (default)> insert into table stu_buck
+select id, name from stu;
+```
+
+#### 分桶抽样查询
+
+对于非常大的数据集，有时用户需要使用的是一个具有代表性的查询结果而不是全部结果。Hive可以通过对表进行抽样来满足这个需求。
+
+```bash
+hive (default)> select * from stu_buck tablesample(bucket 1 out of 4 on id);
+```
+
+**注**：tablesample是抽样语句，语法：`TABLESAMPLE(BUCKET x OUT OF y)`
+
+y必须是table总bucket数的倍数或者因子。hive根据y的大小，决定抽样的比例。例如，table总共分了4份，当y=2时，抽取(4/2=)2个bucket的数据，当y=8时，抽取(4/8=)1/2个bucket的数据。
+
+x表示从哪个bucket开始抽取，如果需要取多个分区，以后的分区号为当前分区号加上y。
 
 ## Hive的函数
 
@@ -349,13 +400,12 @@ hive(default)> select mylowwer(ename) from emp;
 hive(default)>
 ```
 
-## Hive 压缩和存储
-
-### 开启Map输出阶段压缩
-
-### 开启Reduce输出阶段压缩
-
-### 文件存储格式
+## 文件存储格式
 
 Hive支持的存储数的格式主要有：`Textfile`、`Sequencefile`、`Orc`、`Parquet`
+
+TEXTFILE和SEQUENCEFILE的存储格式都是基于行存储的；
+ORC和PARQUET是基于列式存储的。
+
+在实际的项目开发当中，hive表的数据存储格式一般选择：orc或parquet。压缩方式一般选择snappy，lzo。
 
