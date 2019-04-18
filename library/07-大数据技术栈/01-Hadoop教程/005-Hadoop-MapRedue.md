@@ -14,13 +14,13 @@ MapReduce是一个分布式运算程序的编程框架。它的核心功能是�
 - 不适合实时计算
 - 不适合流式计算
 
-## MapReduce核心思想
+### MapReduce核心思想
 
 - Map阶段，并发执行MapTask，互不干扰
 - Reduce阶段，并发执行ReduceTask，互不干扰，但是他们依赖Map阶段的输出
 - MapReduce模型只能有1个Map阶段和1个Reduce阶段，如果业务复杂，多增加MapReduce，上一个MapReduce的输出作为输入
 
-## MapReduce编程规范
+### MapReduce编程规范
 
 ### 常用数据序列化类型
 
@@ -36,41 +36,18 @@ MapReduce是一个分布式运算程序的编程框架。它的核心功能是�
 | map       | MapWritable         |
 | array     | ArrayWritable       |
 
-### MapReduce编程过程
-
-用户编写的程序分成三个部分：`Mapper`、`Reducer`和`Driver`。
-
-#### MapReduce之Mapper
-
-1. 用户自定义的Mapper类要继承父类Mapper
-2. 自定义输入输出类型KV对
-3. 业务逻辑在map方法中重写，MapTask进程对每一个<K，V>调用一次
-
-#### MapReduce之Reducer
-
-1. 用户自定义的Reducer类要继承父类Reducer
-2. 自定义输入输出类型KV对
-3. 业务逻辑在reducer方法中重写，ReduceTask进程对每一个<K，V>调用一次
-
-#### MapReduce之Driver
-
-相当于YARN的客户端，提交的是MP程序运行相关的参数和job对象
-
-### Hadoop 序列化
+#### Hadoop 序列化
 
 - **序列化**：将内存中的对象转换成字节序列（或者其他输出协议）以便持久化和网络传输。
-
 - **反序列化**：将持久化的磁盘数据或者字节序列转化成内存中的对象。
-
 - **为什么要序列化**：方便的存储或者在网络中传输。
 
-#### 什么是Hadoop序列化
+##### 什么是Hadoop序列化
 
 - **为什么不用Java的序列化**：重量级序列化框架`Serializable`附带信息较多，不便于在网络中高效传输。
-
 - **Haoop序列化的特点**：紧凑，快速，可扩展，互操作。
 
-#### 自定义实现Writable
+##### 自定义实现Writable
 
 （1）必须实现`Writable`接口
 
@@ -78,15 +55,35 @@ MapReduce是一个分布式运算程序的编程框架。它的核心功能是�
 
 （3）重写序列化方法`write`和反序列方法`readFields`，顺序完全一致
 
-（4）自定义的Bean若在key中使用，需要实现`Comparable`接口，`Shuffle`过程要求对key必须能排序
+（4）自定义的Bean若在key中使用，需要实现`Comparable`接口，`Shuffle`过程要求对`key`必须能排序
+
+## MapReduce编程过程
+
+用户编写的程序分成三个部分：`Mapper`、`Reducer`和`Driver`。
+
+### MapReduce之Mapper
+
+1. 用户自定义的Mapper类要继承父类Mapper
+2. 自定义输入输出类型KV对
+3. 业务逻辑在map方法中重写，MapTask进程对每一个<K，V>调用一次
+
+### MapReduce之Reducer
+
+1. 用户自定义的Reducer类要继承父类Reducer
+2. 自定义输入输出类型KV对
+3. 业务逻辑在reducer方法中重写，ReduceTask进程对每一个<K，V>调用一次
+
+### MapReduce之Driver
+
+相当于YARN的客户端，提交的是MP程序运行相关的参数和job对象
 
 [手机流量统计的例子](https://github.com/fanling521/hadoop_demo)
 
-## MapReduce框架原理
+## MapReduce框架原理⭐
 
-###  InputFormat数据输入
+###  InputFormat输入
 
-#### 切片与MapTask并行度决定机制
+#### 切片机制
 
 MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整个Job的处理速度。
 
@@ -100,15 +97,18 @@ MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整�
 
 ![assets/20190401161710.png]()
 
-#### Job提交流程源码和切片源码
-
 ### MapReduce工作原理
+
+
 
 ### Shuffle机制
 
 Map方法之后，Reduce方法之前的数据处理过程称之为Shuffle。
 
-#### Shuffle机制概述
+#### Shuffle概述
+
+shuffle过程包括在Map和Reduce两端中。
+在Map端的shuffle过程是对Map的结果进行分区（partition）、排序（sort）和分割（spill），然后将属于同一个划分的输出合并在一起
 
 #### Partition分区
 
@@ -142,6 +142,16 @@ MapTask和ReduceTask都会对数据按照key排序，属于默认行为，默认
 （1）原理解析
 
 bean对象做为key传输，需要实现WritableComparable接口重写compareTo方法，就可以实现排序。
+
+#### Combiner合并
+
+### MapTask工作机制
+
+### ReduceTask工作机制
+
+### OutputFormat输出
+
+### Join
 
 ## Hadoop压缩
 

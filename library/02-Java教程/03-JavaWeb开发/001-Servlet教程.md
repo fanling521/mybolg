@@ -275,3 +275,9 @@ public class UploadServlet extends HttpServlet {
 forward：内部分发，地址栏不会发生变化
 
 redirect：重定向，地址栏发生变化
+
+## 相关问题
+
+1. 什么是Servlet
+2. doGet和doPost的区别
+3. HTTP响应的体系结构

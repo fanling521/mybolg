@@ -166,10 +166,10 @@ hive (default)> select * from student_partition where month='201901';
 -- 可以使用union all 联合查询多个分区数据
 ```
 
-（5）为已经存在的表新增分区和将分区删除掉
+（5）为已经存在的表新增分区和将分区删除掉，单个和多个都可以。
 
 ```sql
-hive (default)> alter table student add(drop) partition(month='201901')[,partition(month='201902')];
+hive (default)> alter table student add partition(month='201901'),partition(month='201902');
 -- 查看表有多少分区
 hive (default)> show partitions student_partition;
 OK
@@ -177,6 +177,14 @@ partition
 month=201901
 month=201902
 Time taken: 0.113 seconds, Fetched: 2 row(s)
+
+hive (default)> alter table student drop partition(month='201901'),partition(month='201902');
+```
+
+（6）修复分区表，修复元数据
+
+```bash
+hive (default)> msck repair table student_partition;
 ```
 
 #### 修改表
@@ -318,6 +326,20 @@ hive (default)> insert overwrite local directory '/home/fanl/emp' select * from 
 
 当distribute by和sort by字段相同时，可以使用cluster by方式，但是排序只能是升序排序。
 
+> （3）行转列
+
+`CONCAT(string A/col, string B/col…)`：返回输入字符串连接后的结果，支持任意个输入字符串;
+`CONCAT_WS(separator, str1, str2,...)`：它是一个特殊形式的 CONCAT()。第一个参数剩余参数间的分隔符。分隔符可以是与剩余参数一样的字符串。如果分隔符是 NULL，返回值也将为 NULL。这个函数会跳过分隔符参数后的任何 NULL 和空字符串。分隔符将被加到被连接的字符串之间;
+`COLLECT_SET(col)`：函数只接受基本数据类型，它的主要作用是将某字段的值进行去重汇总，产生array类型字段。
+
+> （4）列转行
+
+explode(col)：将Hive一列中复杂的array或者map结构拆分成多行。
+
+用法：lateral view udtf(expression) 表别称AS 显示的列名
+
+解释：用于和split, explode等UDTF一起使用，它能够将一列数据拆成多行数据，在此基础上可以对拆分后的数据进行聚合。
+
 ### 分桶和抽样查询
 
 #### 分桶
@@ -365,6 +387,12 @@ hive> desc function upper;
 # 查看函数的详细描述、用法
 hive> desc function extended upper;
 ```
+
+### 高级函数
+
+（1）case when
+
+（2）窗口函数
 
 ### 自定义函数UDF
 

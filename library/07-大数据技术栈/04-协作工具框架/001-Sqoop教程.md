@@ -2,7 +2,7 @@
 
 ## Sqoop简介
 
-Sqoop（SQL to Hadoop）是一款开源的工具，主要用于在`Hadoop`与传统的数据库间进行数据的传递，可以将一个关系型数据库中的数据导进到`Hadoop`的`HDFS`中，也可以将`HDFS`的数据导进到关系型数据库中。
+Sqoop是一款开源的工具，主要用于在`Hadoop`与传统的数据库间进行数据的传递，可以将一个关系型数据库中的数据导进到`Hadoop`的`HDFS`中，也可以将`HDFS`的数据导进到关系型数据库中。
 
 ## Sqoop原理
 
@@ -23,10 +23,10 @@ Sqoop（SQL to Hadoop）是一款开源的工具，主要用于在`Hadoop`与传
 
 ```bash
 #Set path to where bin/hadoop is available
-export HADOOP_COMMON_HOME=/opt/modules/cdh5.14.2/hadoop-cdh5.14.12
+export HADOOP_COMMON_HOME=/opt/modules/cdh5.14.2/hadoop-2.6.0-cdh5.14.2
 
 #Set path to where hadoop-*-core.jar is available
-export HADOOP_MAPRED_HOME=/opt/modules/cdh5.14.2/hadoop-cdh5.14.12
+export HADOOP_MAPRED_HOME=/opt/modules/cdh5.14.2/hadoop-2.6.0-cdh5.14.2
 
 #set the path to where bin/hbase is available
 #export HBASE_HOME=

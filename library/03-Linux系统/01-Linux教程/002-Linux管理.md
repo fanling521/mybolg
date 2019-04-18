@@ -55,6 +55,10 @@
 [root@centos01 ~]$ more xx
 # =====支持上下键和翻页键========
 [root@centos01 ~]$ less xx
+# 空白键翻页
+# 上下键翻页
+# /查找
+# q
 # =====默认前10行，可自定义n========
 [root@centos01 ~]$ head -n xx
 # =====创建文件========
@@ -177,6 +181,27 @@
 [root@centos01 ~]$ chkconfig --list
 ```
 
+### 时间操作
+
+```bash
+# 显示当前时间
+[root@centos01 ~]$ date 
+[root@centos01 ~]$ date -R
+# 按格式显示时间
+[fanl@centos7 ~]$ date +"%Y-%m-%d %H:%m:%S"
+2019-04-17 19:04:27
+# 显示前一天
+[root@centos01 ~]$ date -d '1 days ago'
+# 设置时间
+[root@centos01 ~]$ date -s 'xx'
+# 当月的日历
+[root@centos01 ~]$ cal 
+# 某年的日历
+[root@centos01 ~]$ cal 2017
+```
+
+
+
 ## Linux安装软件
 
 ### yum/wget在线安装
@@ -245,9 +270,9 @@ Linux内置文本编辑器。
 
 刚进入文件的时候的状态，或者是在插入模式按Esc后进入的模式。
 
-- nyy     复制包括光标在内的下面的n行内容
+- yny     复制包括光标在内的下面的n行内容
 - p	 将复制的内容粘贴到光标行的下面
-- ndd     删除包括光标在内的下面的n行内容  
+- dnd     删除包括光标在内的下面的n行内容  
 - u 	 撤销操作	
 - ZZ	 保存并退出 
 
@@ -264,9 +289,11 @@ Linux内置文本编辑器。
 在命令模式下输入冒号 ：可进入到最后行模式。
 
 - :wq! 保存并退出
-
 - :w!  强制保存
 - :q!  强制退出
+- :/查找
+- : set nu 设置行号 set nonu
+- %s/str1/str2 将str1替换成str2
 
 **永久性显示行号：**
 

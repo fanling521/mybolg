@@ -66,9 +66,10 @@
 	- [HBase原理](?file=07-大数据技术栈/03-HBase教程/004-HBase原理 "HBase原理")
 	- [HBaseAPI操作](?file=07-大数据技术栈/03-HBase教程/005-HBaseAPI操作 "HBaseAPI操作")
 	- [HBase优化](?file=07-大数据技术栈/03-HBase教程/006-HBase优化 "HBase优化")
-- **大数据生态协助框架**
-	- [Sqoop教程](?file=07-大数据技术栈/04-大数据生态协助框架/001-Sqoop教程 "Sqoop教程")
-	- [Zookeeper教程](?file=07-大数据技术栈/04-大数据生态协助框架/002-Zookeeper教程 "Zookeeper教程")
+- **协作工具框架**
+	- [Sqoop教程](?file=07-大数据技术栈/04-协作工具框架/001-Sqoop教程 "Sqoop教程")
+	- [Zookeeper教程](?file=07-大数据技术栈/04-协作工具框架/002-Zookeeper教程 "Zookeeper教程")
+	- [Flume教程](?file=07-大数据技术栈/04-协作工具框架/003-Flume教程 "Flume教程")
 	
 ##### 编程工具
 - [Apache Maven](?file=08-编程工具/001-Apache Maven "Apache Maven")

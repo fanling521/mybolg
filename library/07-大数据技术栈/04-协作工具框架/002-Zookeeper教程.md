@@ -2,9 +2,9 @@
 
 ## 什么是Zookeeper
 
-ZooKeeper是一种开源的、分布式协调服务。
+ZooKeeper是一种开源分布式协调服务。
 
-## 分布式部署
+## Zookeeper的部署
 
 在第一台上配置，然后分发修改。
 
