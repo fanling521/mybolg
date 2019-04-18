@@ -61,15 +61,15 @@
 	- [Hive优化](?file=07-大数据技术栈/02-Hive教程/004-Hive优化 "Hive优化")
 - **Hbase教程**
 	- [HBase简介](?file=07-大数据技术栈/03-HBase教程/001-HBase简介 "HBase简介")
-	- [HBase安装](?file=07-大数据技术栈/03-HBase教程/002-HBase安装 "HBase安装")
-	- [HBase数据结构](?file=07-大数据技术栈/03-HBase教程/003-HBase数据结构 "HBase数据结构")
-	- [HBase原理](?file=07-大数据技术栈/03-HBase教程/004-HBase原理 "HBase原理")
-	- [HBaseAPI操作](?file=07-大数据技术栈/03-HBase教程/005-HBaseAPI操作 "HBaseAPI操作")
-	- [HBase优化](?file=07-大数据技术栈/03-HBase教程/006-HBase优化 "HBase优化")
+	- [HBase数据结构](?file=07-大数据技术栈/03-HBase教程/002-HBase数据结构 "HBase数据结构")
+	- [HBaseAPI操作](?file=07-大数据技术栈/03-HBase教程/003-HBaseAPI操作 "HBaseAPI操作")
+	- [HBase优化](?file=07-大数据技术栈/03-HBase教程/004-HBase优化 "HBase优化")
 - **协作工具框架**
 	- [Sqoop教程](?file=07-大数据技术栈/04-协作工具框架/001-Sqoop教程 "Sqoop教程")
 	- [Zookeeper教程](?file=07-大数据技术栈/04-协作工具框架/002-Zookeeper教程 "Zookeeper教程")
 	- [Flume教程](?file=07-大数据技术栈/04-协作工具框架/003-Flume教程 "Flume教程")
+	- [Oozie教程](?file=07-大数据技术栈/04-协作工具框架/004-Oozie教程 "Oozie教程")
+	- [Hue教程](?file=07-大数据技术栈/04-协作工具框架/005-Hue教程 "Hue教程")
 	
 ##### 编程工具
 - [Apache Maven](?file=08-编程工具/001-Apache Maven "Apache Maven")
