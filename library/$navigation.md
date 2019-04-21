@@ -53,7 +53,6 @@
 	- [Hadoop-HDFS](?file=07-大数据技术栈/01-Hadoop教程/004-Hadoop-HDFS "Hadoop-HDFS")
 	- [Hadoop-MapRedue](?file=07-大数据技术栈/01-Hadoop教程/005-Hadoop-MapRedue "Hadoop-MapRedue")
 	- [Hadoop-YARN](?file=07-大数据技术栈/01-Hadoop教程/006-Hadoop-YARN "Hadoop-YARN")
-	- [系统优化和总结](?file=07-大数据技术栈/01-Hadoop教程/007-系统优化和总结 "系统优化和总结")
 - **Hive教程**
 	- [Hive简介](?file=07-大数据技术栈/02-Hive教程/001-Hive简介 "Hive简介")
 	- [Hive安装与使用](?file=07-大数据技术栈/02-Hive教程/002-Hive安装与使用 "Hive安装与使用")		

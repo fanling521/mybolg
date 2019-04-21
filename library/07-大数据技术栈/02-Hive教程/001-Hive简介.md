@@ -1,8 +1,8 @@
-# Hive教程
+# Hive 简介
 
 ## 什么是Hive
 
-Hive由Facebook开源用于解决海量结构化日志的数据统计，是基于`Hadoop`的一个数据仓库工具，可以将结构化的数据文件映射为一张表，并提供类SQL查询功能。
+Hive由`Facebook`开源用于解决海量结构化日志的数据统计，是基于`Hadoop`的一个数据仓库工具，可以将结构化的数据文件映射为一张表，并提供类SQL查询功能。
 
 本质是：将HQL转化成MapReduce程序。
 
@@ -25,10 +25,10 @@ Hive由Facebook开源用于解决海量结构化日志的数据统计，是基�
 
 ### 架构原理
 
-1. 用户接口：Client CLI（hive shell）、JDBC/ODBC(java访问hive)、HWI（浏览器访问hive）
-2. 元数据：Metastore元数据包括：表名、表所属的数据库（默认是default）、表的拥有者、列/分区字段、表的类型（是否是外部表）、表的数据所在目录等，默认存储在自带的derby数据库中，推荐使用MySQL存储Metastore
-3. 使用HDFS进行存储，使用MapReduce进行计算。
-4. 驱动器：Driver
+1. **用户接口**：Client CLI（hive shell）、JDBC/ODBC(java访问hive)、HWI（浏览器访问hive）
+2. **元数据**：Metastore元数据包括：表名、表所属的数据库（默认是default）、表的拥有者、列/分区字段、表的类型（是否是外部表）、表的数据所在目录等，默认存储在自带的derby数据库中，推荐使用MySQL存储Metastore
+3. 使用**HDFS**进行存储，使用MapReduce进行计算。
+4. **驱动器**：Driver
    1. **解析器**（SQL Parser）：将SQL字符串转换成抽象语法树AST，这一步一般都用第三方工具库完成，比如antlr；对AST进行语法分析，比如表是否存在、字段是否存在、SQL语义是否有误。
    2. **编译器**（Physical Plan）：将AST编译生成逻辑执行计划。
    3. **优化器**（Query Optimizer）：对逻辑执行计划进行优化。
@@ -43,7 +43,7 @@ Hive为数据仓库而设计，不是数据库。
 3. 数据库可对数据进行更新，Hive数据在加载的时候都是确定的，不建议更新数据
 4. 数据库有自己的引擎，Hive是通过MapReduce实现
 
-## 面试题
+## 相关问题
 
 （1）Hive的主要作用是什么？
 

@@ -154,19 +154,16 @@ fis.seek(1024*1024*128)
 
 ### HDFS写流程⭐
 
-1. 客户端通过`Distributed FileSystem`模块向`NameNode`请求写文件，`NameNode`检查目标文件，父目录是否存在
-2. `NameNode`返回是否可以上传文件
-3. 客户端请求第一个 `Block`上传到哪几个`DataNode`服务器上，`NameNode`返回`DataNode`列表
+1. 客户端分割文件，向NameNode请求上传文件，NameNode响应可以上传，返回节点信息
 4. 客户端通过`FSDataOutputStream`模块请求`dn1`上传数据，`dn1`收到请求会继续调用`dn2`，逐个建立管道，然后逐级应答客户端
-5. 客户端按**128MB**的块切分文件，发送第一块，向`dn1`以`packet`为单位传输数据，`dn1`收到就会传给`dn2`，依次传输，逐级应答
-6. 每写完一个块，返回确认信息，客户端会再次请求，重复执行4-5。
+3. 客户端按**128MB**的块切分文件，发送第一块，向`dn1`以`packet`为单位传输数据，`dn1`收到就会传给`dn2`，依次传输，逐级应答，每写完一个块，返回确认信息，客户端会再次请求
 7. 全部写完，关闭输入输出流，给`NameNode`发出完成信号
 
 ### HDFS读流程⭐
 
-1. 客户端通过`Distributed FileSystem`模块请求`NameNode`下载文件，`NameNode`通过查询元数据，找到对应的`DataNode`地址
-2. 客户端通过`FSDataInputtStream`模块请求`DataNode`数据读取
-3. `DataNode`传输数据给客户端，客户端以`packet`接收缓存，然后写入目标文件
+1. 客户端通过`Distributed FileSystem`模块向`NameNode`请求下载文件，`NameNode`通过查询元数据，找到对应的`DataNode`地址
+2. 客户端通过`FSDataInputtStream`模块向对应的`DataNode`请求数据读取各个block
+3. `DataNode`传输数据给客户端，客户端接收缓存然后合并，最后写入目标文件
 
 ## NameNode
 
@@ -202,7 +199,7 @@ NameNode启动后，会进入30秒的等待时间，此时处于安全模式，�
 
 
 1. 第一次启动`NameNode`，将创建`fsimage`和`edits`文件，如果不是第一次启动，先滚动`edits`并生成一个空的`edits.inprogress`，然后加载`fsimage`和`edits`到内存，当然，也会合并`fsimage`和`edits`。
-2. 客户端发起对元数据进行**增删改**的请求（查询元数据的操作不会被记录在`edits`中）
+2. 客户端发起对**元数据**进行**增删改**的请求（查询元数据的操作不会被记录在`edits`中）
 3. `NameNode`编辑日志先记录操作日志，更新滚动日志
 4. `NameNode`在内存中对数据进行增删改
 

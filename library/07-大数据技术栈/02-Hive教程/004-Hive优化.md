@@ -1,4 +1,4 @@
-# Hive优化
+# Hive 优化
 
 ## Fetch抓取
 
@@ -25,7 +25,13 @@ hive (default)>
 
 ### 小表、大表Join
 
+可以使用map join让小的维度表（1000条以下的记录条数）先进内存，在map端完成reduce。
+
 实际测试发现：新版的hive已经对小表JOIN大表和大表JOIN小表进行了优化。小表放在左边和右边已经没有明显区别。
+
+### Map Join
+
+在Reduce阶段完成Join，容易发生数据倾斜。可以用Map Join把小表全部加载到内存在map端进行Join，避免Reduce端处理。
 
 ### 动态分区
 
@@ -48,21 +54,29 @@ hive.exec.max.created.files=100000
 hive.error.on.empty.partition=false
 ```
 
+### 分区分桶
+
+不再说明。
+
 ## 数据倾斜
 
-### 合理设置Map个数
+（1）合理设置Map/Reduce数，如`set mapreduce.job.reduces = 15`
 
-### 小文件合并
+（2）小文件合并
 
-### 复杂文件增加Map个数
-
-### 合理设置Reduce个数
+（3）复杂文件增加map数，根据`Math.max(minSize,Math.min(maxSize,blocksize))`，让maxSize最大值低于blocksize就可以增加map的个数
 
 ## 其他优化点
 
 ### 并行执行
 
+通过设置参数`hive.exec.parallel`值为true，就可以开启并发执行。
+
+不过，在共享集群中，需要注意下，如果job中并行阶段增多，那么集群利用率就会增加。
+
 ### 严格模式
+
+通过设置属性`hive.mapred.mode`值为默认是非严格模式`nonstrict`
 
 ### JVM重用
 
@@ -97,4 +111,28 @@ hive本身的配置
 
 ### 压缩
 
+不再说明
+
 ### 执行计划
+
+```bash
+0: jdbc:hive2://centos7:10000> explain select * from emp;
+```
+
+## 相关问题
+
+（1）Hive如何解决数据倾斜？
+
+（2）Hive导致数据倾斜的可能性，从小文件，空值key太多
+
+（3）Hive执行过程中小文件如何处理
+
+（4）Hive中元数据保存在哪里？
+
+（5）Hive中复杂数据类型有哪些？
+
+（6）Hive中表的类型有哪些？
+
+（7）udfs如何自定义，怎么去注册？
+
+（8）Hive的数据导入导出，如何加载？保存在哪里？

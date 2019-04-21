@@ -4,9 +4,7 @@
 
 ### 类与对象
 
-此描述和Java中是一样的
-
-Scala语言是纯粹的面向对象的，在Scala中一切皆对象。
+此描述和Java中是一样的，要再次指出Scala语言是纯粹的面向对象的，在Scala中一切皆对象。
 
 #### 类的定义
 
@@ -24,7 +22,7 @@ val|var xx:Xxx=new Xxx()
 
 #### 对象
 
-大体的思和Java是一样
+大体的思和Java是一样的。
 
 对象的创建过程：
 
@@ -36,7 +34,7 @@ val|var xx:Xxx=new Xxx()
 
 #### 方法
 
-Scala类的方法就是函数
+Scala类的方法就是函数，其创建等内容和函数是一样的。
 
 #### 构造器
 
@@ -183,7 +181,7 @@ package com.fanling {
 
 ##### 覆写字段📍
 
-Scala中可以通过使用override覆写父类的字段，这和Java中是不同的
+Scala中可以通过使用`override`覆写父类的字段，这和Java中是不同的。
 
 #### 多态
 

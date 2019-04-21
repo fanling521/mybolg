@@ -149,10 +149,9 @@ mysql> FLUSH  PRIVILEGES;
 （1）启动hiveserver2
 
 ```bash
-# 窗口不可用
-[fanl@centos7 hive-1.1.0-cdh5.14.2]$ bin/hiveserver2
-# ----后台进程--------------
-[fanl@centos7 hive-1.1.0-cdh5.14.2]$ bin/hiveserver2 &
+# 元数据修改访问方式了
+[fanl@centos7 hive-1.1.0-cdh5.14.2]$ nohup bin/hiveserver2 &  
+[fanl@centos7 hive-1.1.0-cdh5.14.2]$ nohup bin/hive --service metastore &
 ```
 
 （2）启动beeline
@@ -238,8 +237,9 @@ software
 hive> 
 ```
 
-## 面试题
+## 相关问题
 
 （1）配置`hive-env.sh`都涉及到哪些属性？
 
 （2）HiveServer2的作用是什么？如何连接HiveServer2？
+

@@ -14,7 +14,7 @@ ZooKeeper是一种开源分布式协调服务。
 
 ### 修改配置文件
 
-**（1）配置zoo.cfg文件**
+> （1）配置zoo.cfg文件
 
 ```bash
 [fanl@hadoop01 zookeeper-3.4.5]$ cd conf/
@@ -28,22 +28,22 @@ server.2=hadoop02:2888:3888
 server.3=hadoop03:2888:3888
 ```
 
-**（2）创建目录和myid**
+> （2）创建目录和myid
 
 ```bash
 [fanl@hadoop01 zookeeper-3.4.5]$ mkdir zkData
 [fanl@hadoop01 zookeeper-3.4.5]$ touch zkData/myid
 ```
 
-**（3）分发同步修改**
+> （3）分发同步修改
 
 使用`rsync`同步`/opt/modules`
 
-**（4）修改myid中的值**
+> （4）修改myid中的值
 
 hadoop01修改为1，hadoop02修改为2，hadoop03修改为3
 
-**（5）启动**
+> （5）启动
 
 ```bash
 # 启动

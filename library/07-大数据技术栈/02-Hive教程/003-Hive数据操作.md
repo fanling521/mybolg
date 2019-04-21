@@ -1,4 +1,4 @@
-# Hive数据操作
+# Hive 数据操作
 
 ## Hive的数据类型
 
@@ -432,8 +432,14 @@ hive(default)>
 
 Hive支持的存储数的格式主要有：`Textfile`、`Sequencefile`、`Orc`、`Parquet`
 
-TEXTFILE和SEQUENCEFILE的存储格式都是基于行存储的；
-ORC和PARQUET是基于列式存储的。
+TEXTFILE和SEQUENCEFILE的存储格式都是基于行存储的，ORC和PARQUET是基于列式存储的。
 
-在实际的项目开发当中，hive表的数据存储格式一般选择：orc或parquet。压缩方式一般选择snappy，lzo。
+在实际的项目开发当中，Hive表的数据存储格式一般选择：orc或parquet，压缩方式一般选择snappy，lzo。
 
+## 相关问题
+
+（1）Hive中常见的分析函数，像row_number()，rank()，dense_rank()
+
+（2）Hive如何统计每周一，每月第一天，周，每月（第一天：trunc(日期,‘MM’)，最后一天：last_day(日期)），计算周次的用自定义函数（基姆拉尔森计算公式）
+
+（3）Hive处理Json，用哪些函数

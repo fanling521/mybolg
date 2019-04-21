@@ -240,5 +240,5 @@ a3.sinks.k3.channel = c3
 
 ## 相关问题
 
-
+（1）Flume 采集数据会丢失吗?
 

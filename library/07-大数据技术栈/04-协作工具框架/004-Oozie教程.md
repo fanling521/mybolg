@@ -132,7 +132,7 @@ http://centos7:11000/oozie/
 
 ### 执行单一Shell任务
 
-（1）解压例子模板，将shell 复制到Oozie根目录下的myapp下
+> （1）解压例子模板，将shell 复制到Oozie根目录下的myapp下
 
 修改job.properties
 
@@ -162,13 +162,13 @@ oozie.wf.application.path=${nameNode}/${examplesRoot}/myshell
 /bin/echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" >>  /tmp/mem.log
 ```
 
-（2）上传所需要的文件，job.properties不是必需的文件
+> （2）上传所需要的文件，job.properties不是必需的文件
 
 ```
 [fanl@centos7 hadoop-cdh5.14.12]$ bin/hdfs dfs -put /opt/modules/cdh5.14.2/oozie-4.1.0-cdh5.14.2/myapps/shell /oozieApp
 ```
 
-（3）提交任务
+> （3）提交任务
 
 ```bash
 [fanl@centos7 oozie-4.1.0-cdh5.14.2]$ bin/oozie job -oozie http://centos7:11000/oozie -config /opt/modules/cdh5.14.2/oozie-4.1.0-cdh5.14.2/myapps/shell/job.properties -run

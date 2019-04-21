@@ -146,3 +146,4 @@ hbase(main):056:0> deleteall 'ns1:emp','10010'
 ```
 
 （6）查看help查看更多支持的操作
+
