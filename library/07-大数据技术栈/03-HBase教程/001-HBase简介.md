@@ -19,7 +19,6 @@ HBase是一个高可靠性、高性能、面向列、可伸缩的分布式存储
 - 监控管理RegionServer
 - 处理元数据的变更
 - 处理region的分配和转移
-- 
 
 （2）RegionServer
 

@@ -81,13 +81,13 @@ def main(args: Array[String]): Unit = {
 }
 ```
 
-Scala中没有switch！
+注意：Scala中没有switch！
 
-### 循环控制
+### 循环控制📍
 
 #### for的推导式
 
-**第一种**：范围->[1,3]
+**第一种**：范围[1,3]
 
 ```scala
   def main(args: Array[String]): Unit = {
@@ -97,7 +97,7 @@ Scala中没有switch！
   }
 ```
 
-**第二种**：范围->[1,3)
+**第二种**：范围[1,3)
 
 ```scala
 for(i<-1 until 3){

@@ -25,6 +25,44 @@
 
 
 
+> 动态绑定机制
+
+JVM会将对象的方法和对象的内存地址绑定，如果是属性，则调用哪个用哪个对象的。
+
+```java
+public class Demo01 {
+    public static void main(String[] args) {
+        A obj=new B();
+        obj.sum();
+        obj.sum1();
+    }
+
+
+}
+class A {
+    private int i = 10;
+
+    public void sum() {
+        System.out.println(getI() + 10);
+    }
+
+    public void sum1() {
+        System.out.println(i + 20);
+    }
+
+    public int getI() {
+        return i;
+    }
+}
+class B extends A{
+    private int i = 20;
+
+    public int getI() {
+        return i;
+    }
+}
+```
+
 
 
 
