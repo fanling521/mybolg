@@ -40,16 +40,18 @@
 - [Scala简介](?file=05-Scala教程/001-Scala简介 "Scala简介")
 - [Scala变量和运算符](?file=05-Scala教程/002-Scala变量和运算符 "Scala变量和运算符")
 - [Scala流程控制](?file=05-Scala教程/003-Scala流程控制 "Scala流程控制")
+- [Scala函数式编程](?file=05-Scala教程/004-Scala函数式编程 "Scala函数式编程")
+- [Scala面向对象](?file=05-Scala教程/005-Scala面向对象 "Scala面向对象")
 
 ##### Python3教程
 - [Python简介](?file=06-Python3教程/001-Python简介 "Python简介")
 - [Python基础](?file=06-Python3教程/002-Python基础 "Python基础")
+- [Python面向对象](?file=06-Python3教程/003-Python面向对象 "Python面向对象")
 
 ##### 大数据技术栈
 - **Hadoop教程**
-	- [大数据&Hadoop简介](?file=07-大数据技术栈/01-Hadoop教程/001-大数据&Hadoop简介 "大数据&Hadoop简介")
-	- [Hadoop伪分布部署](?file=07-大数据技术栈/01-Hadoop教程/002-Hadoop伪分布部署 "Hadoop伪分布部署")
-	- [Hadoop完全集群部署](?file=07-大数据技术栈/01-Hadoop教程/003-Hadoop完全集群部署 "Hadoop完全集群部署")
+	- [Hadoop简介](?file=07-大数据技术栈/01-Hadoop教程/001-Hadoop简介 "Hadoop简介")
+	- [Hadoop的部署](?file=07-大数据技术栈/01-Hadoop教程/002-Hadoop的部署 "Hadoop的部署")
 	- [Hadoop-HDFS](?file=07-大数据技术栈/01-Hadoop教程/004-Hadoop-HDFS "Hadoop-HDFS")
 	- [Hadoop-MapRedue](?file=07-大数据技术栈/01-Hadoop教程/005-Hadoop-MapRedue "Hadoop-MapRedue")
 	- [Hadoop-YARN](?file=07-大数据技术栈/01-Hadoop教程/006-Hadoop-YARN "Hadoop-YARN")
@@ -58,7 +60,7 @@
 	- [Hive安装与使用](?file=07-大数据技术栈/02-Hive教程/002-Hive安装与使用 "Hive安装与使用")		
 	- [Hive数据操作](?file=07-大数据技术栈/02-Hive教程/003-Hive数据操作 "Hive数据操作")
 	- [Hive优化](?file=07-大数据技术栈/02-Hive教程/004-Hive优化 "Hive优化")
-- **Hbase教程**
+- **HBase教程**
 	- [HBase简介](?file=07-大数据技术栈/03-HBase教程/001-HBase简介 "HBase简介")
 	- [HBase数据结构](?file=07-大数据技术栈/03-HBase教程/002-HBase数据结构 "HBase数据结构")
 	- [HBaseAPI操作](?file=07-大数据技术栈/03-HBase教程/003-HBaseAPI操作 "HBaseAPI操作")
@@ -69,13 +71,10 @@
 	- [Flume教程](?file=07-大数据技术栈/04-协作工具框架/003-Flume教程 "Flume教程")
 	- [Oozie教程](?file=07-大数据技术栈/04-协作工具框架/004-Oozie教程 "Oozie教程")
 	- [Hue教程](?file=07-大数据技术栈/04-协作工具框架/005-Hue教程 "Hue教程")
-	
-##### 编程工具
-- [Apache Maven](?file=08-编程工具/001-Apache Maven "Apache Maven")
-- [Intellij IDEA](?file=08-编程工具/002-Intellij IDEA "Intellij IDEA")
-- [Nginx教程](?file=08-编程工具/003-Nginx教程 "Nginx教程")
 
-##### 编程提高
-- [计算机原理](?file=09-编程提高/001-计算机原理 "计算机原理")
-- [计算机网络](?file=09-编程提高/002-计算机网络 "计算机网络")
-- [数据结构与算法](?file=09-编程提高/003-数据结构与算法 "数据结构与算法")
+##### 编程基础与工具
+- [数据结构与算法](?file=08-编程基础与工具/001-数据结构与算法 "数据结构与算法")
+- [编译原理](?file=08-编程基础与工具/002-编译原理 "编译原理")
+- [计算机原理和网络](?file=08-编程基础与工具/003-计算机原理和网络 "计算机原理和网络")
+- [项目构建与管理](?file=08-编程基础与工具/004-项目构建与管理 "项目构建与管理")
+- [Nginx教程](?file=08-编程基础与工具/005-Nginx教程 "Nginx教程")

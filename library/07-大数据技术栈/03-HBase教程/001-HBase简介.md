@@ -66,7 +66,7 @@ centos7
 （5）启动HBase
 
 ```bash
-[fanl@centos7 hbase-1.2.0-cdh5.14.2]$ bin/hbase-daemon.sh start master
+[fanl@centos7 hbase-1.2.0-cdh5.14.2]$ bin/hbase-daemon.sh start master	
 # 在所有从服务器上启动regionserver
 [fanl@centos7 hbase-1.2.0-cdh5.14.2]$ bin/hbase-daemon.sh start regionserver
 # 集群启动
