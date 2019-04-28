@@ -1,22 +1,20 @@
-# FANL-EARTH
+# 盖亚知识库系统V2
+
+本系统覆盖了Java、大数据，计算机基础等知识。方便搜索查阅，不是最全的知识体系，但都是常用的。
 
 ## 项目简介
 
 本项目是一款基于 `Javascript` 脚本语言、使用 `Markdown` 标记语法的轻量级文库系统，框架使用了`amWiki`。
 
+本项目将持续更新library文件下的md文件。
+
 ## 如何使用
 
-### 在线地址
+1. 在线地址[www.fanling.xyz](http://www.fanling.xyz)
+2. 下载或者克隆本项目，将路径添加到Nginx映射中。
 
-你可以直接访问[gitHubPages](http://www.fanling.xyz) 内容仅供参考
+## 我想自己开发
 
-### 自行安装
+本项目基于`amWiki` ，GitHub搜索此仓库，查看用法。
 
-1. 克隆项目到本地`git clone https://github.com/fanling521/fanl-earth.git`
-2. 本地需要有一个web服务器，可以使用`Nginx`
-3. 配置映射目录，浏览器访问
-
-### 开发
-
-本项目基于`amWiki` 仅仅需要关注`library`目录下的`.md`文件即可，`$navigation.md`文件是必需的。
-开发前，你需要了解`markdown`语法
+注意：开发前，你需要了解`markdown`语法
