@@ -114,6 +114,7 @@ hive (default)> create external table hbase_student(id int,name string,age strin
               > with serdeproperties("hbase.columns.mapping" = ":key,info:name,info:age")
               > tblproperties ("hbase.table.name" = "student");
 # ！！缺少jar的报错，需要执行临时环境变量的
+
 hive (default)> select * from hbase_student;
 OK
 hbase_student.id	hbase_student.name	hbase_student.age

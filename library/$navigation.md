@@ -42,6 +42,7 @@
 - [Scala流程控制](?file=05-Scala教程/003-Scala流程控制 "Scala流程控制")
 - [Scala函数式编程](?file=05-Scala教程/004-Scala函数式编程 "Scala函数式编程")
 - [Scala面向对象](?file=05-Scala教程/005-Scala面向对象 "Scala面向对象")
+- [Scala数据结构](?file=05-Scala教程/006-Scala数据结构 "Scala数据结构")
 
 ##### Python3教程
 - [Python简介](?file=06-Python3教程/001-Python简介 "Python简介")

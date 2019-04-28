@@ -179,11 +179,267 @@ package com.fanling {
 
 只有子类的主构造器才能调用父类的构造器。
 
-##### 覆写字段📍
+##### 覆写字段
 
 Scala中可以通过使用`override`覆写父类的字段，这和Java中是不同的。
 
+##### 抽象类
+
+在Scala中，通过abstract关键字标记抽象类，方法不用标记，只要省略方法体即可。
+
+默认情况下，抽象类是不能实例化的，但是你通过实例化，其实就是实现该实现中的所有抽象方法，抽象类可以没有抽象方法，抽象方法不能有方法主体，不能用abstract修饰，一个类继承了抽象类，则需要实现所有的抽象方法。
+
+##### 匿名子类
+
+和Java中类似，语法方式不同。
+
+```scala
+object Dog {
+  def main(args: Array[String]): Unit = {
+    val dog=new Dog {
+      override def say(): Unit = {
+        println("哇哇哇哇")
+      }
+    }
+    dog.say()
+  }
+}
+
+abstract class Dog{
+  def say();
+}
+```
+
 #### 多态
 
+```scala
+  def testWork(employee: Employee): Unit = {
+    if (employee.isInstanceOf[Manager]) {
+      employee.asInstanceOf[Manager].manager()
+    } else if (employee.isInstanceOf[Worker]) {
+      employee.asInstanceOf[Worker].work
+    }
+  }
+```
 
 
+
+## 高级篇
+
+### 静态属性和静态方法
+
+#### 伴生对象和伴生类
+
+当在同一个文件中，有 `class ScalaPerson` 和 `object ScalaPerson`，`class ScalaPerson` 称为伴生类,将非静态的内容写到该类中，`object ScalaPerson` 称为伴生对象,将静态的内容写入到该对象（类）
+
+ `class ScalaPerson` 编译后底层生成 `ScalaPerson`类 `ScalaPerson.class`
+
+ `object ScalaPerson` 编译后底层生成 `ScalaPerson$`类 `ScalaPerson$.class`
+
+注意点：
+
+1. 伴生对象中声明的全是 "静态"内容，可以通过伴生对象名称直接调用。
+
+2. 如果 class A 独立存在，那么A就是一个类， 如果 object A 独立存在，那么A就是一个"静态"性质的对象[即类对象]
+
+#### 用Apply创建对象
+
+```scala
+class Pig(name: String) {
+  @BeanProperty
+  var pName = name
+}
+
+object Pig {
+  def apply(name: String): Pig = new Pig(name)
+
+  def apply(): Pig = new Pig("小组")
+}
+
+
+object TestObject {
+  def main(args: Array[String]): Unit = {
+    val p = Pig()
+    println(p.getPName)
+  }
+}
+```
+
+### 接口（特质）
+
+Scala是纯面向对象的语言，在Scala中，没有接口，多个类具有相同的特征（特征）时，就可以将这个特质（特征）独立出来，采用关键字trait声明，理解trait 等价于（interface + abstract class），Java中的接口可以当做特质使用。
+
+特质中可以定义具体字段，如果初始化了就是具体字段，如果不初始化就是抽象字段，未被初始化的字段在具体的子类中必须被重写。
+
+特质可以继承类，以用来拓展该特质的一些功能。
+
+```scala
+trait TraitTest {
+  def getConnect()
+}
+
+// 用extends关键字，多个特质用with连接
+class Connect extends TraitTest {
+  override def getConnect(): Unit = {
+    println("呵呵")
+  }
+}
+```
+
+##### 动态混入
+
+动态混入可以在不影响原有的继承关系的基础上，给指定的类扩展功能。
+
+```scala
+trait Operate {
+  def insert(): Unit ={
+    println("insert")
+  }
+}
+
+
+class OracleDB {
+
+}
+
+abstract class MySQLDB {
+  def scan()
+}
+
+object TestObject {
+  def main(args: Array[String]): Unit = {
+    val mySQL = new MySQLDB with Operate {
+      override def scan(): Unit = {
+        println("scan")
+      }
+
+      override def insert(): Unit = {
+        println("insert2")
+      }
+    }
+    mySQL.insert()
+    mySQL.scan()
+
+    val oracle = new OracleDB with Operate
+    oracle.insert()
+  }
+}
+```
+
+**问题**：Scala创建对象是方式有哪些？
+
+1. new 对象
+2. 匿名子类
+3. 特质的动态混入
+4. 伴生对象的apply方法
+
+##### 叠加特质
+
+构建对象的同时如果混入多个特质，称之为叠加特质，声明从左到右，实现从右到左。
+
+##### 富接口
+
+即该特质中既**有抽象方法**，又有**非抽象方**法。
+
+##### 自身类型
+
+```scala
+this: Exception =>
+```
+
+### 嵌套类
+
+（1）使用内部类和静态内部类
+
+```scala
+class MyDog {
+  class MyInnerDog{}
+}
+object MyDog{
+  class MyStaticInnerClass{}
+}
+
+object Test01 {
+  def main(args: Array[String]): Unit = {
+    val myDog1:MyDog=new MyDog
+    val myDog2:MyDog=new MyDog
+    //内部类
+    val inner01=new myDog1.MyInnerDog
+    //内部静态类
+    val inner02=new outclass.MyDog.MyStaticInnerClass
+  }
+}
+```
+
+（2）在内部类中实现调用外部类的属性
+
+```scala
+class MyCat {
+  //别名
+  myouter =>
+  var name = "cat"
+
+  class MyInnerCat {
+    def info: Unit = {
+      println("name=" + myouter.name)
+    }
+  }
+
+}
+//测试类
+val mycat01 = new MyCat
+val myInnerCat = new mycat01.MyInnerCat
+myInnerCat.info
+```
+
+（3）类型投影（外部类调用内部类）
+
+```scala
+//调用内部类
+def ic(myInnerCat: MyCat#MyInnerCat): Unit = {
+  println(myInnerCat.age)
+}
+
+val mycat01 = new MyCat
+val myInnerCat = new mycat01.MyInnerCat
+mycat01.ic(myInnerCat)
+```
+
+### 隐式转换
+
+#### 隐式函数
+
+隐式转换函数是以`implicit`关键字声明的带有单个参数的函数。这种函数将会自动应用，将值从一种类型转换为另一种类型。
+
+```scala
+  def main(args: Array[String]): Unit = {
+    implicit def f1(d: Double): Int = {
+      d.toInt
+    }
+
+    val num: Int = 3.5
+    println(num)
+  }
+}
+```
+
+#### 隐式值
+
+隐式值也叫隐式变量，将某个形参变量标记为implicit，所以编译器会在方法省略隐式参数的情况下去搜索作用域内的隐式值作为缺省参数。
+
+```scala
+object Demo2 {
+  def main(args: Array[String]): Unit = {
+    implicit val name = "jack"
+
+    def info(implicit n: String = "tom"): Unit = {
+      println(n)
+    }
+    info
+  }
+}
+```
+
+#### 隐式类
+
+可以使用implicit声明类，隐式类的非常强大，同样可以扩展类的功能，写法可以参考隐式函数。

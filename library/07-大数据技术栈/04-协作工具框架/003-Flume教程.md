@@ -29,7 +29,7 @@ Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBa
 
 ### 安装部署
 
-解压文件，移动文件，将/conf下的flume-env.sh.template文件修改为flume-env.sh，并配置flume-env.sh文件。
+解压文件，移动文件，将/conf下的`flume-env.sh.template`文件修改为`flume-env.sh`，并配置`flume-env.sh`文件。
 
 其余操作和以前安装工具框架是一样的。
 
