@@ -23,12 +23,6 @@ hive (default)>
 
 ## 表的优化
 
-### 小表、大表Join
-
-可以使用map join让小的维度表（1000条以下的记录条数）先进内存，在map端完成reduce。
-
-实际测试发现：新版的hive已经对小表JOIN大表和大表JOIN小表进行了优化。小表放在左边和右边已经没有明显区别。
-
 ### Map Join
 
 在Reduce阶段完成Join，容易发生数据倾斜。可以用Map Join把小表全部加载到内存在map端进行Join，避免Reduce端处理。

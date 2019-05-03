@@ -73,5 +73,114 @@ case i => println(i)
   }
 ```
 
+## 匹配
 
+### 匹配数组
 
+1. Array(0) 匹配只有一个元素且为0的数组
+2. Array(x,y) 匹配数组有两个元素，并将两个元素赋值为x和y。当然可以依次类推Array(x,y,z) 匹配数组有3个元素的等等....
+3. Array(0,_*) 匹配数组以0开始
+
+### 匹配列表
+
+```scala
+  def main(args: Array[String]): Unit = {
+    for (list <- Array(List(0), List(1, 0), List(88), List(0, 0, 0), List(1, 0, 0))) {
+      val result = list match {
+        case 0 :: Nil => "0" //
+        case x :: y :: Nil => x + " " + y //
+        case 0 :: tail => "0 ..." //结尾任意字符
+        case x :: Nil => x
+        case _ => "something else"
+      }
+      println(result)
+    }
+  }
+```
+
+### 匹配元组
+
+```scala
+  def main(args: Array[String]): Unit = {
+    for (pair <- Array((0, 1), (1, 0), (10, 30), (1, 1), (1, 0, 2))) {
+      val result = pair match {
+        case (0, _) => "0 ..."
+        case (y, 0) => y
+        case (x, y) => (y, x)
+        case _ => "other"
+      }
+      println(result)
+
+    }
+  }
+```
+
+### 匹配对象
+
+1. case中对象的unapply方法(对象提取器)返回Some集合则为匹配成功
+2. 返回None集合则为匹配失败
+
+```scala
+object ObjectMatch {
+  def main(args: Array[String]): Unit = {
+    val name = "f,a,n"
+    name match {
+      case Name(a, b, c) => println(a, b, c)
+    }
+  }
+}
+
+object Name {
+    //多参数提取器使用序列
+    //单参数使用unapply
+  def unapplySeq(arg: String): Option[Seq[String]] = {
+    if (arg.contains(",")) {
+      Some(arg.split(","))
+    } else {
+      None
+    }
+  }
+}
+```
+
+### 变量声明中的匹配模式
+
+match中每一个case都可以单独提取出来。
+
+```scala
+  def main(args: Array[String]): Unit = {
+    val (x, y, z) = (1, 2, "hello")
+    println(x)
+    val (q, r) = BigInt(99) /% 3
+    println("q=" + q + ",r=" + r)
+
+    val array = Array(1, 3, 4, 5)
+    val Array(a, b, _ *) = array
+    println(a, b)
+  }
+```
+
+### for循环中匹配模式
+
+```scala
+  def main(args: Array[String]): Unit = {
+    val map = Map(("A" -> 0), ("B" -> 1), ("V" -> 2))
+    //全部的
+    for ((k, v) <- map) {
+      println(k, v)
+    }
+    //只匹配v=0的
+    for ((k, 0) <- map) {
+      println(k, 0)
+    }
+  }
+```
+
+## 样式类case
+
+1. 样例类仍然是类，样例类和其他类完全一样。你可以添加方法和字段，扩展它们
+2. 样例类用`case`关键字进行声明，是为**模式匹配而优化**的类
+3. 构造器中的每一个参数都成为**val**，除非它被显式地声明为var（不建议这样做）
+4. 在样例类对应的伴生对象中提供apply方法让你不用new关键字就能构造出相应的对象
+5. 提供`unapply`方法让模式匹配可以工作
+6. 将自动生成`toString`、`equals`、`hashCode`和`copy`方法

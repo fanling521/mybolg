@@ -405,7 +405,7 @@ val myInnerCat = new mycat01.MyInnerCat
 mycat01.ic(myInnerCat)
 ```
 
-### 隐式转换
+### 隐式转换⭐
 
 #### 隐式函数
 
@@ -442,4 +442,49 @@ object Demo2 {
 
 #### 隐式类
 
-可以使用implicit声明类，隐式类的非常强大，同样可以扩展类的功能，写法可以参考隐式函数。
+可以使用`implicit`声明类，隐式类的非常强大，同样可以扩展类的功能，写法可以参考隐式函数。
+
+1. 其所带的构造参数有且只能有一个
+2. 隐式类必须被定义在类，伴生对象和包对象里
+3. 隐式类不能是case class（case class在定义会自动生成伴生对象与2矛盾）
+4. 作用域内不能有与之相同名称的标示符
+
+## 泛型
+
+如果我们要求函数的参数可以接受任意类型。可以使用泛型。
+
+```scala
+object Demo07 {
+  def main(args: Array[String]): Unit = {
+    val msg1 = new Message[String]("12")
+    println(msg1.f)
+
+    val msg2 = new Message[Int](12)
+    println(msg2.f)
+  }
+}
+
+class Message[T](n: T) {
+  def f = n
+}
+```
+
+### 上界
+
+在 Scala 里表示某个类型是 A 类型的子类型，也称上界或上限，使用 `<:` 关键字，语法如下：
+
+`[T <: A]`或用通配符：`[_ <: A]`
+
+对于下界，可以传入任意类型。
+
+### 下界
+
+在 scala 的下界或下限，使用 `>:` 关键字，语法如下：
+
+`[T >: A]`或用通配符：`[_ >: A]`
+
+### 协变、逆变、不变
+
+Scala的协变(+)，逆变(-)，协变covariant、逆变contravariant、不可变invariant
+
+对于一个带类型参数的类型，比如 List[T]，如果对A及其子类型B，满足 List[B]也符合List[A]的子类型，那么就称为covariance(协变) ，如果 List[A]是 List[B]的子类型，即与原来的父子关系正相反，则称为contravariance(逆变)。如果一个类型支持协变或逆变，则称这个类型为variance(翻译为可变的或变型)，否则称为invariance(不可变的)

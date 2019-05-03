@@ -79,8 +79,6 @@ print("hello world")
 
 `in`和`not in`判断字符串，列表，字典，元组中元素是否存在。
 
-
-
 ### 逻辑运算符
 
 - and
@@ -112,11 +110,10 @@ python中的变量必须赋值，不需要指定数据类型，学习`type`函�
 
 #### 基本数据类型
 
-- Number（数字）
+- Numbers（数字）
 - String（字符串）
 - List（列表）
 - Tuple（元组）
-- Set（集合）
 - Dictionary（字典）
 
 Python的数字类型有int整型、（long长整型【python2.x】）、float浮点数、complex复数、以及布尔值（0和1），特殊点：boolean 类型：0为**False**，非0为**True**，complex 复数型用于科学计算。

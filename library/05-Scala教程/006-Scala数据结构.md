@@ -77,7 +77,7 @@ val scalaArr: mutable.Buffer[String] = jList
  val tuple = (1, 2, "hello", 3.43)
 ```
 
-有几个元素就是TupleN类型，上面tuple是Tuple4类型，元组中最大只能有22个元素。
+有几个元素就是TupleN类型，上面tuple是Tuple4类型，元组中最大只能有**22**个元素。
 
 （1）访问元组中的数据,可以采用顺序号`_`
 

@@ -78,7 +78,7 @@ hbase(main):002:0> scan 'student'
 # 显示了数据
 ```
 
-（4）使用bulk load方式导入，适合大批量的数据，是直接写入storedfile中
+（4）使用`bulk load`方式导入，适合大批量的数据，是直接写入storedfile中
 
 ```bash
 # 创建表 student1 info
