@@ -4,20 +4,21 @@
 
 MapReduce是一个分布式非实时的运算程序的编程框架。
 
-MapReduce模型只能有1个Map阶段和1个Reduce阶段，如果业务复杂，多增加MapReduce，上一个MapReduce的输出作为输入
+MapReduce由map()和reduce()两个阶段组成，这两个函数的形参是`key-value`
+
+MapReduce模型只能有1个Map阶段和1个Reduce阶段，如果业务复杂，多增加MapReduce，上一个MapReduce的输出作为输入。
 
 ### MapReduce编程规范
 
-### 常用数据类型
+#### 常用数据类型
+
+Hadoop框架是在Java的基础上进行开发的，Java的数据类型在Hadoop中也能使用，但是具有一定的局限性，为了提高Hadoop对数据的处理能力，增加了Hadoop特有的数据类型，这些数据类型通过实现接口Writeable接口。如Boolean-BooleanWritable，String-Text。
 
 #### Hadoop序列化
 
 >  为什么不用Java的序列化
 
-重量级序列化框架`Serializable`附带信息较多，不便于在网络中高效传输。
-> Haoop序列化的特点
-
-紧凑，快速，可扩展，互操作。
+重量级序列化框架`Serializable`附带信息较多，不便于在网络中高效传输，Hadoop序列化机制中，可以复用对象，这样就减少了Java对象的分配和回收，提高了应用效率。
 
 #### 自定义实现Writable的过程
 
@@ -29,40 +30,44 @@ MapReduce模型只能有1个Map阶段和1个Reduce阶段，如果业务复杂，
 
 Hadoop中除了`String`类型为`Text`，其余都是其包装类+Writable，如Long—LongWritable
 
-## MapReduce的编程过程
-
-用户编写的程序分成三个部分：`Mapper`、`Reducer`和配置类`Driver`。
-
-### Mapper类的编写
-
-1. 用户自定义的Mapper类要继承父类Mapper
-2. 自定义输入输出类型KV对
-3. 业务逻辑在map方法中重写，MapTask进程对每一个<K，V>调用一次
-
-### Reducer类的编写
-
-1. 用户自定义的Reducer类要继承父类Reducer
-2. 自定义输入输出类型KV对
-3. 业务逻辑在reducer方法中重写，ReduceTask进程对每一个<K，V>调用一次
-
-### 配置类的编写
-
-相当于YARN的客户端，提交的是MP程序运行相关的参数和job对象
-
 [手机流量统计的例子](https://github.com/fanling521/hadoop_demo)
 
 ## MapReduce框架原理⭐
 
-### MapReduce工作流程
+整个过程可以概况为**输入**->**Mapper**->**Shuffle**->**Reducer**-**输出**。
 
-整个过程可以概况为输入->map->shuffle->reduce-输出。
+### 数据分片
 
-输入文件会被切分成多个块，每一块都有一个mapTask，map阶段的输出结果会先写到环形缓冲区，然后由缓冲区写到磁盘上。默认的缓冲区大小是100M，溢出的百分比是0.8。从缓冲区写到磁盘的时候，会进行分区并排序，分区指的是某个key应该进入到哪个分区，同一分区中的key会进行排序，如果定义了Combiner的话，也会进行combine操作，开始reduce之前，先要从分区中抓取数据，在抓取的过程中伴随着排序、合并，最后输出。
+*数据分片*是逻辑上的分片，大小计算为`Math.max(minSize,Math.min(taskNums,blockSize))`
 
-### Shuffle机制
+### Mapper执行过程
 
-Map方法之后，Reduce方法之前的数据处理过程称之为Shuffle。
-在Map端的shuffle过程是对Map的结果进行分区（partition）、排序（sort）和分割（spill），然后将属于同一个划分的输出合并在一起。
+每个Mapper任务是一个Java进程，它会读取HDFS上的文件，解析成很多的键值对，经过map方法处理后转换为很多的键值对再输出。
+
+第一阶段：将输入的文件按照一定的条件分片，分片的大小默认是128M，每个分片由一个Mapper进程处理。
+
+第二阶段：将输入片中的数据按照规则解析成键值对，如将一行文本解析，K为字节起始位置，V为本行文本。
+
+第三阶段：调用map方法，将第二段的输出按照规则解析成更多的键值对。
+
+第四阶段：将第三阶段的键值按照规则进行分区，如按照省份，每一个分区对应一个Reducer任务。
+
+第五阶段：对每个分区的数据进行排序，第六阶段可选reduce归纳处理过程。
+
+### Reducer执行过程
+
+第一阶段：主动复制Mapper任务中的输出。
+
+第二阶段：合并，合并完再排序。
+
+第三阶段：排序后的数据再进行reduce归纳处理，最终写入HDFS文件。
+
+### Shuffle过程
+
+Map方法之后，Reduce方法之前的数据处理过程称之为Shuffle，分为**Mapper端的Shuffle**和**Reducer端Shuffle**。
+Mapper端产生的数据输出结果会先写到环形缓冲区，然后由缓冲区写到磁盘上。默认的缓冲区大小是100M，溢出的百分比是0.8。从缓冲区写到磁盘的时候，会进行分区并排序，分区指的是某个key应该进入到哪个 分区，同一分区中的key会进行排序，如果定义了Combiner的话，也会进行combine操作，开始reduce之前，先要从分区中抓取数据，在抓取的过程中伴随着排序、合并，最后输出。
+
+Reducer端Shuffle对输出数据进行Mergesort，将相同key的数据排序几种到一起。
 
 #### Partition分区
 
@@ -101,19 +106,21 @@ bean对象做为key传输，需要实现WritableComparable接口重写compareTo�
 
 Combiner是在每一个MapTask节点运行，而Reduce是接收整个Map输出。其意义就是对每一个MapTask的输出进行局部汇总，减少网络传输量。
 
-### MapTask工作机制
+### MapReduce接口类
 
-1. **Read阶段**：MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。
-2. **Map阶段**：该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value。
-3. **Collect收集阶段**：在用户编写map()函数中，当数据处理完成后，一般会调用`OutputCollector.collect()`输出结果。在该函数内部，它会将生成的key/value分区（调用Partitioner），并写入一个环形内存缓冲区中。
-4. **Spill阶段**：即“溢写”，当环形缓冲区满后，MapReduce会将数据写到本地磁盘上，生成一个临时文件。需要注意的是，将数据写入本地磁盘之前，先要对数据进行一次本地排序，并在必要时对数据进行合并、压缩等操作。
+#### 输入的处理类
 
-### ReduceTask工作机制
+1. FileInputFormat：是所有作为数据源的InputFormat实现的基类，实现了对输入文件计算splits的方法，只划分比Block大的文件，这就是为何处理大文件效率比小文件效率高的原因
+2. TextInputFormat：处理普通文本，默认以\n为换行
+3. CombineFileInputFormat：适用于大量小文件
+4. KeyValueTextInputFormat：适合输入数据的每一行为两列，制表符分割的文件
+5. NLineInputFormat：控制每个split的行数
 
-1. **Copy阶段**：ReduceTask从各个MapTask上远程拷贝一片数据，并针对某一片数据，如果其大小超过一定阈值，则写到磁盘上，否则直接放到内存中。
-2. **Merge阶段**：在远程拷贝数据的同时，ReduceTask启动了两个后台线程对内存和磁盘上的文件进行合并，以防止内存使用过多或磁盘上文件过多。
-3. **Sort阶段**：按照MapReduce语义，用户编写reduce()函数输入数据是按key进行聚集的一组数据。为了将key相同的数据聚在一起，Hadoop采用了基于排序的策略。由于各个MapTask已经实现对自己的处理结果进行了局部排序，因此，ReduceTask只需对所有数据进行一次归并排序即可。
-4. **Reduce阶段**：reduce()函数将计算结果写到HDFS上。
+#### 输出的处理类
+
+1. OutputFormat：能够将k-v对写入特定格式的文件中
+2. TextOutputFormat：k-v中间值用制表符分割
+3. 其他格式
 
 ### Join的应用
 
@@ -139,13 +146,13 @@ Combiner是在每一个MapTask节点运行，而Reduce是接收整个Map输出�
 
 支持的压缩：
 
-（1）Gzip压缩
+（1）Gzip压缩，**不支持split**
 
 （2）Bzip2压缩
 
 （3）Lzo压缩
 
-（4）Snappy压缩
+（4）Snappy压缩，**不支持split**
 
 ## MapReduce的优化
 
@@ -173,9 +180,10 @@ Combiner是在每一个MapTask节点运行，而Reduce是接收整个Map输出�
 
 （3）Hadoop的压缩有哪些？
 
-（4）MapReduce过程中Shffle的优化，从环形缓冲区说起
+（4）MapReduce过程中Shffle的优化，（从环形缓冲区说起）
 
 （5）MapReduce怎么处理数据倾斜的？
 
-（6）MapReduce有哪些优化点，从各个阶段说，输入-map-reduce
+（6）MapReduce有哪些优化点，从各个阶段说说
 
+（7）HDFS 有一个 `gzip` 文件大小 75MB，客户端设置 Block 大小为 64MB。当运行MapReduce 任务读取该文件时`input split`大小为多少

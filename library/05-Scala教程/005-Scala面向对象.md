@@ -265,7 +265,7 @@ object TestObject {
 }
 ```
 
-### 接口（特质）
+### Trait特质
 
 Scala是纯面向对象的语言，在Scala中，没有接口，多个类具有相同的特征（特征）时，就可以将这个特质（特征）独立出来，采用关键字trait声明，理解trait 等价于（interface + abstract class），Java中的接口可以当做特质使用。
 

@@ -168,3 +168,10 @@ $ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcoun
 
 编译成功的位置`hadoop-dist/target`
 
+## 相关问题
+
+- 简述Hadoop平台的发展过程
+- 简述Hadoop名称及技术来源
+- 简述Hadoop的体系结构
+- 简述MapReduce的体系结构
+- 简述HDFS和MapReduce在Hadoop中的角色

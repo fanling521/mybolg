@@ -1,6 +1,6 @@
-# SparkSQL
+# Spark SQL
 
-## 什么是SparkSQL
+## 什么是Spark SQL
 
 Spark SQL是Spark用来处理结构化数据的一个模块，它提供了2个编程抽象：`DataFrame`和`DataSet`，并且作为分布式SQL查询引擎的作用，它是将Spark SQL转换成RDD。
 
@@ -143,5 +143,135 @@ def main(args: Array[String]): Unit = {
 
 //样式类
 case class Person(name: String, age: String)
+```
+
+### 自定义函数
+
+在Shell窗口中可以通过spark.udf功能用户可以自定义函数。
+
+```scala
+spark.udf.register("addName", (x:String)=> "Name:"+x)
+spark.sql("Select addName(name), age from people")
+```
+
+弱类型用户自定义聚合函数：通过继承`UserDefinedAggregateFunction`来实现用户自定义聚合函数。
+
+强类型用户自定义聚合函数：通过继承`Aggregator`来实现强类型自定义聚合函数。
+
+## Spark SQL数据源
+
+### 通用加载/保存
+
+Spark SQL的默认数据源为`Parquet`格式，修改配置项`spark.sql.sources.default`，可修改默认数据源格式。
+
+可以通过SparkSession提供的`read.load`方法用于通用加载数据，使用`write`和`save`保存数据。
+
+```scala
+val peopleDF = spark.read.format("json").load("examples/src/main/resources/people.json")
+peopleDF.write.format("parquet").save("hdfs://hadoop01:8020/namesAndAges.parquet")
+```
+
+可以直接读取SQL
+
+```scala
+val peopleDF = spark.read.format("json").load("examples/src/main/resources/people.json")
+peopleDF.write.format("parquet").save("hdfs://hadoop01:8020/namesAndAges.parquet")
+```
+
+Spark SQL 能够自动推测 JSON数据集的结构，并将它加载为一个`Dataset[Row]`，可以通过`SparkSession.read.json()`去加载一个 一个JSON 文件。
+
+这个JSON文件不是一个传统的JSON文件，每一行都得是一个JSON串。
+
+```json
+{"name":"Michael"}
+{"name":"Andy", "age":30}
+{"name":"Justin", "age":19}
+```
+
+读取数据库
+
+```scala
+val jdbcDF = spark.read.format("jdbc").option("url", "jdbc:mysql://centos7:3306/rdd").option("dbtable", " rddtable").option("user", "root").option("password", "hive").load()
+// 保存
+jdbcDF.write
+.format("jdbc")
+.option("url", "jdbc:mysql://centos7:3306/rdd")
+.option("dbtable", "rddtable2")
+.option("user", "root")
+.option("password", "hive")
+.save()
+```
+
+### 集成Hive
+
+当Spark应用程序需要访问Hive的元数据库的时候，也就是说需要读取Hive中的表的时候，就要集成Hive。
+
+**第一步**：只需要把hive-site.xml放在Spark的conf中即可。
+
+```bash
+[fanl@centos7 hive-1.1.0-cdh5.14.2]$ ln -s /opt/modules/cdh5.14.2/hive-1.1.0-cdh5.14.2/conf/hive-site.xml /opt/modules/cdh5.14.2/spark-2.2.1-bin-2.6.0-cdh5.14.2/conf/
+```
+
+**第二步**：把MySQL的驱动包放在Spark的jars里面
+
+**第三步**：如果你hive-site.xml里面配置了metastore服务，则先开启metastore服务
+
+```bash
+[fanl@centos7 hive-1.1.0-cdh5.14.2]$ nohup bin/hiveserver2 &
+[fanl@centos7 hive-1.1.0-cdh5.14.2]$ nohup bin/hive --service metastore &
+# 启动spark-sql
+[fanl@centos7 spark-2.2.1-bin-2.6.0-cdh5.14.2]$ bin/spark-sql
+spark-sql (default)> show databases;
+```
+
+SparkSQL的thiftserver服务
+
+```bash
+[fanl@centos7 spark-2.2.1-bin-2.6.0-cdh5.14.2]$ bin/start-thriftserver.sh
+```
+
+Scala编程
+
+```xml
+<dependency>
+  <groupId>org.apache.spark</groupId>
+  <artifactId>spark-hive-thriftserver_2.11</artifactId>
+  <version>2.2.1</version>
+</dependency>
+```
+
+```scala
+def main(args: Array[String]): Unit = {
+    //1.添加驱动包和驱动类
+    val driver = "org.apache.hive.jdbc.HiveDriver"
+    Class.forName(driver)
+    //2.创建连接对象
+    val url = "jdbc:hive2://centos7:10000"
+    val connect = DriverManager.getConnection(url,"xiaoming","123456")
+    //3.sql语句
+    connect.prepareStatement("use shop").execute()
+    var pstmt =  connect.prepareStatement("select empno,ename,sal from emp")
+    var rs = pstmt.executeQuery()
+    while(rs.next()){
+      println(s"empno = ${rs.getInt("empno")},ename = ${rs.getString("ename")},sal = ${
+        rs.getDouble("sal")
+      }")
+    }
+    rs.close()
+    pstmt.close()
+    println("============================================================")
+    pstmt =  connect.prepareStatement("select empno,ename,sal from emp where sal > ?")
+    pstmt.setDouble(1,1500.00)
+    rs = pstmt.executeQuery()
+    while(rs.next()){
+      println(s"empno = ${rs.getInt("empno")},ename = ${rs.getString("ename")},sal = ${
+        rs.getDouble("sal")
+      }")
+    }
+    pstmt.close()
+    rs.close()
+    connect.close()
+  }
+
 ```
 
