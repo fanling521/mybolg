@@ -14,7 +14,7 @@
 
 对于Hive的String类型相当于数据库的varchar类型，该类型是一个可变的字符串，不过它不能声明其中最多能存储多少个字符，理论上它可以存储2GB的字符数。
 
-### 集合数据类型
+### 复杂数据类型
 
 Hive有三种复杂数据类型ARRAY、MAP 和 STRUCT。ARRAY和MAP与Java中的Array和Map类似，而STRUCT与C语言中的Struct类似，它封装了一个命名字段集合，复杂数据类型允许任意层次的嵌套。
 
@@ -378,7 +378,7 @@ x表示从哪个bucket开始抽取，如果需要取多个分区，以后的分�
 
 ## Hive的函数
 
-### 查看内置函数
+### 内置函数
 
 ```bash
 hive> show functions;
@@ -394,7 +394,7 @@ hive> desc function extended upper;
 
 （2）窗口函数
 
-### 自定义函数UDF
+### UDF函数
 
 根据用户自定义函数类别分为以下三种：UDF（一进一出）、UDAF（多进一出）、UDTF（一进多出）
 

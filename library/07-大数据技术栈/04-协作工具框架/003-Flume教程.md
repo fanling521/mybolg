@@ -25,17 +25,24 @@ Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBa
 
 （5） **Event**是传输单元，Flume数据传输的基本单元，以事件的形式将数据从源头送至目的地。
 
-### 内部原理
-
-### 安装部署
+### Flume的安装部署
 
 解压文件，移动文件，将/conf下的`flume-env.sh.template`文件修改为`flume-env.sh`，并配置`flume-env.sh`文件。
 
 其余操作和以前安装工具框架是一样的。
 
+```bash
+# 启动案例
+# bin/flume-ng agent 启动代理
+# -c 配置文件目录
+# -n 代理名称
+# -f 指定配置文件
+[fanl@centos7 flume-1.6.0-cdh5.14.2]$ nohup bin/flume-ng agent -c conf/ -n a1 -f conf/flume-port.properties &
+```
+
 ## Flume案例
 
-### 实时监听端口数据案例
+### 1. 实时监听端口数据案例
 
 **案例**：定义一个flume-agent代理去监听读取某台服务器上的某个端口中的数据，并将监听读取到的数据最终写入到flume框架自己的日志文件中 ，这里使用的是4545。
 
@@ -122,7 +129,7 @@ Escape character is '^]'.
 15 四月 2019 18:04:42,387 INFO  [SinkRunner-PollingRunner-DefaultSinkProcessor] (org.apache.flume.sink.LoggerSink.process:95)  - Event: { headers:{} body: 68 65 6C 6C 6F 20 77 6F 72 6C 64 0D             hello world. }
 ```
 
-### 实时读取本地文件到HDFS
+### 2. 实时读取本地文件到HDFS
 
 **案例**：使用Flume实时监控读取系统本地一个日志文件中动态追加的日志数据并实时写入到HDFS上的某个目录下，并且进行优化：
 
@@ -193,7 +200,7 @@ a2.sinks.k2.channel = c2
 
 ![结果](assets/20190415183755.png)
 
-### 实时读取目录文件到某目录
+### 3. 实时读取目录文件到某目录
 
 实时读取`/home/fanl/data`目录下的日志到`/home/fanl/flume-logs`上
 
@@ -224,15 +231,15 @@ a3.sinks.k3.channel = c3
 [fanl@centos7 flume-1.6.0-cdh5.14.2]$ nohup bin/flume-ng agent -n a3 -c conf/ -f conf/flume-dir.properties &
 ```
 
-### 单数据源多选择器出口案例
+### 4. 单数据源多选择器出口案例
 
 ![单数据源多选择器出口案例](assets/20190416180339.png)
 
-### 单数据源多Sinks出口案例
+### 5. 单数据源多Sinks出口案例
 
 ![单数据源多Sinks出口案例](assets/20190416180315.png)
 
-### 多数据源汇总案例
+### 6. 多数据源汇总案例
 
 ![多数据源汇总案例](assets/20190416180236.png)
 

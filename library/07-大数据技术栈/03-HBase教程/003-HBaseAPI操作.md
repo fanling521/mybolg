@@ -2,39 +2,13 @@
 
 ## Java API操作
 
-（1）引入依赖
+### 对数据库的操作
 
-```xml
-	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop_version>2.6.0</hadoop_version>
-        <hbase_version>1.2.0</hbase_version>
-        <hive_version>1.1.0</hive_version>
-    </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${hadoop_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-server</artifactId>
-            <version>${hbase_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-client</artifactId>
-            <version>${hbase_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-exec</artifactId>
-            <version>${hive_version}</version>
-        </dependency>
-    </dependencies>
-```
+
+### HBase过滤器
+
+
 
 ## HBase集成
 

@@ -58,11 +58,11 @@ hive>load data local inpath '/home/fanl/student.txt' into table student;
 
 ## Hive元数据配置到MySql
 
-`Metastore`默认存储在自带的`derby`数据库中，不支持多人操作。
+Hive的元数据保存在`Metastore`中，而`Metastore`默认存储在自带的`derby`数据库中，不支持多人操作。
 
 ### 安装Mysql5.7
 
-**CentOS7**最小化安装需要重新安装Mysql源，5.7版本，本段编写时间*2019年4月4日*
+**CentOS7**最小化安装需要重新安装Mysql源，5.7版本*
 
 ```bash
 [fanl@centos7 ~]$ wget -P /usr/mysql/ http://repo.mysql.com/mysql57-community-release-el7.rpm

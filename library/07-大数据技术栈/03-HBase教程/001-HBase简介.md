@@ -4,27 +4,19 @@
 
 HBase是一个高可靠性、高性能、面向列、可伸缩的分布式存储系统，利用HBase技术可在廉价PC Server上搭建起大规模结构化存储集群。
 
-- 海量存储
-- 列式存储
-- 易扩展高并发
-
 ## HBase的架构
 
 ![架构](assets/20190418110129.png)
 
 ## HBase中的角色
 
-（1）Master
+（1）Client：HBase的接口信息
 
-- 监控管理RegionServer
-- 处理元数据的变更
-- 处理region的分配和转移
+（2）Master：监控管理RegionServer，处理元数据的变更，处理region的分配和转移
 
-（2）RegionServer
+（3）Region Server：维护Master分配的Region，处理IO请求，切分Region
 
-（3）HDFS
-
-（4）Zookeeper
+（4）Zookeeper：保证Master的运行，Region的寻址入口，监控region server的状态，存储HBase的元数据
 
 ## HBase的安装
 
