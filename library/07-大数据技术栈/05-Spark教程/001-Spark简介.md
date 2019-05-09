@@ -36,6 +36,8 @@ local[*]：按照CPU最多的核心来设置线程数量
 
 #### 提交流程
 
+`Client`提交应用，`Master`找到一个`Worker`启动`Driver`，`Driver`向 `Master`或者资源管理器申请资源，之后将应用转化为`RDD Graph`，再由`DAGScheduler`将R`DD Graph`转化为`DAG`提交给`TaskScheduler`，由`TaskScheduler`提交任务给 `Executor`执行。在任务执行的过程中，其他组件协同工作，确保整个应用顺利执行。
+
 **Driver（驱动器）**：Spark的驱动器是执行开发程序中的main方法的进程，负责来创建SparkContext、创建RDD，以及进行RDD的转化操作和行动操作代码的执行，把用户程序转为任务，跟踪Executor的运行状况，为执行器节点调度任务。
 
 **Executor（执行器）**：Spark Executor是一个工作进程，负责在 Spark 作业中运行任务，任务间相互独立。
@@ -129,7 +131,7 @@ Master：http://centos7:8080/
 [fanl@centos7 spark-2.2.1-bin-2.6.0-cdh5.14.2]$ bin/spark-shell --master spark://centos7:7070
 ```
 
-### 高可用
+### Spark高可用
 
 （1）基于单节点的本地文件系统的master的恢复机制
 

@@ -71,6 +71,8 @@ Reducer端Shuffle对输出数据进行Mergesort，将相同key的数据排序几
 
 #### Partition分区
 
+按照Key值将中间结果分成R份，其中每份都有一个Reduce去负责，可以通过job.setPartitionerClass()方法进行设置，默认的使用hashPartitioner类。
+
 > 默认分区
 
 ![](assets/20190401161711.png)
@@ -103,6 +105,8 @@ MapTask和ReduceTask都会对数据按照key排序，属于默认行为，默认
 bean对象做为key传输，需要实现WritableComparable接口重写compareTo方法，就可以实现排序。
 
 #### Combiner合并
+
+合并相同的key键，通过job.setCombinerClass()方法设置
 
 Combiner是在每一个MapTask节点运行，而Reduce是接收整个Map输出。其意义就是对每一个MapTask的输出进行局部汇总，减少网络传输量。
 

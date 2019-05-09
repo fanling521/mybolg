@@ -56,7 +56,7 @@ HBase表中的每个列，都归属于某个列族。列族是表的一部分（
 4. regionserver收到client写请求并响应，默认情况下regionserver先把数据写入对应region的HLog中，防止数据丢失再把数据写入到目标store
 5. 当memstore内的数据量达到阈值[128M]，会把memstore里面的数据Flush到HDFS上形成storefile（Hfile）文件
 6. 当持续写入数据，导致store下的storefile越来越多，当store文件数量达到3个进行小合并，且每间隔7天左右则会触发大合并操作，HBase会把每个store下的所有的storefile合并成一个大的单一的storefile
-7. 当大合并后的单个storefiles文件越来越大，达到一定阈值（10G或其他小于10G的动态阈值）时会触发split操作，region被一分为二，并由master将新的region分配给regionserver节点管理 
+7. 当大合并后的单个storefile文件越来越大，达到一定阈值（10G或其他小于10G的动态阈值）时会触发split操作，region被一分为二，并由master将新的region分配给regionserver节点管理 
 
 #### flush机制
 

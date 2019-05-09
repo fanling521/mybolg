@@ -167,8 +167,6 @@ class CustomerReceiver(host: String, port: Int) extends Receiver[String](storage
   }
 ```
 
-
-
 ### DSteam转换
 
 ### 无状态转化操作
@@ -226,4 +224,4 @@ Transform原语允许DStream上执行任意的RDD-to-RDD函数。即使这些函
 2. `saveAsTextFiles(prefix, [suffix])`：以text文件形式存储这个DStream的内容。每一批次的存储文件名基于参数中的prefix和suffix。”prefix-Time_IN_MS[.suffix]”.
 3. `saveAsObjectFiles(prefix, [suffix])`：以Java对象序列化的方式将Stream中的数据保存为 SequenceFiles . 每一批次的存储文件名基于参数中的为"prefix-TIME_IN_MS[.suffix]". Python中目前不可用
 4. `saveAsHadoopFiles(prefix, [suffix])`：将Stream中的数据保存为 Hadoop files. 每一批次的存储文件名基于参数中的为"prefix-TIME_IN_MS[.suffix]"。Python API Python中目前不可用
-5. `foreachRDD(func)`：这是最通用的输出操作，即将函数 func 用于产生于 stream的每一个RDD。其中参数传入的函数func应该实现将每一个RDD中数据推送到外部系统，如将RDD存入文件或者通过网络将其写入数据库。注意：函数func在运行流应用的驱动中被执行，同时其中一般函数RDD操作从而强制其对于流RDD的运算
+5. `foreachRDD(func)`：这是最通用的输出操作，即将函数 func 用于产生于 stream的每一个RDD。其中参数传入的函数func应该实现将每一个RDD中数据推送到外部系统，如将RDD存入文件或者通过网络将其写入数据库。注意：函数func在运行流应用的驱动中被执行，同时其中一般函数RDD操作从而强制其对于流RDD的/  8

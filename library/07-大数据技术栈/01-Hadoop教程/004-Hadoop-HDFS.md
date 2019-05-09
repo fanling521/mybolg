@@ -164,6 +164,8 @@ fis.seek(1024*1024*128)
 
 ## HDFS的数据流
 
+Hadoop默认的存储格式是TEXTFILE，其他还有ORC，RCFILE，AVRO等
+
 ### HDFS写流程⭐
 
 1. 客户端分割文件，向NameNode请求上传文件，NameNode响应可以上传，返回节点信息

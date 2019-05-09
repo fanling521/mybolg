@@ -22,15 +22,15 @@ RDDs之间存在依赖，RDD的执行是按照血缘关系延时计算的。如�
 
 ### RDD的创建
 
-#### 集合
+#### 输入Scala集合或数据
 
 从集合中创建RDD，Spark主要提供了两种函数：`parallelize`和`sc.makeRDD`。
 
-#### 外部存储系统
+#### 文件存储系统
 
 包括本地的文件系统，还有所有Hadoop支持的数据集，比如HDFS、Cassandra、HBase等。
 
-### RDD的转换
+### RDD计算操作：转换
 
 RDD整体上分为Value类型和Key-Value类型。
 
@@ -80,6 +80,7 @@ rdd2.collect
 //sample(是否放回,抽样比例，随机数)
 val rdd=sc.parallelize(1 to 10)
 val rdd2=rdd.sample(true,0.2,10)
+// takeSample
 ```
 
 （7）去重distinct
@@ -264,7 +265,9 @@ rdd.cogroup(rdd1).collect()
 //res6: Array[(Int, (Iterable[String], Iterable[Int]))] = Array((1,(CompactBuffer(a),CompactBuffer(4))), (2,(CompactBuffer(b),CompactBuffer(5))), (3,(CompactBuffer(c),CompactBuffer(6))))
 ```
 
-### Action
+### RDD计算操作：Action
+
+Action算子会触发Spark提交作业，并将数据输出到Spark系统。
 
 （1）reduce(func)，通过func函数聚集RDD中的所有元素，先聚合分区内数据，再聚合分区间数据。
 
@@ -397,3 +400,10 @@ val broadcastVar = sc.broadcast(Array(1, 2, 3))
 
 ## SparkCore优化
 
+在提交任务时的几个重要参数优化说明
+
+**executor-cores** —— 每个executor使用的内核数，默认为1， work 进程中线程数过少，一般 2~4 为宜。
+**num-executors** —— 启动executors的数量，默认为2
+**executor-memory** —— executor内存大小，默认1G，一般 6~10g 为宜，最大不超过20G
+**driver-cores** —— driver使用内核数，默认为1
+**driver-memory** —— driver内存大小，默认512M，driver 不做任何计算和存储，只是下发任务与yarn资源管理器和task交互，一般 1-2g

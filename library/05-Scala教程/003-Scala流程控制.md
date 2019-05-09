@@ -105,7 +105,9 @@ for(i<-1 until 3){
 }
 ```
 
-**循环守卫**：满足条件就进入循环体内，不满足就跳过。
+##### 循环守卫
+
+满足条件就进入循环体内，不满足就跳过。
 
 ```scala
 for(i<-1 to 3 if i==2){
@@ -113,7 +115,9 @@ for(i<-1 to 3 if i==2){
 }
 ```
 
-**引入变量**：需要添加`;`来隔断逻辑
+##### 引入变量
+
+需要添加`;`来隔断逻辑
 
 ```scala
 for(i<-1 to 3;j=i-1){
@@ -127,7 +131,9 @@ for(i<-1 to 3){
 }
 ```
 
-**循环嵌套**：除了传统的方式，Scala支持以下语法
+##### 循环嵌套
+
+除了传统的方式，Scala支持以下语法
 
 ```scala
 for(i<-1 to 3;j <-1 to 3){
@@ -135,7 +141,9 @@ for(i<-1 to 3;j <-1 to 3){
 }
 ```
 
-**循环返回值**：Vetor集合
+##### 循环返回值
+
+返回Vetor集合
 
 ```scala
 def main(args: Array[String]): Unit = {
@@ -152,7 +160,9 @@ def main(args: Array[String]): Unit = {
 
 返回：`Vector`(1-奇数, 2-偶数, 3-奇数, 4-偶数, 5-奇数, 6-偶数, 7-奇数, 8-偶数, 9-奇数, 10-偶数)
 
-**控制步长**：两种方式来完成控制步长`2`
+##### 控制步长
+
+两种方式来完成控制步长`2`
 
 ```scala
 def main(args: Array[String]): Unit = {
@@ -179,9 +189,20 @@ def main(args: Array[String]): Unit = {
 
 和While的描述一样。
 
-#### Break
+#### Break和Continue
 
 ```scala
-
+//实现break效果
+breakable {
+    while (n <= 20) {
+        n += 1
+        println("n=" + n)
+        if (n == 18) {
+          break()
+        }
+      }
+}
+// 实现continue效果
+// 使用循环守卫if
 ```
 

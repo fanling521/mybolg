@@ -42,7 +42,7 @@ export HBASE_MANAGES_ZK=false
 		<name>hbase.cluster.distributed</name>
 		<value>true</value>
 	</property>
-	  
+
 	<property>
 		<name>hbase.zookeeper.quorum</name>
 		<value>centos7</value>
