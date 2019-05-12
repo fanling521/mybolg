@@ -2,35 +2,21 @@
 
 ## HBase的存储模型
 
-> （1）行键Row Key
+（1）行键Row Key：行键可以是任意字符，最大长度64KB，存储时按照Row Key的字典序排序存储。
 
-行键可以是任意字符，最大长度64KB，存储时按照Row Key的字典序排序存储。
+（2）列族Column Family：HBase表中的每个列，都归属于某个列族。列族是表的一部分（而列不是），必须在使用表之前定义。列名都以列族作为前缀，例如 courses:history，courses:math都属于courses 这个列族。
 
-> （2）列族Column Family
+（3）列Column：列都属于某个列族。
 
-HBase表中的每个列，都归属于某个列族。列族是表的一部分（而列不是），必须在使用表之前定义。
+（4）单元格Cell：由{rowkey, column Family:columu,version} 唯一确定的单元。cell中的数据是**没有类型**的，全部是**字节码形式**储存。
 
-列名都以列族作为前缀，例如 courses:history，courses:math都属于courses 这个列族。
+（5）时间戳TimeStamp：每个 cell都保存 着同一份数据的多个版本，版本通过时间戳来索引，不同版本的数据按照时间倒叙排序。
 
-> （3）列Column
-
-列都属于某个列族。
-
-> （4）单元格Cell
-
-由{rowkey, column Family:columu,version} 唯一确定的单元。cell中的数据是**没有类型**的，全部是**字节码形式**储存。
-
-> （5）时间戳TimeStamp
-
-每个 cell都保存 着同一份数据的多个版本，版本通过时间戳来索引，不同版本的数据按照时间倒叙排序。
-
-> （6）命名空间Namespace
-
-包含了表和各种权限。
+（6）命名空间Namespace：包含了表和各种权限。
 
 ## HBase原理⭐
 
-### region的内部结构 
+### region的内部结构
 
 ![内部结构](assets/20190422205029.png)
 

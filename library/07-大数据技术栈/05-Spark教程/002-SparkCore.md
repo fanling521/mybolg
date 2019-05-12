@@ -407,3 +407,7 @@ val broadcastVar = sc.broadcast(Array(1, 2, 3))
 **executor-memory** —— executor内存大小，默认1G，一般 6~10g 为宜，最大不超过20G
 **driver-cores** —— driver使用内核数，默认为1
 **driver-memory** —— driver内存大小，默认512M，driver 不做任何计算和存储，只是下发任务与yarn资源管理器和task交互，一般 1-2g
+
+## 相关问题
+
+（1）为什么Spark要把操作分为transform和action

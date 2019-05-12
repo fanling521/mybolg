@@ -21,41 +21,35 @@ HDFS中的读/写操作运行在块级。HDFS数据文件被分成块大小的�
 - 对小文件存储不友好，且违反了设计目标
 - 一个文件不允许多线程同时写，不支持文件随机修改，只能追加
 
-## HDFS的组成
+### HDFS的组成
 
-HDFS由**NameNode**、**DataNode**和**SecondaryNameNode**组成。
+`HDFS`由**NameNode**、**DataNode**和**SecondaryNameNode**组成。
 
-### NameNode是什么
+#### NameNode
 
-NameNode维护文件和目录的文件系统树和元数据。
+`NameNode`维护文件和目录的文件系统树和元数据。管理`HDFS`的名称空间，配置副本策略，管理数据库的映射信息，处理客户端的读写请求。
 
-- 管理HDFS的名称空间
-- 配置副本策略
-- 管理数据库的映射信息
-- 处理客户端的读写请求
+#### DataNode
 
-### DataNode是什么
+`DataNode`存储实际的数据块，接收`NameNode`命令并执行执行数据的读写操作。
 
-DataNode存储实际的数据块，接收NameNode命令并执行执行数据的读写操作。
+#### SecondaryNameNode
 
-### SecondaryNameNode是什么
+分担`NameNode`的工作，合并`Fsimage`和`edits`，紧急情况下，恢复`NameNode`
 
-- 分担NameNode 的工作，合并`Fsimage`和`edits`
-- 紧急情况下，恢复NameNode
+####  Client
 
-### Client是什么
-
-Client是客户端，主要的功能：
+`Client`是客户端，主要的功能：
 
 - 文件切割，讲文件分割成一个一个的块，然后上传
-- 与NameNode交互，获取文件的位置信息，与DataNode交互，进行读写操作
-- 提供一些命令管理和操作HDFS
+- 与`NameNode`交互，获取文件的位置信息，与`DataNode`交互，进行读写操作
+- 提供一些命令管理和操作`HDFS`
 
 ## HDFS Shell操作
 
 ### 基本语法
 
-`bin/hadoop fs [具体命令]`或者`bin/hdfs dfs [具体命令]`，dfs是fs的实现类。
+`bin/hadoop fs [具体命令]`或者`bin/hdfs dfs [具体命令]`，`dfs`是`fs`的实现类。
 
 查看帮助`bin/hadoop dfs -help`
 
@@ -96,17 +90,17 @@ Deleted /user/fanl/a
 
 ### RPC通信原理
 
-RPC即为远程过程调用协议，通过网络从远程计算机程序上请求服务。
+`RPC`即为远程过程调用协议，通过网络从远程计算机程序上请求服务。
 
 请求程序就是一个客户机，而服务提供程序就是一个服务器，首先，客户机调用进程发送一个有进程参数的调用信息到服务进程，然后等待应答信息。在服务器端，进程保持睡眠状态知道调用信息的到达为止。当一个信息到达，服务器调用进程接收答复信息，获得进程结果。
 
-## HDFS客户端开发
+## HDFS Java API
 
 ### 环境准备
 
 下载**Windows**版本的Hadoop压缩包，解压，配置环境变量`HADOOP_HOME`
 
-新建maven工程，参考如下的pom.xml
+新建maven工程，参考如下的`pom.xml`
 
 ```xml
 <dependency>
@@ -162,26 +156,40 @@ for(int i =0 ; i < 1024 * 128; i++){
 fis.seek(1024*1024*128)
 ```
 
-## HDFS的数据流
+## HDFS的原理⭐
 
-Hadoop默认的存储格式是TEXTFILE，其他还有ORC，RCFILE，AVRO等
+### HDFS的数据流
 
-### HDFS写流程⭐
+Hadoop默认的存储格式如下
 
-1. 客户端分割文件，向NameNode请求上传文件，NameNode响应可以上传，返回节点信息
+```
+file_format:
+  : SEQUENCEFILE
+  | TEXTFILE    -- (Default, depending on hive.default.fileformat configuration)
+  | RCFILE      -- (Note: Available in Hive 0.6.0 and later)
+  | ORC         -- (Note: Available in Hive 0.11.0 and later)
+  | PARQUET     -- (Note: Available in Hive 0.13.0 and later)
+  | AVRO        -- (Note: Available in Hive 0.14.0 and later)
+  | JSONFILE    -- (Note: Available in Hive 4.0.0 and later)
+  | INPUTFORMAT input_format_classname OUTPUTFORMAT output_format_classname
+```
+
+#### HDFS写文件流程
+
+1. 客户端分割文件，向`NameNode`请求上传文件，`NameNode`响应可以上传，返回节点信息
 4. 客户端通过`FSDataOutputStream`模块请求`dn1`上传数据，`dn1`收到请求会继续调用`dn2`，逐个建立管道，然后逐级应答客户端
 3. 客户端按**128MB**的块切分文件，发送第一块，向`dn1`以`packet`为单位传输数据，`dn1`收到就会传给`dn2`，依次传输，逐级应答，每写完一个块，返回确认信息，客户端会再次请求
 7. 全部写完，关闭输入输出流，给`NameNode`发出完成信号
 
-### HDFS读流程⭐
+#### HDFS读文件流程
 
 1. 客户端通过`Distributed FileSystem`模块向`NameNode`请求下载文件，`NameNode`通过查询元数据，找到对应的`DataNode`地址
-2. 客户端通过`FSDataInputtStream`模块向对应的`DataNode`请求数据读取各个block
+2. 客户端通过`FSDataInputtStream`模块向对应的`DataNode`请求数据读取各个`block`
 3. `DataNode`传输数据给客户端，客户端接收缓存然后合并，最后写入目标文件
 
-## NameNode
+### NameNode工作原理
 
-NameNode被格式化之后，将在${HADOOP_HOME}/data/tmp/dfs/name/current目录中产生如下文件
+`NameNode`被格式化之后，将在`${HADOOP_HOME}/data/tmp/dfs/name/current`目录中产生如下文件
 
 ```
 fsimage_0000000000000000000
@@ -190,10 +198,8 @@ seen_txid
 VERSION
 ```
 
-- **fsimage文件：**HDFS文件系统元数据的一个**永久性的检查点**，其中包含HDFS文件系统的所有目录和文件inode的序列化信息
-- **edits文件：**存放HDFS文件系统的所有更新操作的路径，文件系统客户端执行的所有写操作首先会被记录到edits文件中
-
-### 启动过程⭐
+- **fsimage文件：**`HDFS`文件系统元数据的一个**永久性的检查点**，其中包含`HDFS`文件系统的所有目录和文件`inode`的序列化信息
+- **edits文件：**存放`HDFS`文件系统的所有更新操作的路径，文件系统客户端执行的所有写操作首先会被记录到`edits`文件中
 
 #### 为什么要这样做
 
@@ -203,21 +209,23 @@ VERSION
 
 但是，如果长时间添加数据到`edits`中，会导致该文件数据过大，效率降低，而且一旦断电，恢复元数据需要的时间过长。因此，需要定期进行`fsImage`和`edits`的合并，如果这个操作由`NameNode`节点完成，又会效率过低。因此，引入一个新的节点`SecondaryNamenode`，专门用于`fsImage`和`edits`的合并。
 
-#### NN启动过程
+#### NameNode的工作过程
 
-NameNode启动后，会进入30秒的等待时间，此时处于安全模式，所谓的安全模式就是只能执行相关读取操作。此时，开始完成两件事：
+`NameNode`启动后，会进入30秒的等待时间，此时处于安全模式，所谓的安全模式就是只能执行相关读取操作。此时，开始完成两件事：
 
-第一件事：接受DataNode的心跳和块状态报告，心跳为每3秒发送一次，用来标记是否存活，而块的状态报告主要是用来发送NameNode节点下各个块的状态，默认每一小时发送一次，之后NameNode就会根据自身的元数据来比对DataNode发送的所有块报告的数据是否匹配来判断各个DataNode是否正常。
+**第一件事**
 
-第二件事就是启动过程：
+接受`DataNode`的心跳和块状态报告，心跳为每3秒发送一次，用来标记是否存活，而块的状态报告主要是用来发送`NameNode`节点下各个块的状态，默认每一小时发送一次，之后`NameNode`就会根据自身的元数据来比对`DataNode`发送的所有块报告的数据是否匹配来判断各个`DataNode`是否正常。
+
+**第二件事**
 
 
-1. 第一次启动`NameNode`，将创建`fsimage`和`edits`文件，如果不是第一次启动，先滚动`edits`并生成一个空的`edits.inprogress`，然后加载`fsimage`和`edits`到内存，当然，也会合并`fsimage`和`edits`。
+1. 第一次启动`NameNode`，将创建`fsimage`和`edits`文件，如果不是第一次启动，先滚动`edits`并生成一个空的`edits.inprogress`，然后加载`fsimage`和`edits`到内存，当然，也会合并`fsimage`和`edits`
 2. 客户端发起对**元数据**进行**增删改**的请求（查询元数据的操作不会被记录在`edits`中）
 3. `NameNode`编辑日志先记录操作日志，更新滚动日志
 4. `NameNode`在内存中对数据进行增删改
 
-#### 2NN工作过程
+#### 2NN的工作过程
 
 其主要工作是合并日志，详细的内容如下：
 
@@ -238,7 +246,21 @@ NameNode启动后，会进入30秒的等待时间，此时处于安全模式，�
 [fanl@centos7 current]$ hdfs oev -p XML -i edits_0000000000000000438-0000000000000000439 -o ./xx2.xml
 ```
 
-### 机架感知
+### DataNode工作原理
+
+1. 一个数据块在`DataNode`上以文件形式存储在磁盘上，包括两个文件，一个是数据本身，一个是元数据包括数据块的长度，块数据的校验和，以及时间戳
+2. `DataNode`启动后向`NameNode`注册，通过后，周期性（1小时）的向`NameNode`上报所有的块信息
+3. 心跳检测是每3秒一次，心跳返回结果带有`NameNode`给该`DataNode`的命令如复制块数据到另一台机器，或删除某个数据块。如果超过10分钟没有收到某个`DataNode`的心跳，则认为该节点不可用
+
+## HDFS其他特性
+
+### 集群间数据复制
+
+```bash
+hadoop distcp hdfs://haoop102:9000/user/hello.txt hdfs://hadoop103:9000/user/hello.txt
+```
+
+### HDFS的机架感知
 
 默认是没有机架感知的，需要配置，版本需要>2.7.2
 
@@ -266,7 +288,7 @@ NameNode的本地目录可以配置成多个，且每个目录存放内容相同
 
 删除`data`和`logs`，重新格式化`NameNode`
 
-### 安全模式
+### Hadoop的安全模式
 
 `NameNode`启动时，首先将镜像文件（`Fsimage`）载入内存，并执行编辑日志（`edits`）中的各项操作。一旦在内存中成功建立文件系统元数据的映像，则创建一个新的`Fsimage`文件和一个空的编辑日志。此时，`NameNode`开始监听`DataNode`请求。这个过程期间，`NameNode`一直运行在安全模式，即`NameNode`的文件系统对于客户端来说是只读的。
 
@@ -284,15 +306,6 @@ NameNode的本地目录可以配置成多个，且每个目录存放内容相同
 
 （4）`hdfs dfsadmin -safemode wait`      （功能描述：等待安全模式状态）
 
-## DataNode
-
-### 启动过程⭐
-
-1. 一个数据块在`DataNode`上以文件形式存储在磁盘上，包括两个文件，一个是数据本身，一个是元数据包括数据块的长度，块数据的校验和，以及时间戳
-2. `DataNode`启动后向`NameNode`注册，通过后，周期性（1小时）的向`NameNode`上报所有的块信息
-3. 心跳检测是每3秒一次，心跳返回结果带有`NameNode`给该`DataNode`的命令如复制块数据到另一台机器，或删除某个数据块。如果超过10分钟没有收到某个`DataNode`的心跳，则认为该节点不可用
-4. 集群运行中可以安全加入和退出一些机器
-
 ### 如何保证数据完整性
 
 DataNode节点保证数据完整性的方法：
@@ -302,7 +315,7 @@ DataNode节点保证数据完整性的方法：
 3. 客户端读取其他`DataNode`上的`Block`
 4. `DataNode`在其文件创建后周期验证`CheckSum`
 
-### 容错方式
+### HDFS的容错方式
 
 1. 副本
 2. 心跳检测
@@ -359,14 +372,6 @@ DataNode也可以配置成多个目录，每个目录存储的数据不一样。
    	<value>file:///${hadoop.tmp.dir}/dfs/data1,
        file:///${hadoop.tmp.dir}/dfs/data2</value>
 </property>
-```
-
-## HDFS 新特性
-
-### 集群间数据复制
-
-```bash
-hadoop distcp hdfs://haoop102:9000/user/hello.txt hdfs://hadoop103:9000/user/hello.txt
 ```
 
 ## 相关问题

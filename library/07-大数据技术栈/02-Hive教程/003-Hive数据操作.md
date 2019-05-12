@@ -329,14 +329,14 @@ hive (default)> insert overwrite local directory '/home/fanl/emp' select * from 
 > （3）行转列
 
 `CONCAT(string A/col, string B/col…)`：返回输入字符串连接后的结果，支持任意个输入字符串;
-`CONCAT_WS(separator, str1, str2,...)`：它是一个特殊形式的 CONCAT()。第一个参数剩余参数间的分隔符。分隔符可以是与剩余参数一样的字符串。如果分隔符是 NULL，返回值也将为 NULL。这个函数会跳过分隔符参数后的任何 NULL 和空字符串。分隔符将被加到被连接的字符串之间;
+`CONCAT_WS(separator, str1, str2,...)`：它是一个特殊形式的 `CONCAT()`。第一个参数剩余参数间的分隔符。分隔符可以是与剩余参数一样的字符串。如果分隔符是 NULL，返回值也将为 NULL。这个函数会跳过分隔符参数后的任何 NULL 和空字符串。分隔符将被加到被连接的字符串之间;
 `COLLECT_SET(col)`：函数只接受基本数据类型，它的主要作用是将某字段的值进行去重汇总，产生array类型字段。
 
 > （4）列转行
 
 explode(col)：将Hive一列中复杂的array或者map结构拆分成多行。
 
-用法：lateral view udtf(expression) 表别称AS 显示的列名
+用法：`lateral view udtf(expression)` 表别称AS 显示的列名
 
 解释：用于和split, explode等UDTF一起使用，它能够将一列数据拆成多行数据，在此基础上可以对拆分后的数据进行聚合。
 
@@ -344,9 +344,7 @@ explode(col)：将Hive一列中复杂的array或者map结构拆分成多行。
 
 #### 分桶
 
-分区针对的是数据的存储路径；分桶针对的是数据文件。
-
-创建分桶表时，数据通过子查询的方式导入
+分区针对的是数据的存储路径；分桶针对的是数据文件。创建分桶表时，数据通过子查询的方式导入
 
 ```sql
 create table stu_buck(id int, name string)
@@ -402,7 +400,7 @@ hive> desc function extended upper;
 
 （1）继承`org.apache.hadoop.hive.ql.UDF`
 
-（2）需要实现evaluate函数；evaluate函数支持重载
+（2）需要实现`evaluate`函数；`evaluate`函数支持重载
 
 ```java
     public Text evaluate(Text field) {
