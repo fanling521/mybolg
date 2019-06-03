@@ -105,7 +105,7 @@ class CustomerReceiver(host: String, port: Int) extends Receiver[String](storage
 
 #### Kafka数据源⭐
 
-在工程中需要引入 Maven 工件`spark- streaming-kafka_2.11` 来使用它。包内提供的 `KafkaUtils` 对象可以在StreamingContext 和 JavaStreamingContext 中以你的Kafka 消息创建出 DStream。
+在工程中需要引入 Maven 工件`spark-streaming-kafka_2.11` 来使用它。包内提供的 `KafkaUtils` 对象可以在StreamingContext 和 JavaStreamingContext 中以你的Kafka 消息创建出 DStream。
 
 ```xml
 <dependency>

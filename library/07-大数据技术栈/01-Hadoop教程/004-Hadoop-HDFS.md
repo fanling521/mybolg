@@ -51,7 +51,7 @@ HDFS中的读/写操作运行在块级。HDFS数据文件被分成块大小的�
 
 `bin/hadoop fs [具体命令]`或者`bin/hdfs dfs [具体命令]`，`dfs`是`fs`的实现类。
 
-查看帮助`bin/hadoop dfs -help`
+  查看帮助`bin/hadoop dfs -help`
 
 ### 用户命令
 

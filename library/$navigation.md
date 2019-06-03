@@ -6,6 +6,8 @@
 - [CSS教程](?file=01-前端教程/002-CSS教程 "CSS教程")
 - [JavaScript教程](?file=01-前端教程/003-JavaScript教程 "JavaScript教程")
 - [jQuery教程](?file=01-前端教程/004-jQuery教程 "jQuery教程")
+- [Vue.js教程](?file=01-前端教程/005-Vue.js教程 "Vue.js教程")
+- [Element教程](?file=01-前端教程/006-Element教程 "Element教程")
 
 ##### Java教程
 
@@ -26,7 +28,6 @@
 - **Linux教程**
 	- [Linux基础](?file=03-Linux系统/01-Linux教程/001-Linux基础 "Linux基础")
 	- [Linux管理](?file=03-Linux系统/01-Linux教程/002-Linux管理 "Linux管理")
-	- [Linux核心](?file=03-Linux系统/01-Linux教程/003-Linux核心 "Linux核心")
 - **Shell编程**
 	- [Shell编程基础](?file=03-Linux系统/02-Shell编程/001-Shell编程基础 "Shell编程基础")
 	- [Shell深入编程](?file=03-Linux系统/02-Shell编程/002-Shell深入编程 "Shell深入编程")
@@ -35,6 +36,7 @@
 - [数据库理论基础](?file=04-数据库教程/001-数据库理论基础 "数据库理论基础")
 - [MySql数据库](?file=04-数据库教程/002-MySql数据库 "MySql数据库")
 - [Redis教程](?file=04-数据库教程/003-Redis教程 "Redis教程")
+- [PostgreSQL教程](?file=04-数据库教程/004-PostgreSQL教程 "PostgreSQL教程")
 
 ##### Scala教程
 - [Scala简介](?file=05-Scala教程/001-Scala简介 "Scala简介")
@@ -73,6 +75,13 @@
 	- [Flume教程](?file=07-大数据技术栈/04-协作工具框架/003-Flume教程 "Flume教程")
 	- [Oozie教程](?file=07-大数据技术栈/04-协作工具框架/004-Oozie教程 "Oozie教程")
 	- [Hue教程](?file=07-大数据技术栈/04-协作工具框架/005-Hue教程 "Hue教程")
+- **Spark教程**
+  - [Spark简介](?file=07-大数据技术栈/05-Spark教程/001-Spark简介 "Spark简介")
+  - [SparkCore](?file=07-大数据技术栈/05-Spark教程/002-SparkCore "SparkCore")
+  - [SparkSQL](?file=07-大数据技术栈/05-Spark教程/003-SparkSQL "SparkSQL")
+  - [SparkStreaming](?file=07-大数据技术栈/05-Spark教程/004-SparkStreaming "SparkStreaming")
+- **机器学习**
+- **深度学习**
 
 ##### 编程基础与工具
 - [数据结构与算法](?file=08-编程基础与工具/001-数据结构与算法 "数据结构与算法")
@@ -80,3 +89,4 @@
 - [计算机原理和网络](?file=08-编程基础与工具/003-计算机原理和网络 "计算机原理和网络")
 - [项目构建与管理](?file=08-编程基础与工具/004-项目构建与管理 "项目构建与管理")
 - [Nginx教程](?file=08-编程基础与工具/005-Nginx教程 "Nginx教程")
+- [设计模式](?file=08-编程基础与工具/006-设计模式 "设计模式")

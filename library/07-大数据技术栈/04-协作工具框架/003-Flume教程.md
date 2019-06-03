@@ -139,7 +139,6 @@ Escape character is '^]'.
 [fanl@centos7 hadoop]$ cp common/lib/htrace-core4-4.0.1-incubating.jar /opt/modules/cdh5.14.2/flume-1.6.0-cdh5.14.2/lib/
 [fanl@centos7 hadoop]$ cp tools/lib/commons-configuration-1.6.jar /opt/modules/cdh5.14.2/flume-1.6.0-cdh5.14.2/lib/
 [fanl@centos7 hadoop]$ cp tools/lib/hadoop-auth-2.6.0-cdh5.14.2.jar /opt/modules/cdh5.14.2/flume-1.6.0-cdh5.14.2/lib/
-
 ```
 
 > （2）启动新的Flume之前需要新增配置文件为`flume-file.properties`，并且agent的别名需要唯一指定。
