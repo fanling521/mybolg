@@ -1,5 +1,7 @@
 # Element教程
 
+本教程只讲述项目流程，控件用法看官网，使用技巧看Vue.js教程。
+
 ## 什么是Element
 
 一套和vue配合使用的ui控件库，只适用PC端。
@@ -121,5 +123,11 @@ export default new Router({
 npm install webpack-cli -g
 ```
 
-（2）配置参数
+（2）运行
+
+```bash
+npm run build
+```
+
+之后会在界面显示资源信息，以及目标目录为/dist
 
