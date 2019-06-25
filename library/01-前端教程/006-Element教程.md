@@ -131,3 +131,39 @@ npm run build
 
 之后会在界面显示资源信息，以及目标目录为/dist
 
+## 使用技巧
+
+### 问题解决
+
+（1）webpack不能正确显示svg图标，按照下面的步骤进行修改。
+
+首先，安装`npm install svg-sprite-loader --save-dev`
+
+其次，修改`webpack.base.conf.js`
+
+```javascript
+[{
+    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+    loader: 'url-loader',
+    /*添加*/
+    exclude: [resolve('src/icons')],
+    options: {
+      limit: 10000,
+      name: utils.assetsPath('img/[name].[hash:7].[ext]')
+    }
+  },
+  /*添加*/
+  {
+    test: /\.svg$/,
+    loader: 'svg-sprite-loader',
+    include: [resolve('src/icons')],
+    options: {
+      symbolId: 'icon-[name]'
+    }
+}]
+```
+
+最后将图标放在src/icons下面。
+
+### 组件优化
+

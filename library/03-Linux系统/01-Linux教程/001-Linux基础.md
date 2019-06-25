@@ -132,7 +132,7 @@ SELINUX=disabled
 # =====查看组员========
 [root@centos01 ~]$ cat /etc/group | grep hadoop
 # =====添加组员========
-[root@centos01 ~]$ gpasswd -a hadoop zhongguo
+[root@centos01 ~]$ gpasswd -a hadoop(用户) zhongguo（组）
 # =====删除组员========
 [root@centos01 ~]$ gpasswd -d hadoop fanl
 

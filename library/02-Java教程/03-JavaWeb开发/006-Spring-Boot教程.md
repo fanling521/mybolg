@@ -82,3 +82,19 @@ public class IPInterceptor implements HandlerInterceptor {
     }
 ```
 
+### SpringBoot @Value 设置默认值
+
+添加个冒号，指定默认值。
+
+```java
+@Component
+@Getter
+@Setter
+public class SolrConfig {
+    @Value("${solr.zk.zktimeout:60000}")
+    private String zkTimeOut;
+}
+```
+
+注意：配置类只能使用`@Autowired`，不能使用new的方式。
+

@@ -70,6 +70,19 @@ daemonize yes
 
 以上启动后只在控制台出现，修改配置文件，实现后台执行，修改`redis.conf`中的
 
+### Redis 入门命令
+
+```bash
+# 登录
+[root@fanl01 ~] ./redis-cli -h (ip) -p 6379
+# 查看所有key
+[root@fanl01 ~] keys *
+# 查看指定key
+[root@fanl01 ~] get (key)
+```
+
+
+
 ## Redis 配置
 
 Redis 的配置文件名为 `redis.conf`

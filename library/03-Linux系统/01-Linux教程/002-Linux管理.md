@@ -145,6 +145,8 @@
 [root@centos01 ~] chomd 777 test.sh
 [root@centos01 ~] chomd u+x test.sh
 [root@centos01 ~] chomd +x test.sh
+# 修改文件拥有者——chown
+[root@centos01 ~] chown -R fanl:hadoop  zgzdir 
 ```
 
 ## Linux系统命令
@@ -315,3 +317,12 @@ rsync是远程文件同步工具。
 # =====使用方法========
  rsync -rvl test fanl@192.168.157.152:/home/fanl/
 ```
+
+### 安装rz
+
+rzsz是上传下载工具，需要连接工具的支持。
+
+```bash
+yum -y install lrzsz.x86_64
+```
+
