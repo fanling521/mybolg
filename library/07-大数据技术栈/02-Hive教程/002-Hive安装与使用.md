@@ -70,11 +70,6 @@ Hive的元数据保存在`Metastore`中，而`Metastore`默认存储在自带的
 [fanl@centos7 ~]$ yum -y install mysql-server
 ```
 
-**注意：**`Mysql5.7`默认安装之后root是有密码的。
-
-```bash
-[fanl@centos7 ~]$ grep 'temporary password' /var/log/mysqld.log
-```
 （1）配置启动Mysql
 
 ```bash
@@ -85,8 +80,15 @@ Hive的元数据保存在`Metastore`中，而`Metastore`默认存储在自带的
 [root@centos7 ~]$ chkconfig mysqld on
 # 修改密码
 [root@centos7 ~]$ mysql -uroot -p密码
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root@123!@#';
 
+```
+
+**注意：**`Mysql5.7`默认安装之后root是有密码的。
+
+```bash
+[fanl@centos7 ~]$ grep 'temporary password' /var/log/mysqld.log
+2019-06-26T02:07:06.634289Z 1 [Note] A temporary password is generated for root@localhost: NOplHD:Oo7xI
 ```
 
 （2）解决：ERROR 1819 (HY000): Your password does not satisfy the current policy requirements

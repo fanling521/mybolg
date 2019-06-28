@@ -1,0 +1,73 @@
+# Docker教程
+
+## 什么是Docker
+
+## Docker安装
+
+### centOS安装Docker
+
+（1）Docker 要求 CentOS 系统的内核版本高于 3.10
+```bash
+[root@fanling ~]$ uname -r
+```
+
+（2）yum 安装
+
+```bash
+[root@fanling ~]$ yum update
+# 卸载旧版本
+[root@fanling ~]$ yum remove docker  docker-common docker-selinux docker-engine
+[root@fanling ~]$ yum install -y yum-utils device-mapper-persistent-data lvm2
+# 设置安装源
+[root@fanling ~]$ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# 查看版本
+[root@fanling ~]$ yum list docker-ce --showduplicates | sort -r
+# 安装
+[root@fanling ~]$ yum install docker-ce
+# 检查安装
+[root@fanling ~]$ docker version
+Client:
+ Version:           18.09.7
+ API version:       1.39
+ Go version:        go1.10.8
+ Git commit:        2d0083d
+ Built:             Thu Jun 27 17:56:06 2019
+ OS/Arch:           linux/amd64
+ Experimental:      false
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          18.09.7
+  API version:      1.39 (minimum version 1.12)
+  Go version:       go1.10.8
+  Git commit:       2d0083d
+  Built:            Thu Jun 27 17:26:28 2019
+  OS/Arch:          linux/amd64
+  Experimental:     false
+# 启动
+[root@fanling ~]$ systemctl start docker
+# 开机启动
+[root@fanling ~]$ systemctl enable docker
+```
+
+## 镜像安装
+
+（1）安装nginx
+
+```bash
+# 下载nginx
+[root@fanling ~]$ docker pull nginx
+[root@fanling ~]$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               latest              719cd2e3ed04        2 weeks ago         109MB
+# 运行 将80端口映射为8080，或者80:80还是原先的80端口，不可以不写。
+[root@fanling ~]$ docker run -p 8080:80 -d docker.io/nginx
+# 检查和访问
+[root@fanling ~]$ netstat -anp | grep 8080
+[root@fanling ~]$ docker ps
+```
+
+
+
+
+
