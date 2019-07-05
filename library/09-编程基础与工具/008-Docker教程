@@ -50,7 +50,38 @@ Server: Docker Engine - Community
 [root@fanling ~]$ systemctl enable docker
 ```
 
-## 镜像安装
+## 基本操作
+
+### 基础操作和命令
+
+（1）镜像操作
+
+```bash
+# 下载镜像
+[root@fanling ~]$ docker pull xxx
+# 查看镜像
+[root@fanling ~]$ docker images
+```
+
+（2）容器操作
+
+```bash
+# 查看容器
+[root@fanling ~]$ docker ps
+# 查看所有容器
+[root@fanling ~]$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS   
+# 停止容器
+[root@fanling ~]$ docker stop [CONTAINER ID]
+# 删除容器
+[root@fanling ~]$ docker rm [CONTAINER ID]
+# 启动容器
+[root@fanling ~]$ docker start [CONTAINER ID]
+# 端口映射
+[root@fanling ~]$ docker run  -p 服务器端口:Docker端口 -d --name container-name image-name
+```
+
+
 
 （1）安装nginx
 
@@ -65,6 +96,79 @@ nginx               latest              719cd2e3ed04        2 weeks ago         
 # 检查和访问
 [root@fanling ~]$ netstat -anp | grep 8080
 [root@fanling ~]$ docker ps
+```
+
+（2）运行Nginx实例-将vue项目运行在docker的nginx容器中
+
+先新建好打包好的文件信息
+
+在项目文件目录下新增Dockerfile
+
+```dockerfile
+FROM nginx:latest
+MAINTAINER fanling <862844083@qq.com>
+COPY $PWD  /usr/share/nginx/html/
+```
+
+查看镜像和运行
+
+```bash
+[root@VM_0_4_centos my-main-project]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+fanl-vue            latest              219e854f7c21        8 seconds ago       114MB
+nginx               latest              f68d6e55e065        2 days ago          109MB
+# -p ：配置端口映射，格式是外部访问端口：容器内端口
+# -d ：后台运行
+# --name : 容器名 镜像名
+[root@VM_0_4_centos my-main-project]# docker run -p 80:80 -d --name fanl-vue fanl-vue
+#查看启动情况
+[root@VM_0_4_centos my-main-project]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+34bb58791a3d        fanl-vue            "nginx -g 'daemon of…"   11 seconds ago      Up 11 seconds       0.0.0.0:3000->80/tcp   fanl-vue
+47057b94b8f9        nginx               "nginx -g 'daemon of…"   11 minutes ago      Up 11 minutes       0.0.0.0:8080->80/tcp   youthful_mestorf
+# 访问：http://148.70.186.70
+# 重新编译
+# 
+# 删除镜像，重新开始
+```
+
+（3）运行MySQL实例
+
+
+
+（4）运行jdk8实例
+
+先下载对应的jdk到指定目录
+
+编写Dockerfile
+
+```dockerfile
+FROM centos:7
+MAINTAINER fanling
+ADD jdk-8u211-linux-x64.tar.gz /opt/module/
+ENV JAVA_HOME /opt/module/jdk1.8.0_211
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV PATH $PATH:$JAVA_HOME/bin
+```
+
+```bash
+# 构建镜像
+[root@VM_0_4_centos software]$ docker build -t jdk8:latest .
+# 查看镜像
+[root@VM_0_4_centos software]$ docker images 
+# 启动镜像
+[root@VM_0_4_centos software]$ docker run -d -t  --name jdk8 jdk8:latest
+# 进入容器
+[root@VM_0_4_centos software]$ docker exec -it jdk8 /bin/bash
+# 检查版本
+[root@994d6936e87d /]$ java -version
+```
+
+（4）运行SpringBoot实例
+
+```bash
+# 先安装jdk8
+
 ```
 
 
