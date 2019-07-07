@@ -113,16 +113,16 @@ COPY $PWD  /usr/share/nginx/html/
 查看镜像和运行
 
 ```bash
-[root@VM_0_4_centos my-main-project]# docker images
+[root@VM_0_4_centos my-main-project]$ docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 fanl-vue            latest              219e854f7c21        8 seconds ago       114MB
 nginx               latest              f68d6e55e065        2 days ago          109MB
 # -p ：配置端口映射，格式是外部访问端口：容器内端口
 # -d ：后台运行
 # --name : 容器名 镜像名
-[root@VM_0_4_centos my-main-project]# docker run -p 80:80 -d --name fanl-vue fanl-vue
+[root@VM_0_4_centos my-main-project]$ docker run -p 80:80 -d --name fanl-vue fanl-vue
 #查看启动情况
-[root@VM_0_4_centos my-main-project]# docker ps -a
+[root@VM_0_4_centos my-main-project]$ docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
 34bb58791a3d        fanl-vue            "nginx -g 'daemon of…"   11 seconds ago      Up 11 seconds       0.0.0.0:3000->80/tcp   fanl-vue
 47057b94b8f9        nginx               "nginx -g 'daemon of…"   11 minutes ago      Up 11 minutes       0.0.0.0:8080->80/tcp   youthful_mestorf
@@ -134,7 +134,17 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 （3）运行MySQL实例
 
-
+```bash
+# 搜索mysql
+[root@VM_0_4_centos ~]$ docker search mysql
+# mysql 下载
+[root@VM_0_4_centos ~]$ docker pull mysql
+# 运行mysql
+[root@VM_0_4_centos ~]$ docker run -p 3306:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root@123456 -d mysql:latest
+# 进入mysql
+[root@VM_0_4_centos ~]$ docker exec -it mysql bash
+# 其余按照正常操作
+```
 
 （4）运行jdk8实例
 
